@@ -10,7 +10,7 @@
     "libs/"
   ],
   "dependencies": {
-    "bbui-angular": "git+https://github.com/blackbaud/bbui-angular#~1.0.6",
+    "bbui-angular": "git+https://github.com/Blackbaud-ChristiSchneider/bbui-angular#~1.1.5",
     "blackbaud-skyux": "1.12.0"
   },
   "devDependencies": {
