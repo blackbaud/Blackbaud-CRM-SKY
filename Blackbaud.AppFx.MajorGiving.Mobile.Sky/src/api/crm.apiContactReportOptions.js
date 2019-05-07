@@ -5,10 +5,8 @@
 (function () {
     'use strict';
 
-
     angular.module("frog.frogApi")
-
-    .factory("apiContactReportOptions", ["bbuiShellService", "infinityCache", "bbui", "prospectUtilities", "$q", "frogResources", "infinityUtilities",
+        .factory("apiContactReportOptions", ["bbuiShellService", "infinityCache", "bbui", "prospectUtilities", "$q", "frogResources", "infinityUtilities",
             function (bbuiShellService, infinityCache, bbui, prospectUtilities, $q, frogResources, infinityUtilities) {
 
                 var svc,
@@ -19,18 +17,16 @@
                     SITES_SIMPLELIST_ID = "C8E8D3BA-2725-421f-A796-E2FCC1202780"; // SitesForUser.SimpleList.xml
 
                 /**
-                 * Get the possible contact method options.
+                 * Get a list of contact methods to use on the Contact Report.
                  * 
-                 * @param {Object} [options]
-                 * @param {String} [options.securityContextFeatureId]
-                 * The feature ID providing implied security for the contact method simple data list.
-                 * @param {String} [options.securityContextFeatureType]
-                 * The feature type of the feature providing implied security of the contact method simple data list.
+                 * @param {Object} options
+                 * @param {String} options.securityContextFeatureId The feature ID providing implied security for the contact method simple data list.
+                 * @param {String} options.securityContextFeatureType The feature type of the feature providing implied security of the contact method simple data list.
                  * 
-                 * @returns {Promise<Object>}
+                 * @returns {Promise<Object>} return
                  * @returns {Array} return.contactMethods
-                 * @returns {String} return.contactMethods.id
-                 * @returns {String} return.contactMethods.name
+                 * @returns {String} return.contactMethods.id The system ID of the contact method.
+                 * @returns {String} return.contactMethods.name The name of the contact method.
                  */
                 function getContactMethodsAsync(options) {
                     var cacheKey,
@@ -49,52 +45,50 @@
                         CONTACTMETHOD_SIMPLELIST_ID,
                         options
                     )
-                    .then(function (reply) {
-                        var data,
-                            i,
-                            n,
-                            contactMethod,
-                            contactMethods = [];
+                        .then(function (reply) {
+                            var data,
+                                i,
+                                n,
+                                contactMethod,
+                                contactMethods = [];
 
-                        data = {
-                            contactMethods: contactMethods
-                        };
+                            data = {
+                                contactMethods: contactMethods
+                            };
 
-                        for (i = 0, n = reply.data.rows.length; i < n; i++) {
-                            contactMethod = reply.data.rows[i];
+                            for (i = 0, n = reply.data.rows.length; i < n; i++) {
+                                contactMethod = reply.data.rows[i];
 
-                            contactMethods.push({
-                                id: contactMethod.value.toUpperCase(),
-                                name: contactMethod.label
-                            });
-                        }
+                                contactMethods.push({
+                                    id: contactMethod.value.toUpperCase(),
+                                    name: contactMethod.label
+                                });
+                            }
 
-                        infinityCache.cache.put(cacheKey, bbui.clone(data));
-                        return data;
-                    }, function (reply) {
-                        var error = { message: "" };
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
+                            return data;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                        if (reply && reply.data && reply.data.message) {
-                            error.message = reply.data.message;
-                        }
+                            if (reply && reply.data && reply.data.message) {
+                                error.message = reply.data.message;
+                            }
 
-                        return $q.reject(error);
-                    });
+                            return $q.reject(error);
+                        });
                 }
 
                 /**
-                 * Get the possible plan stage options.
+                 * Get a list of plan stages to use on the Contact Report.
                  *
-                 * @param {Object} [options]
-                 * @param {String} [options.securityContextFeatureId]
-                 * The feature ID providing implied security for the prospect plan stages simple data list.
-                 * @param {String} [options.securityContextFeatureType]
-                 * The feature type of the feature providing implied security of the prospect plan stages simple data list.
+                 * @param {Object} options]
+                 * @param {String} options.securityContextFeatureId The feature ID providing implied security for the prospect plan stages simple data list.
+                 * @param {String} options.securityContextFeatureType The feature type of the feature providing implied security of the prospect plan stages simple data list.
                  *
-                 * @returns {Promise<Object>}
+                 * @returns {Promise<Object>} return
                  * @returns {Array} return.planStages
-                 * @returns {String} return.planStages.id
-                 * @returns {String} return.planStages.name
+                 * @returns {String} return.planStages.id The system ID of the plan stage.
+                 * @returns {String} return.planStages.name The name of the plan stage.
                  */
                 function getPlanStagesAsync(options) {
                     var cacheKey,
@@ -114,54 +108,52 @@
                         ProspectPlanStagesSimpleDataListId,
                         options
                     )
-                    .then(function (reply) {
-                        var data,
-                            i,
-                            n,
-                            planStage,
-                            planStages = [];
+                        .then(function (reply) {
+                            var data,
+                                i,
+                                n,
+                                planStage,
+                                planStages = [];
 
-                        data = {
-                            planStages: planStages
-                        };
+                            data = {
+                                planStages: planStages
+                            };
 
-                        for (i = 0, n = reply.data.rows.length; i < n; i++) {
-                            planStage = reply.data.rows[i];
+                            for (i = 0, n = reply.data.rows.length; i < n; i++) {
+                                planStage = reply.data.rows[i];
 
-                            planStages.push({
-                                id: planStage.value.toUpperCase(),
-                                name: planStage.label
-                            });
-                        }
+                                planStages.push({
+                                    id: planStage.value.toUpperCase(),
+                                    name: planStage.label
+                                });
+                            }
 
-                        infinityCache.cache.put(cacheKey, bbui.clone(data));
-                        return data;
-                    }, function (reply) {
-                        var error = { message: "" };
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
+                            return data;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                        if (reply && reply.data && reply.data.message) {
-                            error.message = reply.data.message;
-                        }
+                            if (reply && reply.data && reply.data.message) {
+                                error.message = reply.data.message;
+                            }
 
-                        return $q.reject(error);
-                    });
+                            return $q.reject(error);
+                        });
                 }
 
                 /**
-                 * Get the possible category options.
+                 * Get a list of categories to use on the Contact report.
                  *
-                 * @param {frog.util.prospectUtilities.PlanType} planType
+                 * @param {frog.util.prospectUtilities.PlanType} planType The prospect/stewardship plan type.
                  *
                  * @param {Object} [options]
-                 * @param {String} [options.securityContextFeatureId]
-                 * The feature ID providing implied security for the interaction categories simple data list.
-                 * @param {String} [options.securityContextFeatureType]
-                 * The feature type of the feature providing implied security of the interaction categories simple data list.
+                 * @param {String} [options.securityContextFeatureId] The feature ID providing implied security for the interaction categories simple data list.
+                 * @param {String} [options.securityContextFeatureType] The feature type of the feature providing implied security of the interaction categories simple data list.
                  *
-                 * @returns {Promise<Object>}
+                 * @returns {Promise<Object>} return
                  * @returns {Array} return.categories
-                 * @returns {String} return.categories.id
-                 * @returns {String} return.categories.name
+                 * @returns {String} return.categories.id The system ID of the category.
+                 * @returns {String} return.categories.name The name of the category.
                  */
                 function getCategoriesAsync(planType, options) {
                     var cacheKey,
@@ -231,20 +223,18 @@
                 }
 
                 /**
-                 * Get the possible location options.
+                 * Get a list of locations associated with a given prospect to use on the Contact Report.
                  *
-                 * @param {String} prospectId
+                 * @param {String} prospectId The system ID of the prospect.
                  *
-                 * @param {Object} [options]
-                 * @param {String} [options.securityContextFeatureId]
-                 * The feature ID providing implied security for the address simple data list.
-                 * @param {String} [options.securityContextFeatureType]
-                 * The feature type of the feature providing implied security of the address simple data list.
+                 * @param {Object} options
+                 * @param {String} options.securityContextFeatureId The feature ID providing implied security for the address simple data list.
+                 * @param {String} options.securityContextFeatureType The feature type of the feature providing implied security of the address simple data list.
                  *
-                 * @returns {Promise<Object>}
+                 * @returns {Promise<Object>} return
                  * @returns {Array} return.locations
-                 * @returns {String} return.locations.id
-                 * @returns {String} return.locations.name
+                 * @returns {String} return.locations.id The system ID of the location.
+                 * @returns {String} return.locations.name The name of the location.
                  */
                 function getLocationsAsync(prospectId, options) {
                     var cacheKey,
@@ -312,19 +302,17 @@
                 }
 
                 /**
-                 * Get the possible subcategory options.
+                 * Get a list of subcategories to use on the Contact report.
                  *
-                 * @param {String} categoryId
+                 * @param {String} categoryId The system ID of the category to use to find subcategories.
                  * @param {Object} [options]
-                 * @param {String} [options.securityContextFeatureId]
-                 * The feature ID providing implied security for the interaction subcategories simple data list.
-                 * @param {String} [options.securityContextFeatureType]
-                 * The feature type of the feature providing implied security of the interaction subcategories simple data list.
+                 * @param {String} [options.securityContextFeatureId] The feature ID providing implied security for the interaction subcategories simple data list.
+                 * @param {String} [options.securityContextFeatureType] The feature type of the feature providing implied security of the interaction subcategories simple data list.
                  *
-                 * @returns {Promise<Object>}
+                 * @returns {Promise<Object>} return
                  * @returns {Array} return.subcategories
-                 * @returns {String} return.subcategories.id
-                 * @returns {String} return.subcategories.name
+                 * @returns {String} return.subcategories.id The system ID of the subcategory.
+                 * @returns {String} return.subcategories.name The name of the subcategory.
                  */
                 function getSubcategoriesAsync(categoryId, options) {
                     if (!categoryId || typeof categoryId !== "string") {
@@ -359,48 +347,48 @@
                         SUBCATEGORIES_SIMPLELIST_ID,
                         options
                     )
-                    .then(function (reply) {
-                        var data,
-                            i,
-                            n,
-                            subcategory,
-                            subcategories = [];
+                        .then(function (reply) {
+                            var data,
+                                i,
+                                n,
+                                subcategory,
+                                subcategories = [];
 
-                        data = {
-                            subcategories: subcategories
-                        };
+                            data = {
+                                subcategories: subcategories
+                            };
 
-                        for (i = 0, n = reply.data.rows.length; i < n; i++) {
-                            subcategory = reply.data.rows[i];
+                            for (i = 0, n = reply.data.rows.length; i < n; i++) {
+                                subcategory = reply.data.rows[i];
 
-                            subcategories.push({
-                                id: subcategory.value.toUpperCase(),
-                                name: subcategory.label
-                            });
-                        }
+                                subcategories.push({
+                                    id: subcategory.value.toUpperCase(),
+                                    name: subcategory.label
+                                });
+                            }
 
-                        infinityCache.cache.put(cacheKey, bbui.clone(data));
-                        return data;
-                    }, function (reply) {
-                        var error = { message: "" };
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
+                            return data;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                        if (reply && reply.data && reply.data.message) {
-                            error.message = reply.data.message;
-                        }
+                            if (reply && reply.data && reply.data.message) {
+                                error.message = reply.data.message;
+                            }
 
-                        return $q.reject(error);
-                    });
+                            return $q.reject(error);
+                        });
                 }
 
                 /**
-                 * Get potential step participants for a prospect.
+                 * Get a list of step participants for a prospect.
                  *
-                 * @param {String} prospectId
+                 * @param {String} prospectId The system ID of the prospect.
                  *
-                 * @returns {Promise<Object>}
-                 * @returns {Array} return.potentialParticipants
-                 * @returns {String} return.potentialParticipants.id
-                 * @returns {String} return.potentialParticipants.name
+                 * @returns {Promise<Object>} return
+                 * @returns {Object[]} return.potentialParticipants
+                 * @returns {String} return.potentialParticipants.id The system ID of the potential participant.
+                 * @returns {String} return.potentialParticipants.name The name of the potential participant.
                  */
                 function getPotentialParticipantsAsync(prospectId) {
                     var InteractionParticipantCandidatesMobileDataListId = "21c66a32-5acd-4329-aa8e-9e3b0f6d2e9b",
@@ -425,55 +413,50 @@
                         InteractionParticipantCandidatesMobileDataListId,
                         prospectId
                     )
-                    .then(function (reply) {
-                        var Id = 0,
-                            FirstName = 1,
-                            KeyName = 2,
-                            data,
-                            participants = [];
+                        .then(function (reply) {
+                            var data,
+                                participants = [];
 
-                        data = {
-                            potentialParticipants: participants
-                        };
+                            data = {
+                                potentialParticipants: participants
+                            };
 
-                        reply.data.rows.forEach(function (participant) {
-                            var participantValues = participant.values;
+                            reply.data.rows.forEach(function (participant) {
+                                var participantValues = participant.values;
 
-                            participants.push({
-                                id: participantValues[Id].toUpperCase(),
-                                name: prospectUtilities.getFullName(frogResources, participantValues[FirstName], participantValues[KeyName])
+                                participants.push({
+                                    id: participantValues[0].toUpperCase(),
+                                    name: getFullName(frogResources, participantValues[1], participantValues[2])
+                                });
                             });
+
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
+
+                            return data;
+                        }, function (reply) {
+                            var error = { message: "" };
+
+                            if (reply && reply.data && reply.data.message) {
+                                error.message = reply.data.message;
+                            }
+
+                            return $q.reject(error);
                         });
-
-                        infinityCache.cache.put(cacheKey, bbui.clone(data));
-
-                        return data;
-                    }, function (reply) {
-                        var error = { message: "" };
-
-                        if (reply && reply.data && reply.data.message) {
-                            error.message = reply.data.message;
-                        }
-
-                        return $q.reject(error);
-                    });
                 }
 
                 /**
-                 * Get potential step additional solicitors for a prospect.
+                 * Get a list of step additional solicitors for a prospect.
                  *
-                 * @param {String} planId
+                 * @param {String} planId The system ID of the prospect/stewardship plan.
                  *
-                 * @param {Object} [options]
-                 * @param {String} [options.securityContextFeatureId]
-                 * The feature ID providing implied security for the potential solicitors simple data list.
-                 * @param {String} [options.securityContextFeatureType]
-                 * The feature type of the feature providing implied security of the potential solicitors simple data list.
+                 * @param {Object} options
+                 * @param {String} options.securityContextFeatureId The feature ID providing implied security for the potential solicitors simple data list.
+                 * @param {String} options.securityContextFeatureType The feature type of the feature providing implied security of the potential solicitors simple data list.
                  *
-                 * @returns {Promise<Object>}
-                 * @returns {Array} return.potentialSolicitors
-                 * @returns {String} return.potentialSolicitors.id
-                 * @returns {String} return.potentialSolicitors.name
+                 * @returns {Promise<Object>} return
+                 * @returns {Object[]} return.potentialSolicitors
+                 * @returns {String} return.potentialSolicitors.id The system ID of the solicitor.
+                 * @returns {String} return.potentialSolicitors.name The name of the solicitor.
                  */
                 function getPotentialSolicitorsAsync(planId, options) {
 
@@ -509,46 +492,46 @@
                         POTENTIALSOLICITORS_SIMPLELIST_ID,
                         options
                     )
-                    .then(function (reply) {
-                        var data,
-                            i,
-                            n,
-                            solicitor,
-                            solicitors = [];
+                        .then(function (reply) {
+                            var data,
+                                i,
+                                n,
+                                solicitor,
+                                solicitors = [];
 
-                        data = {
-                            potentialSolicitors: solicitors
-                        };
+                            data = {
+                                potentialSolicitors: solicitors
+                            };
 
-                        for (i = 0, n = reply.data.rows.length; i < n; i++) {
-                            solicitor = reply.data.rows[i];
+                            for (i = 0, n = reply.data.rows.length; i < n; i++) {
+                                solicitor = reply.data.rows[i];
 
-                            solicitors.push({
-                                id: solicitor.value.toUpperCase(),
-                                name: solicitor.label
-                            });
-                        }
+                                solicitors.push({
+                                    id: solicitor.value.toUpperCase(),
+                                    name: solicitor.label
+                                });
+                            }
 
-                        infinityCache.cache.put(cacheKey, bbui.clone(data));
-                        return data;
-                    }, function (reply) {
-                        var error = { message: "" };
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
+                            return data;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                        if (reply && reply.data && reply.data.message) {
-                            error.message = reply.data.message;
-                        }
+                            if (reply && reply.data && reply.data.message) {
+                                error.message = reply.data.message;
+                            }
 
-                        return $q.reject(error);
-                    });
+                            return $q.reject(error);
+                        });
                 }
 
                 /**
-                 * Get the possible sites.
+                 * Get a list of sites.
                  *
-                 * @returns {Promise<Object>}
+                 * @returns {Promise<Object>} return
                  * @returns {Array} return.sites
-                 * @returns {String} return.sites.id
-                 * @returns {String} return.sites.name 
+                 * @returns {String} return.sites.id The system ID of the site.
+                 * @returns {String} return.sites.name The name of the site.
                  */
                 function getSitesAsync() {
                     var cacheKey,
@@ -597,15 +580,15 @@
                 }
 
                 /**
-                 * Get plans for a prospect.
+                 * Get a list of plans for a prospect.
                  *
-                 * @param {String} prospectId
+                 * @param {String} prospectId The system ID of the prospect.
                  *
                  * @returns {Promise<Object>}
                  * @returns {Array} return.plans
-                 * @returns {String} return.plans.id
-                 * @returns {String} return.plans.name
-                 * @returns {String} return.plans.planType
+                 * @returns {String} return.plans.id The system ID of the plan.
+                 * @returns {String} return.plans.name The name of the plan.
+                 * @returns {String} return.plans.planType The type of the plan.
                  */
                 function getPlansAsync(prospectId) {
                     var ProspectPlansMobileDataListId = "2696ec4c-34df-4922-b0ac-4b57acc14e28",
@@ -632,54 +615,52 @@
                         ProspectPlansMobileDataListId,
                         prospectId
                     )
-                    .then(function (reply) {
-                        var data,
-                            i,
-                            n,
-                            plan,
-                            plans = [];
+                        .then(function (reply) {
+                            var data,
+                                i,
+                                n,
+                                plan,
+                                plans = [];
 
-                        data = {
-                            plans: plans
-                        };
+                            data = {
+                                plans: plans
+                            };
 
-                        for (i = 0, n = reply.data.rows.length; i < n; i++) {
-                            plan = reply.data.rows[i].values;
+                            for (i = 0, n = reply.data.rows.length; i < n; i++) {
+                                plan = reply.data.rows[i].values;
 
-                            plans.push({
-                                id: plan[0].toUpperCase(),
-                                name: plan[1],
-                                planType: parseInt(plan[2]) + 1
-                            });
-                        }
+                                plans.push({
+                                    id: plan[0].toUpperCase(),
+                                    name: plan[1],
+                                    planType: parseInt(plan[2]) + 1
+                                });
+                            }
 
-                        infinityCache.cache.put(cacheKey, bbui.clone(data));
-                        return data;
-                    }, function (reply) {
-                        var error = { message: "" };
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
+                            return data;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                        if (reply && reply.data && reply.data.message) {
-                            error.message = reply.data.message;
-                        }
+                            if (reply && reply.data && reply.data.message) {
+                                error.message = reply.data.message;
+                            }
 
-                        return $q.reject(error);
-                    });
+                            return $q.reject(error);
+                        });
                 }
 
                 /**
-                 * Get the status codes available for steps.
+                 * Get the status codes available for plan steps.
                  *
-                 * This is purposefully hard-coded and we do not need to get this information from CRM.
-                 * This is a ValueList in the spec.
+                 * This is purposefully hard-coded and we do not need to get this information from CRM. This is a ValueList in the spec.
                  *
-                 * Making this async so that if there are other products that use this in the future,
-                 * if they need to grab the possible status codes from their back end, that is simple to do.
+                 * Making this async so that if there are other products that use this in the future, if they need to grab the possible status codes from their back end, that is simple to do.
                  *
                  * @param {frog.util.prospectUtilities.PlanType} planType
                  *
-                 * @returns {Promise<Object[]>}
-                 * @returns {String} return.value
-                 * @returns {String} return.label
+                 * @returns {Promise<Object[]>} return
+                 * @returns {String} return.value The enumeration value for the status code.
+                 * @returns {String} return.label The description of the status code.
                  */
                 function getStatusCodesAsync(planType) {
                     var statusCodes = [

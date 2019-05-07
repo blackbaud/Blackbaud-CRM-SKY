@@ -22,6 +22,9 @@
 
     }
 
+    /**
+     * The controller for the list of prospects shown after performing a prospect search.
+     */
     function ProspectListController($document, $scope, bbWindow, slug, frogResources, pageTitle, frogApi, bbWait, $state) {
 
         var self = this,

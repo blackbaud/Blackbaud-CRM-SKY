@@ -13,25 +13,24 @@
     'prospectUtilities', 'bbMoment', 'options', 'customizable'];
 
     /**
+     * The contact report form. This form performs a variety of functions. It enables users to add and edit steps and interactions.
+     * 
      * @param {Object} options
-     *
-     * @param {String} options.prospectId
-     *
-     * @param {Boolean} options.fileContactReport
-     * @param {Boolean} options.addStep
-     * @param {Boolean} options.addInteraction
-     * @param {Boolean} options.editInteraction
-     * @param {Boolean} options.editStep
-     *
+     * @param {String} options.prospectId The system ID of the prospect.
+     * @param {Boolean} options.fileContactReport Indicates whether a contact report is being filed.
+     * @param {Boolean} options.addStep Indicates whether a step is being added.
+     * @param {Boolean} options.addInteraction Indicates whether an interaction is being added.
+     * @param {Boolean} options.editInteraction Indicates whether an interaction is being edited.
+     * @param {Boolean} options.editStep Indicates whether a step is being edited.
+     * 
      * @param {Object} [options.stepInfo]
-     * @param {String} [options.stepInfo.contactMethodId]
-     * @param {String} [options.stepInfo.contactMethod]
-     * @param {String} [options.stepInfo.objective]
-     * @param {String} [options.stepInfo.date]
-     * Format "yyyy-MM-ddT00:00:00". Time info should be ignored.
-     * @param {String} [options.stepInfo.planId]
-     * @param {String} [options.stepInfo.planName]
-     * @param {Number} [options.stepInfo.planType]
+     * @param {String} options.stepInfo.contactMethodId The system ID of the contact method of the next step for the prospect.
+     * @param {String} options.stepInfo.contactMethod The contact method of the next step for the prospect.
+     * @param {String} options.stepInfo.objective The objective of the next step for the prospect.
+     * @param {String} options.stepInfo.date The date of the next step for the prospect. Format "yyyy-MM-ddT00:00:00". Time info should be ignored.
+     * @param {String} options.stepInfo.planId The system ID of the prospect plan associated with the next step for the prospect.
+     * @param {String} options.stepInfo.planName The name of the prospect plan associated with the next step for the prospect.
+     * @param {frog.util.prospectUtilities.PlanType} options.stepInfo.planType The prospect/stewardship plan type.
      */
     function ContactReportController($scope, frogApi, frogResources, $uibModalInstance, prospectUtilities, 
         bbMoment, options, customizable) {
@@ -808,8 +807,7 @@
             };
 
             if (options.fileContactReport && !options.stepInfo.stepId) {
-                // We'll be defaulting the form to add a completed interaction
-                // so we need to remove that action form the dropdown.
+                // We'll be defaulting the form to add a completed interaction so we need to remove that action form the dropdown.
                 locals.otherActions = otherActions.filter(function (option) {
                     return option.value !== ActionOption.AddCompletedInteraction;
                 });
@@ -919,8 +917,6 @@
         }
 
         initialize();
-
     }
 
 }());
-

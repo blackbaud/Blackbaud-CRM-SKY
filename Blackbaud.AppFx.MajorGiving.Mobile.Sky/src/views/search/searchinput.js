@@ -22,6 +22,9 @@
 
     SearchInputController.$inject = ['$scope', 'frogApi', 'frogResources', 'bbuiShellService', 'slug', '$state', 'searchStorage'];
 
+    /**
+     * The controller for the prospect search screen. This allows search information to be entered and used to find prospects.
+     */
     function SearchInputController($scope, frogApi, frogResources, bbuiShellService, slug, $state, searchStorage) {
 
         var self = this,
@@ -217,7 +220,6 @@
                 .finally();
         }
 
-
         function getCountryAddressCaptions(countryId) {
             for (var i = 0; i < locals.countryFormats.length; i++) {
                 if (locals.countryFormats[i].id.toUpperCase() === countryId.toUpperCase()) {
@@ -264,7 +266,6 @@
                 })
                 .finally();
         }
-
 
         function lookOnlyForPrimary() {
             // We want to display only the primary address for a prospect with more than 1 address.

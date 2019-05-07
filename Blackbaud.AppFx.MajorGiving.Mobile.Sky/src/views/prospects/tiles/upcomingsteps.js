@@ -9,6 +9,11 @@
 
     UpcomingStepsController.$inject = ['$scope', 'bbMoment', 'frogApi', 'frogResources', 'prospectUtilities', 'bbModal', 'bbuiShellService', 'prospectId'];
 
+    /**
+     * The controller for the Upcoming Steps tile. This tile shows information on upcoming steps/interactions for the prospect.
+     * 
+     * @param {String} prospectId The system ID of the prospect.
+     */
     function UpcomingStepsController($scope, bbMoment, frogApi, frogResources, prospectUtilities, bbModal, bbuiShellService, prospectId) {
 
         var locals;
@@ -126,8 +131,6 @@
         }
 
         init();
-
     }
 
 }());
-

@@ -11,6 +11,11 @@
 
     RecentGiftsAndCreditsController.$inject = ['$scope', 'frogApi', 'frogResources', 'bbMoment', 'prospectId'];
 
+    /**
+     * The controller for the Recent Gifts and Credits tile on the prospect page. This tile shows the five most recent gifts given by the prospect.
+     * 
+     * @param {String} prospectId The system ID for the prospect.
+     */
     function RecentGiftsAndCreditsController($scope, frogApi, frogResources, bbMoment, prospectId) {
         var locals,
             ukProductId = "9568a6c2-f7aa-45fd-8f54-21fe9654ee2d";

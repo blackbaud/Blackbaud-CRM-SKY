@@ -9,6 +9,11 @@
 
     RecentStepsController.$inject = ['$scope', 'bbMoment', 'frogApi', 'frogResources', 'prospectUtilities', 'bbModal', 'bbuiShellService', 'prospectId'];
 
+    /**
+     * The controller for the Recent Steps/Interactions tile on the prospect page. This tile shows the five most recent steps/interactions associated with a prospect.
+     * 
+     * @param {String} prospectId The system ID of the prospect.
+     */
     function RecentStepsController($scope, bbMoment, frogApi, frogResources, prospectUtilities, bbModal, bbuiShellService, prospectId) {
         var locals;
 
@@ -64,7 +69,6 @@
                 planType: prospectUtilities.PLAN_TYPE.PROSPECT
             };
 
-
             if (step.planId) {
                 options.editStep = true;
                 options.stepInfo.planType = prospectUtilities.PLAN_TYPE.PROSPECT;
@@ -97,4 +101,3 @@
     }
 
 }());
-

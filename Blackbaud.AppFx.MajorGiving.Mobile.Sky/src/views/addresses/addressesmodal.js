@@ -11,6 +11,12 @@
 
     AddressesModalController.$inject = ['$scope', 'frogApi', 'frogResources', '$uibModalInstance', 'options', 'mapping'];
 
+    /**
+     * A modal dialog that allows users to view address information of a prospect.
+     * 
+     * @param {Object} options
+     * @param {String} options.prospectId The system ID for the prospect.
+     */
     function AddressesModalController($scope, frogApi, frogResources, $uibModalInstance, options, mapping) {
 
         var locals;
@@ -47,4 +53,3 @@
     }
 
 }());
-

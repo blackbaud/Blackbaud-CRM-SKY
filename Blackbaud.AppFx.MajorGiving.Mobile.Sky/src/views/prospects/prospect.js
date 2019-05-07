@@ -9,6 +9,12 @@
 
     ProspectPageController.$inject = ['$scope', '$state', 'bbWait', 'bbWindow', 'frogApi', 'frogResources', 'slug', 'prospectUtilities', 'mapping', 'bbModal', 'prospectId', 'prospectIdWithSlug', 'prospectName'];
 
+    /**
+     * The controller behind the main prospect page.
+     * 
+     * @param {String} prospectId The system ID of the prospect.
+     * @param {String} prospectName The name of the prospect.
+     */
     function ProspectPageController($scope, $state, bbWait, bbWindow, frogApi, frogResources, slug, prospectUtilities, mapping, bbModal, prospectId, prospectIdWithSlug, prospectName) {
         var self = this,
             waiting = false,
@@ -46,7 +52,6 @@
             frogApi.getProspectInfoAsync(prospectId, { forceReload: forceReload })
                 .then(function (prospect) {
                     var nextStepInfo,
-                        currentProspectIdWithSlug,
                         name = prospect.keyName;
 
                     if (prospect.firstName) {
@@ -60,20 +65,9 @@
                     self.prospect = prospect;
                     bbWindow.setWindowTitle(prospect.displayName);
 
-                    currentProspectIdWithSlug = slug.prependSlug(name, prospectId);
-
                     if (prospect.pictureThumbnail) {
                         locals.pictureString = "data:image/JPEG;base64," + prospect.pictureThumbnail;
                     }
-
-                    //if (prospectIdWithSlug !== currentProspectIdWithSlug) {
-                    //    $state.go(
-                    //        'prospects.prospect',
-                    //        {
-                    //            prospectId: currentProspectIdWithSlug
-                    //        }
-                    //    );
-                    //}
                 })
                 .catch(function (error) {
                     self.loadError = frogResources.error_prospectview_general.format(error.message);
@@ -122,7 +116,6 @@
                 prospectName: name
             };
         }
-
 
         function openAddresses(options) {
 
