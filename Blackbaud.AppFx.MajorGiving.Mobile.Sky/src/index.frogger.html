@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="frog">
+<head>
+    <!-- <base href> tag will be added by script -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="manifest" href="images/manifest.json">
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Fundraiser On-The-Go">
+    <meta name="application-name" content="Fundraiser On-The-Go">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        /*Copy in ng-cloak because our script doesn't load AngularJS instantly so you can still see the brackets until it loads.*/
+        [ng-cloak] {
+            display: none !important;
+        }
+    </style>
+    <script type="text/javascript">
+
+        /**
+         * Gets the virtual directory name given a URL.
+         *
+         * @return {String}
+         */
+        function getVirtualDirectory(url) {
+
+            var parser,
+                path;
+
+            parser = document.createElement('a')
+            parser.href = url;
+
+            path = parser.pathname; // i.e. /bbappfx/browser/htmlforms/custom/frogger/index.html
+
+            path = path.substring(0, path.indexOf("/browser/htmlforms/custom/frogger"));
+
+            if (path[0] === "/") {
+                path = path.substring(1);
+            }
+
+            return path;
+
+        }
+
+        var path = "/" + getVirtualDirectory(document.location.href) + "/browser/htmlforms/custom/frogger/";
+
+        var head = document.getElementsByTagName("head")[0];
+
+        var newBase = document.createElement("base");
+        newBase.setAttribute("href", path);
+        head.appendChild(newBase);
+
+        var newScript = document.createElement("script");
+        newScript.setAttribute("src", path + "js/dependencies-bundle.min.js")
+        head.appendChild(newScript);
+
+    </script>
+    <!-- <script tag for dependencies-bundle.min.js will be added by script -->
+</head>
+<body ng-cloak>
+    <div ng-include="'views/portfolio.html'" class="frog-content"></div>
+</body>
+</html>

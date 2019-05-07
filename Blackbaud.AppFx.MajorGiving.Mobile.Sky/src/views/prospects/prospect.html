@@ -1,0 +1,167 @@
+<div bb-frog-testid="prospectViewWrapper">
+    <div ng-if="!prospectPage.loadError && !prospectPage.loading">
+        <bb-page-summary>
+            <bb-page-summary-image>
+                <bb-avatar bb-frog-testid="picture" bb-avatar-name="prospectPage.prospect.prospectFullName" bb-avatar-src="locals.pictureString"></bb-avatar>
+            </bb-page-summary-image>
+            <bb-page-summary-title bb-frog-testid="title">{{prospectPage.prospect.displayName}}</bb-page-summary-title>
+            <div bb-frog-testid="prospectView" class="container-fluid frog-prospectview-summary-content">
+                <div bb-frog-testid="prospectLabels" ng-if="prospectPage.prospect.deceased || prospectPage.prospect.inactive" class="row">
+                    <div class="col-xs-12">
+                        <span bb-frog-testid="deceased" ng-if="prospectPage.prospect.deceased" class="label label-warning">{{::resources.deceased}}</span>
+                        <span bb-frog-testid="inactive" ng-if="prospectPage.prospect.inactive" class="label label-warning">{{::resources.inactive}}</span>
+                        <p />
+                    </div>
+                </div>
+                <div bb-frog-testid="primaryBusiness" ng-if="prospectPage.prospect.primaryBusinessName" class="row">
+                    <div class="col-xs-12">
+                        <div bb-frog-testid="jobTitle" ng-if="prospectPage.prospect.jobTitle">{{::prospectPage.prospect.jobTitle}}</div>
+                        <div bb-frog-testid="primaryBusinessName">{{::prospectPage.prospect.primaryBusinessName}}</div>
+                        <p />
+                    </div>
+                </div>
+                <div bb-frog-testid="addresses" class="row">
+                    <div class="col-xs-12">
+                        <button class="btn btn-link frog-button-link-inline ng-binding" ng-if="prospectPage.prospect.hasAddress" ng-click="prospectPage.openAddresses({openAddresses:true})">{{::resources.view_addresses}}</button>
+                        <p />
+                    </div>
+                </div>
+                <div class="row" bb-frog-testid="spouse" ng-if="prospectPage.prospect.spouseName">
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div bb-frog-testid="spouseName" ng-class="{'pull-left': prospectPage.prospect.spouseDeceased}">
+                            <a ui-sref="prospects.prospect(prospectPage.getProspectLink(prospectPage.prospect.spouseId, prospectPage.prospect.spouseName))">{{::prospectPage.prospect.spouseName}}</a>
+                            <div class="frog-prospectview-info-supplemental">{{::resources.spouse}}</div>
+                        </div>
+                        <div bb-frog-testid="spouseDeceased" class="pull-right frog-prospectview-info-label" ng-if="prospectPage.prospect.spouseDeceased">
+                            <span class="label label-warning">{{::resources.deceased}}</span>
+                        </div>
+                        <p />
+                    </div>
+                </div>
+                <div class="row" bb-frog-testid="primaryMember" ng-if="prospectPage.prospect.primaryMemberName">
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div bb-frog-testid="primaryMemberName">
+                            <a ui-sref="prospects.prospect(prospectPage.getProspectLink(prospectPage.prospect.primaryMemberId, prospectPage.prospect.primaryMemberName))">{{::prospectPage.prospect.primaryMemberName}}</a>
+                            <div class="frog-prospectview-info-supplemental">{{::resources.primary_member}}</div>
+                            <p />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" bb-frog-testid="prospectManager" ng-if="prospectPage.prospect.prospectManagerName">
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div bb-frog-testid="prospectManagerName">
+                            <a ui-sref="prospects.prospect(prospectPage.getProspectLink(prospectPage.prospect.prospectManagerId, prospectPage.prospect.prospectManagerName))">{{::prospectPage.prospect.prospectManagerName}}</a>
+                            <div class="frog-prospectview-info-supplemental">{{::resources.prospect_manager}}</div>
+                            <p />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <hr class="frog-title-divider" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div bb-frog-testid="nextStep" ng-if="prospectPage.prospect.nextStep">
+                        <div class="col-xs-12 col-md-6 col-lg-4">
+                            <div class="row">
+                                <div class="col-xs-10">
+                                    <div class="frog-prospectview-info-supplemental">
+                                        <p bb-frog-testid="nextStepCaption" ng-if="prospectPage.prospect.nextStepPlanName">{{::resources.nextStep}}</p>
+                                        <p bb-frog-testid="nextInteractionCaption" ng-if="!prospectPage.prospect.nextStepPlanName">{{::resources.nextInteraction}}</p>
+                                    </div>
+                                    <p>
+                                        <span ng-if="prospectPage.prospect.nextStepContactMethod" bb-frog-testid="nextStepContactMethod">{{resources.label_dash_format.format(prospectPage.prospect.nextStepContactMethod)}}</span>
+                                        <span bb-frog-testid="nextStepObjective">{{prospectPage.prospect.nextStepObjective}}</span>
+                                    </p>
+                                    <p bb-frog-testid="nextStepLocation" class="frog-prospectview-location" ng-if="prospectPage.prospect.nextStepLocation">
+                                        <a ng-href="{{mapping.getMapUrl(prospectPage.prospect.nextStepLocation)}}" href="" target="_blank" rel="noopener noreferrer"><span class="fa fa-map-marker" />{{prospectPage.prospect.nextStepLocation}}</a>
+                                    </p>
+                                    <p bb-frog-testid="nextStepPlanName" ng-if="prospectPage.prospect.nextStepPlanName">{{prospectPage.prospect.nextStepPlanName}}</p>
+                                    <p bb-frog-testid="nextStepComments"
+                                       ng-if="prospectPage.prospect.nextStepComments"
+                                       bb-text-expand="prospectPage.prospect.nextStepComments"
+                                       bb-text-expand-max-length="25" bb-text-expand-max-expanded-length="200"
+                                       bb-text-expand-modal-title="resources.step_comments_header"></p>
+                                </div>
+                                <div class="col-xs-2">
+                                    <div class="pull-right">
+                                        <div>
+                                            <span bb-frog-testid="nextStepLabel" class="label" ng-if="prospectPage.prospect.nextStepLabelClass" ng-class="prospectPage.prospect.nextStepLabelClass">{{prospectPage.prospect.nextStep}}</span>
+                                            <div bb-frog-testid="nextStepDate" ng-if="!prospectPage.prospect.nextStepLabelClass">{{prospectPage.prospect.nextStep}}</div>
+                                        </div>
+                                        <div class="frog-prospectview-time" bb-frog-testid="nextStepTime" ng-if="prospectPage.prospect.nextStepTime">{{prospectPage.prospect.nextStepTime}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div bb-frog-testid="noNextStep" ng-if="!prospectPage.prospect.nextStep">
+                        <div class="col-xs-12">
+                            {{::resources.prospect_nextstep_none}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </bb-page-summary>
+        <div class="container-fluid">
+            <div class="row frog-abovebottombar frog-tile-container frog-no-grab-dashboard">
+                <div class="col-xs-12">
+                    <bb-tile-dashboard bb-layout="prospectPage.tileLayout" bb-tiles="prospectPage.tiles"></bb-tile-dashboard>
+                </div>
+            </div>
+            <div class="frog-viewkeeper-fixed frog-bottombar" bb-frog-testid="contactBar">
+                <hr />
+                <div bb-frog-testid="callDropdown" uib-dropdown class="dropup first-button">
+                    <button data-toggle="dropdown" bb-frog-testid="callBtn" type="button" class="btn bb-btn-secondary dropdown-toggle" ng-disabled="!prospectPage.prospect.phoneNumbers || prospectPage.prospect.phoneNumbers.length === 0">
+                        <span class="fa fa-phone" />
+                        <span class="btn frog-btn-label">{{resources.call}}</span>
+                    </button>
+                    <ul uib-dropdown-menu role="menu">
+                        <li role="presentation" ng-repeat="phone in prospectPage.prospect.phoneNumbers">
+                            <a role="menuitem" data-bbauto-index="{{$index}}" href="tel:{{phone.number}}">
+                                <span bb-frog-testid="callConfidential" ng-if="phone.confidential" class="fa fa-lock" />
+                                {{ phone.type.length > 0 ? resources.contactinfo_withtype.format(phone.type, phone.number) : phone.number }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div bb-frog-testid="textDropdown" uib-dropdown class="dropup">
+                    <button data-toggle="dropdown" bb-frog-testid="textBtn" type="button" class="btn bb-btn-secondary dropdown-toggle" ng-disabled="!prospectPage.prospect.phoneNumbers || prospectPage.prospect.phoneNumbers.length === 0">
+                        <span class="fa fa-comment-o" />
+                        <span class="btn frog-btn-label">{{resources.text}}</span>
+                    </button>
+                    <ul uib-dropdown-menu role="menu">
+                        <li role="presentation" ng-repeat="phone in prospectPage.prospect.phoneNumbers">
+                            <a role="menuitem" data-bbauto-index="{{$index}}" href="sms:{{phone.number}}">
+                                <span bb-frog-testid="textConfidential" ng-if="phone.confidential" class="fa fa-lock" />
+                                {{ phone.type.length > 0 ? resources.contactinfo_withtype.format(phone.type, phone.number) : phone.number }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div bb-frog-testid="emailDropdown" uib-dropdown class="dropup">
+                    <button data-toggle="dropdown" bb-frog-testid="emailBtn" type="button" class="btn bb-btn-secondary dropdown-toggle" ng-disabled="!prospectPage.prospect.emailAddresses || prospectPage.prospect.emailAddresses.length === 0">
+                        <span class="fa fa-envelope-o" />
+                        <span class="btn frog-btn-label">{{resources.email}}</span>
+                    </button>
+                    <ul uib-dropdown-menu role="menu">
+                        <li role="presentation" ng-repeat="email in prospectPage.prospect.emailAddresses">
+                            <a role="menuitem" data-bbauto-index="{{$index}}" href="mailto:{{email.address}}">
+                                {{ email.type.length > 0 ? resources.contactinfo_withtype.format(email.type, email.address) : email.address }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-primary" ng-click="prospectPage.openContactReport({fileContactReport:true})">{{::resources.prospect_filecontactreport}}</button>
+            </div>
+        </div>
+    </div>
+    <div bb-frog-testid="prospectError" ng-if="prospectPage.loadError" class="row container">
+        <div class="center-block">
+            <h4 bb-frog-testid="errorMessage">{{::prospectPage.loadError}}</h4>
+            <img src="images/sky/broken.svg" class="frog-empty-icon" />
+        </div>
+    </div>
+</div>
+

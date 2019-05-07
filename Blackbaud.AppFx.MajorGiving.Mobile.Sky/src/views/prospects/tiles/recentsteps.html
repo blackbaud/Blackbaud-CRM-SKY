@@ -1,0 +1,30 @@
+﻿<bb-tile bb-frog-testid="recentStepsTile" bb-wait="locals.loading" bb-tile-header="frogResources.recentsteps_tile_header">
+    <div bb-frog-testid="recentStepsSuccess" ng-if="!locals.loading && !locals.loadError">
+        <div bb-frog-testid="steps" ng-if="locals.recentSteps.length > 0">
+            <div data-bbauto-index="{{$index}}" bb-tile-section ng-repeat="step in locals.recentSteps" ng-if="step">
+                <div>
+                    <span bb-frog-testid="contactMethod" class="bb-emphasized" ng-if="step.contactMethod">{{::frogResources.label_dash_format.format(step.contactMethod)}}</span>
+                    <button class="btn btn-link frog-btn-link-inline" bb-frog-testid="objective" ng-click="openContactReportFromRecentStep(step)">{{::step.objective}}</button>
+                </div>
+                <div class="bb-field-label">
+                    <span bb-frog-testid="date">{{frogResources.label_bar_format.format(bbMoment(step.date).format("l"))}}</span>
+                    <span bb-frog-testid="planName" ng-if="step.planName">{{::step.planName}}</span>
+                    <span bb-frog-testid="noPlan" ng-if="!step.planName">{{::frogResources.noplan}}</span>
+                </div>
+                <div bb-frog-testid="comments" ng-if="step.comments">
+                    <div bb-text-expand="step.comments"
+                         bb-text-expand-max-length="25" bb-text-expand-max-expanded-length="200"
+                         bb-text-expand-modal-title="frogResources.step_comments_header" />
+                </div>
+            </div>
+        </div>
+        <div bb-frog-testid="empty" bb-tile-section ng-if="locals.recentSteps.length === 0">
+            <div class="bb-no-records">{{::frogResources.nosteps}}</div>
+        </div>
+    </div>
+    <div bb-frog-testid="recentStepsError" class="bb-tile-section" ng-if="locals.loadError">
+        <div bb-frog-testid="errorMessage" class="center-block frog-prospectview-recentsteps-errormessage">
+            {{::locals.loadError}}
+        </div>
+    </div>
+</bb-tile>

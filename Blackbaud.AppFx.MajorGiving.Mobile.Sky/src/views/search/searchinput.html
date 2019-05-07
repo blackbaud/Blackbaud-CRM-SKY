@@ -1,0 +1,84 @@
+﻿<div>
+    <div class="container-fluid" ng-if="showInput">
+        <form class="frog-searchall-form">
+            <div class="form-group">
+                <label for="first name" class="control-label">{{::resources.first_name}}</label>
+                <input id="firstName" type="text" class="form-control" autofocus ng-model="input.firstName" />
+            </div>
+            <div class="form-group input-padding">
+                <label for="last name / organization name" class="control-label">{{::resources.last_org_name}}</label>
+                <input id="keyName" type="text" class="form-control" autofocus ng-model="input.keyName" />
+            </div>
+            <div class="form-group input-padding">
+                <label for="city" class="control-label">{{locals.cityLabel}}</label>
+                <input id="city" type="text" class="form-control" autofocus ng-model="input.city" />
+            </div>
+            <div class="row input-padding">
+                <div class="form-group col-xs-6 col-md-6">
+                    <label for="state" class="control-label">{{locals.stateLabel}}</label>
+                    <select ng-model="input.stateId" name="stateId"
+                            bb-frog-testid="stateField"
+                            ng-options="state.id as state.abbreviation for state in locals.states"
+                            class="form-control">
+                            <option value="" selected"></option>
+                    </select>
+                </div>
+                <div class="form-group col-xs-6 col-md-6">
+                    <label for="post code" class="control-label">{{locals.postCodeLabel}}</label>
+                    <input id="postCode" type="text" class="form-control" autofocus ng-model="input.postCode" />
+                </div>
+            </div>
+            <div class="form-group input-padding" ng-if="locals.showCountryField">
+                <label for="country" class="control-label">{{::resources.country}}</label>
+                <select ng-model="input.countryId" name="countryId"
+                        bb-frog-testid="countryField"
+                        ng-options="country.id as country.description for country in locals.countries"
+                        class="form-control">
+                    <option value="" selected"></option>
+                </select>
+            </div>
+            <div class="form-group input-padding" ng-if="locals.showPhoneNumberField">
+                <label for="phoneNumber" class="control-label">{{::resources.phone_number}}</label>
+                <input id="phoneNumber" type="text" class="form-control" autofocus ng-model="input.phoneNumber" />
+            </div>
+            <div>
+                <div class="button-group">
+                    <button type="button" class="btn btn-primary" ng-disabled="!(input.firstName || input.keyName || input.city || input.stateId || input.postCode || input.countryId || input.phoneNumber)" ng-click="searchInput.goToSearchResults()">{{::resources.search}}</button>
+                    <button type="button" class="btn bb-btn-secondary next-button" ng-click="clearFields();loadStates()">{{::resources.clear_fields}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div ng-if="!showInput" bb-wait="locals.loading">
+        <div ng-if="!locals.loading && !locals.loadError">
+            <div class="frog-viewkeeper-fixed frog-search-toolbar">
+                <div class="return-text">
+                    <a class="pull-left" ng-click="searchInput.goToInput()"><i class="fa fa-chevron-left frog-icon-margin-rt frog-blue-color"></i>{{::resources.search_back}}</a>
+                    <span class="matches-text bb-deemphasized">{{::resources.search_matches_format.format(searchInput.prospects.length)}}</span>
+                </div>
+            </div>
+            <div class="frog-search-contents frog-list-contents">
+                <bb-repeater bb-frog-testid="listContents" ng-if="searchInput.prospects.length > 0">
+                    <bb-repeater-item ng-repeat="prospect in searchInput.prospects" data-bbauto-index="{{$index}}">
+                        <bb-repeater-item-content>
+                            <p ng-if="!prospect.displayAddress" />
+                            <a class="bb-emphasized frog-blue-color" ui-sref="prospects.prospect({prospectId: prospectList.getProspectIdWithSlug(prospect)})">{{prospect.fullName}}</a>
+                            <div ng-if="prospect.displayAddress" class="frog-search-info">{{::resources.search_address_format.format(prospect.city, prospect.state, prospect.postCode)}}</div>
+                            <p ng-if="!prospect.displayAddress" />
+                        </bb-repeater-item-content>
+                    </bb-repeater-item>
+                </bb-repeater>
+                <div class="frog-emptylist" bb-frog-testid="emptyList" ng-if="!searchInput.prospects.length">
+                    <span class="fa fa-lock frog-emptylist-icon" />
+                    <span class="frog-emptylist-text">{{::resources.portfolio_nosearchresults}}</span>
+                </div>
+            </div>
+        </div>
+        <div ng-if="locals.loadError">
+            <div class="center-block">
+                <h4 bb-frog-testid="errorMessage">{{::searchInput.loadError}}</h4>
+                <img src="images/sky/broken.svg" class="frog-empty-icon" />
+            </div>
+        </div>
+    </div>
+</div>

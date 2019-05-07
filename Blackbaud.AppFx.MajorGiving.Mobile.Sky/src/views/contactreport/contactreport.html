@@ -1,0 +1,179 @@
+﻿<bb-modal>
+    <div class="modal-form" bb-wait="locals.loading || locals.isSaving">
+        <bb-modal-header bb-frog-testid="header">{{::locals.modalHeader}}</bb-modal-header>
+        <form name="locals.fileContactReportForm" novalidate ng-submit="locals.saveForm()">
+            <div bb-modal-body ng-class="{'frog-no-top-padding': locals.showOtherActionOptions}">
+                <div class="form-group tile-form row" bb-frog-testid="otherActions" ng-if="locals.showOtherActionOptions">
+                    <p ng-if="locals.selectedActionOption !== null">
+                        <button class="btn btn-link" ng-click="locals.restoreDefaults()">{{::frogResources.contactReport_button_restoreDefaults}}</button>
+                    </p>
+                    <div ng-if="locals.selectedActionOption === null">
+                        <p bb-frog-testid="defaultAction" class="bb-deemphasized">
+                            {{locals.defaultActionText}}
+                        </p>
+                        <div bb-frog-testid="defaultStep" class="bb-emphasized">
+                            <span ng-if="locals.contactMethod">{{frogResources.label_dash_format.format(locals.contactMethod)}}</span>{{::locals.objective}}
+                        </div>
+                        <label bb-frog-testid="defaultStepPlan" class="control-label" ng-if="locals.initialStepInfo.planName">
+                            {{::locals.planName}}
+                        </label>
+                        <label bb-frog-testid="defaultStepNoPlan" class="control-label" ng-if="locals.initialStepInfo.objective && !locals.initialStepInfo.planName">
+                            {{frogResources.noplan}}
+                        </label>
+                    </div>
+                    <select bb-frog-testid="otherAction" class="form-control"
+                            ng-model="locals.selectedActionOption"
+                            ng-disabled="locals.selectedActionOption !== null"
+                            ng-options="action.value as action.label for action in locals.otherActions"></select>
+                </div>
+                <div bb-frog-testid="step" class="form-group" ng-if="locals.chooseItemType === locals.ItemTypeOption.PlanStep">
+                    <label class="control-label required" for="step">{{::frogResources.contactReport_label_chooseStep}}</label>
+                    <bb-select-field
+                        name="step"
+                        ng-model="locals.selectedStepArray"
+                        bb-select-field-text="{{::frogResources.contactReport_select_chooseStepText}}"
+                        bb-select-field-click="locals.loadSteps()"
+                        bb-select-field-style="single"
+                        required>
+                        <bb-select-field-picker
+                            bb-select-field-picker-template="views/contactreport/steppicker.html"
+                            bb-select-field-picker-header="{{::frogResources.contactReport_select_chooseStepHeader}}">
+                        </bb-select-field-picker>
+                    </bb-select-field>
+                </div>
+                <div bb-frog-testid="interaction" class="form-group" ng-if="locals.chooseItemType === locals.ItemTypeOption.Interaction">
+                    <label class="control-label required" for="interaction">{{::frogResources.contactReport_label_chooseInteraction}}</label>
+                    <bb-select-field
+                        name="Interaction"
+                        ng-model="locals.selectedInteractionArray"
+                        bb-select-field-text="{{::frogResources.contactReport_select_chooseInteractionText}}"
+                        bb-select-field-click="locals.loadInteractions()"
+                        bb-select-field-style="single"
+                        required>
+                        <bb-select-field-picker
+                            bb-select-field-picker-template="views/contactreport/interactionpicker.html"
+                            bb-select-field-picker-header="{{::frogResources.contactReport_select_chooseInteractionHeader}}">
+                        </bb-select-field-picker>
+                    </bb-select-field>
+                </div>
+                <div bb-frog-testid="plan" class="form-group" ng-if="locals.choosePlan">
+                    <label class="control-label required" for="plan">{{frogResources.contactReport_label_choosePlan}}</label>
+                    <select name="plan" required
+                            ng-model="locals.selectedPlan" 
+                            ng-options="plan.id as plan.name for plan in locals.plans"
+                            class="form-control">
+                    </select>
+                </div>
+                <div bb-frog-testid="fieldSection" ng-if="(!locals.choosePlan || locals.selectedPlan) && (!locals.chooseItemType || locals.selectedItem)">
+                    <div class="form-group">
+                        <label class="control-label" for="contactMethod"
+                               ng-class="{'required' : locals.contactMethodRequired }">{{frogResources.contactMethod}}</label>
+                        <select ng-model="locals.selectedContactMethod" name="contactMethod"
+                                bb-frog-testid="contactMethodField"
+                                ng-required="locals.contactMethodRequired"
+                                ng-options="contactMethod.id as contactMethod.name for contactMethod in locals.contactMethods"
+                                class="form-control">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="objective">{{frogResources.objective}}</label>
+                        <input type="text" class="form-control" ng-model="locals.objective" required name="objective"
+                               bb-frog-testid="objectiveField" />
+                    </div>
+                    <div bb-frog-testid="status" class="form-group" ng-if="locals.allowStatusChange">
+                        <label class="control-label required" for="status">{{frogResources.status}}</label>
+                        <select ng-model="locals.selectedStatus" name="status" required
+                                ng-options="status.value as status.label for status in locals.statusCodes"
+                                class="form-control"></select>
+                    </div>
+                    <div bb-frog-testid="comments" class="form-group" ng-if="locals.displayComments">
+                        <label class="control-label" for="comments"
+                               ng-class="{'required' : locals.commentsRequired }">{{frogResources.comments}}</label>
+                        <textarea bb-frog-testid="commentsField" name="comments"
+                                  ng-model="locals.comments" ng-required="locals.commentsRequired"
+                                  class="control-editor-textarea" cols="100"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label required" for="stepDate">{{frogResources.date}}</label>
+                        <bb-datepicker ng-model="locals.stepDate" required bb-datepicker-name="stepDate" />
+                    </div>
+                    <div bb-frog-testid="planStage" class="form-group" ng-if="locals.showPlanOptions">
+                        <label class="control-label required" for="planStage">{{frogResources.planStage}}</label>
+                        <select ng-model="locals.selectedPlanStage" name="planStage" required
+                                ng-options="planStage.id as planStage.name for planStage in locals.planStages"
+                                class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="category"
+                            ng-class="{'required' : locals.isCategoryRequired() }">{{frogResources.category}}</label>
+                        <select ng-model="locals.selectedCategory" name="category"
+                                ng-required="locals.isCategoryRequired()"
+                                ng-options="category.id as category.name for category in locals.categories"
+                                class="form-control">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+                    <div bb-frog-testid="subcategory" class="form-group" ng-if="locals.showSubcategory">
+                        <label class="control-label" for="subcategory"
+                               ng-class="{'required' : locals.selectedCategory }">{{frogResources.subcategory}}</label>
+                        <select ng-model="locals.selectedSubcategory" name="subcategory"
+                                bb-frog-testid="subcategoryField"
+                                ng-required="locals.selectedCategory"
+                                ng-disabled="!locals.selectedCategory"
+                                ng-options="subcategory.id as subcategory.name for subcategory in locals.subcategories"
+                                class="form-control">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+                    <div bb-frog-testid="site" class="form-group" ng-if="locals.displaySite">
+                        <label bb-frog-testid="siteLabel" class="control-label" for="site" ng-class="{'required' : locals.siteRequired}">{{frogResources.site}}</label>
+                        <select bb-frog-testid="siteControl" ng-model="locals.selectedSite" name="site"
+                                ng-required="locals.siteRequired"
+                                ng-options="site.id as site.name for site in locals.sites"
+                                class="form-control">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div bb-frog-testid="location" class="form-group" ng-if="locals.showLocation">
+                        <label class="control-label" for="location">{{frogResources.location}}</label>
+                        <select ng-model="locals.selectedLocation" name="location"
+                                bb-frog-testid="locationField"
+                                ng-options="location.id as location.name for location in locals.locations"
+                                class="form-control">
+                            <option value="" selected></option>
+                        </select>
+                    </div>
+                    <div bb-frog-testid="otherLocation" class="form-group" ng-if="locals.showLocation">
+                        <label class="control-label" for="otherLocation"
+                               ng-class="{'required' : locals.useOtherLocation }">{{frogResources.otherLocation}}</label>
+                        <input type="text" class="form-control" name="otherLocation"
+                               bb-frog-testid="otherLocationField"
+                               ng-model="locals.otherLocation"
+                               ng-required="locals.useOtherLocation"
+                               ng-disabled="!locals.useOtherLocation" />
+                    </div>
+                    <div bb-frog-testid="participants" class="form-group" ng-if="locals.displayParticipants">
+                        <bb-select-field ng-model="locals.participants" bb-select-field-text="Participants" bb-select-field-click="locals.loadParticipants()">
+                            <bb-select-field-picker bb-select-field-picker-header="Participants"
+                                                    bb-select-field-picker-template="views/contactreport/participantpicker.html">
+                            </bb-select-field-picker>
+                        </bb-select-field>
+                    </div>
+                    <div bb-frog-testid="solicitors" class="form-group" ng-if="locals.displaySolicitors">
+                        <bb-select-field ng-model="locals.solicitors" bb-select-field-text="Additional solicitors" bb-select-field-click="locals.loadSolicitors()">
+                            <bb-select-field-picker bb-select-field-picker-header="Additional solicitors"
+                                                    bb-select-field-picker-template="views/contactreport/solicitorpicker.html">
+                            </bb-select-field-picker>
+                        </bb-select-field>
+                    </div>
+                </div>
+            </div>
+            <bb-modal-footer>
+                <div bb-frog-testid="errorMessage" ng-if="locals.serviceErrorMessage" class="text-danger">{{locals.serviceErrorMessage}}</div>
+                <bb-modal-footer-button-primary bb-frog-testid="saveButton" ng-disabled="locals.fileContactReportForm.$invalid || locals.isSaving"></bb-modal-footer-button-primary>
+                <bb-modal-footer-button-cancel></bb-modal-footer-button-cancel>
+            </bb-modal-footer>
+        </form>
+    </div>
+</bb-modal>

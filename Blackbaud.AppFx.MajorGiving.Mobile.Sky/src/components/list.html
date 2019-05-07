@@ -1,0 +1,15 @@
+﻿<section class="container-fluid">
+
+    <div class="row">
+        <div class="frog-viewkeeper-fixed frog-under-portfolio-title">
+            <frog-list-toolbar bb-frog-testid="toolbar">
+            </frog-list-toolbar>
+            <ng-transclude ng-show="options.filtersVisible"></ng-transclude>
+        </div>
+
+        <div bb-frog-testid="clearfixSeparator" class="clearfix"></div>
+
+        <div class="frog-list-contents" ng-style="{'padding-top': options.contentsPaddingTop}" ng-transclude="frogListContents"></div>
+    </div>
+
+</section>

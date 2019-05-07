@@ -1,0 +1,28 @@
+﻿<bb-modal>
+    <div bb-frog-testid="addressesModal" class="modal-form" bb-wait="locals.loading">
+        <bb-modal-header bb-frog-testid="addressesHeader">{{::frogResources.addresses_modal_title}}</bb-modal-header>
+        <div bb-modal-body bb-frog-testid="addressesSuccess" ng-if="!locals.loading && !locals.loadError" ng-class="{'frog-no-top-padding': locals.showOtherActionOptions}">
+            <div bb-frog-testid="addressesList" ng-if="locals.addresses.length > 0" ng-repeat="address in locals.addresses">
+                <div data-bbauto-index="{{$index}}">
+                    <p>
+                        <div bb-frog-testid="addressTypeWithIcon" class="ng-binding ng-scope bb-field-label" ng-if="address.isPrimary || address.isConfidential || address.doNotMail"><i bb-frog-testid="primaryIcon" ng-if="address.isPrimary" class="fa fa-star fa-fw frog-primary-color"></i><i bb-frog-testid="confidentialIcon" ng-if="address.isConfidential" class="fa fa-lock fa-fw frog-confidential-color"></i><i bb-frog-testid="doNotMailIcon" ng-if="address.doNotMail" class="fa fa-warning fa-fw frog-donotcontact-color"></i>{{address.addressType}}</div>
+                        <div bb-frog-testid="addressTypeNoIcon" class="ng-binding ng-scope bb-field-label" ng-if="!address.isPrimary && !address.isConfidential && !address.doNotMail">{{address.addressType}}</div>
+                        <a type="button" bb-frog-testid="addressLink" style="white-space:pre" class="btn bb-btn-link-inline" ng-href="{{mapping.getMapUrl(address.description)}}" href="" target="_blank" rel="noopener noreferrer">{{address.description}}</a>
+                        <div bb-frog-testid="seasonalDates" ng-if="address.isSeasonal" class="ng-binding ng-scope bb-deemphasized">{{::frogResources.addresses_seasonal}} {{address.startDate}} - {{address.endDate}}</div>
+                    </p>
+                </div>
+            </div>
+            <div bb-frog-testid="empty" bb-tile-section ng-if="locals.addresses.length === 0">
+                <p class="bb-no-records ng-binding ng-scope">{{::frogResources.noaddresses}}</p>
+            </div>
+        </div>
+        <bb-modal-footer>
+            <div bb-frog-testid="addressesError" ng-if="locals.loadError">
+                <div bb-frog-testid="errorMessage" class="center-block">
+                    {{::locals.loadError}}
+                </div>
+            </div>
+            <bb-modal-footer-button-cancel>{{::frogResources.close}}</bb-modal-footer-button-cancel>
+        </bb-modal-footer>
+    </div>
+</bb-modal>

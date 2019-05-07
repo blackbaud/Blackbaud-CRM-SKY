@@ -1,0 +1,329 @@
+$icon-font-path: "fonts/";
+$fa-font-path: "fonts";
+$sky-icon-font-path: "fonts/";
+$frog-mobile-font-size: 16px;
+$portfoliolist-tabs-height: 51px;
+
+@import "../../bower_components/blackbaud-skyux/scss/mixins";
+
+// https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
+@mixin word-wrap() {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+body {
+    background-color: $tile-form-background;
+}
+
+input, select, textarea {
+    @media (max-width: ($screen-xs-max)) {
+        font-size: $frog-mobile-font-size;
+    }
+}
+
+.form-control, .bb-modal-content-wrapper textarea {
+    @media (max-width: ($screen-xs-max)) {
+        font-size: $frog-mobile-font-size;
+    }
+}
+
+select.form-control {
+    @media (max-width: ($screen-xs-max)) {
+        padding: 0;
+    }
+}
+
+.frog-prospectview-summary-content {
+    @media (min-width: ($screen-xs-max)) {
+        margin-top: 10px;
+    }
+}
+
+.frog-page-header {
+    margin-bottom: $margin-double;
+}
+
+.frog-prospectlist-name {
+    @include word-wrap();
+    font-weight: normal;
+}
+
+.frog-empty-icon {
+    height: 200px;
+    margin: auto;
+    display: block;
+    margin-top: 20px;
+}
+
+.frog-under-portfolio-title {
+    width: 100%;
+    position: fixed;
+}
+
+.frog-searchall-form {
+    padding-top: $padding-plus-half;
+    padding-bottom: $padding-plus-half;
+
+    .button-group {
+        padding-top: $margin;
+
+        .next-button {
+            margin-left: $margin-half;
+        }
+    }
+
+    .input-padding {
+        padding-top: $padding;
+    }
+
+    @media (min-width: ($screen-sm-min)) {
+        float: left;
+        width: 600px;
+    }
+}
+
+.frog-search-toolbar {
+    height: $portfoliolist-tabs-height;
+    border: 1px solid $gray-lighter;
+    border-right: none;
+    border-left: none;
+    padding-left: 20px;
+
+    .return-text {
+        line-height: $portfoliolist-tabs-height;
+
+        .matches-text {
+            margin-left: 50px;
+        }
+    }
+}
+
+.frog-search-contents {
+    padding-top: $portfoliolist-tabs-height;
+}
+
+.frog-search-info {
+    margin-top: 2px;
+}
+
+.frog-list-contents {
+    padding-left: $padding;
+    padding-right: $padding;
+    height: calc(100vh - #{$portfoliolist-tabs-height});
+    overflow-y:scroll;
+}
+
+.frog-viewkeeper-fixed {
+    background-color: $toolbar-background-color;
+    filter: alpha(opacity=95);
+    position: fixed;
+    opacity: 0.95;
+    width: 100%;
+    z-index: 100;
+}
+
+.frog-bottombar {
+    bottom: 0px;
+    background-color: white;
+    margin-left: -$margin-plus-half;
+    width: 100%;
+
+    .first-button {
+        margin-left: $margin;
+    }
+
+    > hr {
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+
+    > .dropdown {
+        margin-bottom: 10px;
+        margin-right: 5px;
+        display: inline-block;
+
+        > .bb-btn-secondary {
+
+            > .frog-btn-label {
+                display: none;
+                margin-left: 5px;
+
+                @media (min-width: ($screen-md-min)) {
+                    display: inline;
+                }
+            }
+        }
+
+        a > span {
+            margin-right: 5px;
+        }
+    }
+
+    > .btn-primary {
+        float: right;
+        margin-right: $margin;
+        margin-bottom: $margin;
+    }
+}
+
+.toolbar.bb-table-toolbar .bb-filter-btn.frog-sort-inline-active {
+    color: $bb-color-green;
+    border: 2px solid $bb-color-green;
+    border-radius: 3px;
+}
+
+.toolbar.bb-table-toolbar .bb-filter-btn.frog-sort-inline-active:hover {
+    color: $text-color;
+}
+
+.bb-grid-toolbar-container {
+    .toolbar {
+        .bb-column-picker-btn, .frog-sort-btn {
+            margin-right: 0;
+            margin-left: 5px;
+            height: 32px;
+        }
+    }
+}
+
+.frog-context-menu-item-selected {
+    background-color: $dropdown-link-hover-bg;
+}
+
+.frog-emptylist {
+    margin: auto;
+    width: 50%;
+}
+
+.frog-emptylist-icon {
+    color: $border-color;
+    font-size: 60px;
+    padding-top: 50px;
+    text-align: center;
+    width: 100%;
+}
+
+.frog-emptylist-text {
+    color: $bb-text-deemphasized-color;
+    font-size: 17px;
+    padding-top: 10px;
+    display: block;
+    text-align: center;
+}
+
+.frog-prospectview-info-supplemental {
+    color: $bb-text-deemphasized-color;
+}
+
+.frog-prospectview-info-label {
+    padding-top: 5px;
+}
+
+.frog-prospectview-location {
+    margin-top: 10px;
+
+    a > span {
+        margin-right: 5px;
+    }
+}
+
+.frog-prospectview-time {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.frog-abovebottombar {
+    padding-bottom: 100px;
+}
+
+.frog-prospectview-recentsteps-errormessage {
+    padding-top: 15px;
+}
+
+.frog-text-aligned-col {
+    float: none;
+    display: inline-block;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.frog-text-list {
+    margin-top: $margin-half;
+}
+
+.frog-tile-container {
+    background-color: $tile-form-background;
+}
+
+.frog-title-divider {
+    margin-top: 0px;
+}
+
+.btn.frog-btn-link-inline {
+    color: $link-color;
+    padding: 0;
+    vertical-align: baseline;
+
+    &:hover {
+        color: $link-hover-color;
+    }
+}
+
+.frog-no-top-padding {
+    padding-top: 0px;
+}
+
+.frog-top-padding {
+    padding-top: $padding;
+}
+
+.frog-bottom-padding {
+    padding-bottom: $padding;
+}
+
+.frog-no-grab-dashboard .bb-tile-grab-handle {
+    display: none;
+}
+
+.frog-content {
+    background-color: $body-bg;
+}
+
+.frog-primary-color {
+    color: $bb-color-green;
+}
+
+.frog-confidential-color {
+    color: $bb-color-yellow;
+}
+
+.frog-donotcontact-color {
+    color: $bb-color-red;
+}
+
+.frog-blue-color {
+    color: $bb-color-blue;
+}
+
+.frog-fixed-tab {
+    position: fixed;
+}
+
+.frog-icon-margin-rt {
+    margin-right: $margin;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.frog-white-background {
+    background: white;
+}

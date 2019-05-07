@@ -1,0 +1,140 @@
+﻿<bb-tile bb-frog-testid="recentGiftsAndCreditsTile" bb-wait="locals.loading" bb-tile-header="frogResources.recentgiftsandcredits_tile_header">
+    <div bb-frog-testid="recentGiftsAndCreditsSuccess" ng-if="!locals.loading && !locals.loadError">
+        <div bb-frog-testid="giftsAndCredits" ng-if="locals.recentGiftsAndCredits.length > 0">
+            <div data-bbauto-index="{{$index}}" bb-tile-section ng-repeat="gift in locals.recentGiftsAndCredits" ng-if="gift">
+                <div>
+                    <div class="col-xs-5 col-md-2 frog-text-aligned-col">
+                        <span bb-frog-testid="amount" class="bb-headline" ng-model="gift.amount" bb-autonumeric="money" bb-autonumeric-settings="gift.bbAutonumericConfig"></span>
+                    </div>
+                    <div class="col-xs-6 frog-text-aligned-col">
+                        <span bb-frog-testid="applicationType">{{gift.applicationType}}</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-xs-5 col-md-2 frog-text-aligned-col frog-vertical-align-top">
+                        <span bb-frog-testid="date" class="bb-field-label">{{bbMoment(gift.date).format("l")}}</span>
+                    </div>
+                    <div class="col-xs-6 frog-text-aligned-col">
+                        <span bb-frog-testid="designation" class="bb-field-label">{{gift.designation}}</span>
+                    </div>
+                </div>
+                <div bb-frog-testid="recognitionCreditContainer" ng-if="gift.isRecognitionCredit">
+                    <span bb-frog-testid="recognitionCredit" class="bb-emphasized" ng-if="!gift.recognitionCreditType">{{::frogResources.recentgiftsandcredits_recognitioncredit}}</span>
+                    <span bb-frog-testid="recognitionCreditWithType" class="bb-emphasized" ng-if="gift.recognitionCreditType">{{::frogResources.recentgiftsandcredits_recognitioncreditwithtype.format(gift.recognitionCreditType)}}</span>
+                </div>
+                <div bb-wait="!gift.detailsLoaded" id="revenueDetails{{$index}}" class="collapse">
+                    <div bb-frog-testid="additionalDetailsSuccess" ng-if="!locals.detailsLoadError">
+                        <div class="frog-text-list">
+                            <div>
+                                <span>{{::frogResources.designation}}</span>
+                            </div>
+                            <div>
+                                <span class="bb-field-label">{{gift.designation}}</span>
+                            </div>
+                        </div>
+                        <div class="frog-text-list">
+                            <div>
+                                <span>{{::frogResources.campaign}}</span>
+                            </div>
+                            <div>
+                                <span class="bb-field-label">{{gift.campaigns}}</span>
+                            </div>
+                        </div>
+                        <div class="frog-text-list">
+                            <div>
+                                <span>{{::frogResources.revenueCategory}}</span>
+                            </div>
+                            <div>
+                                <span class="bb-field-label">{{gift.revenueCategory}}</span>
+                            </div>
+                        </div>
+                        <div class="frog-text-list">
+                            <div>
+                                <span>{{::frogResources.solicitors}}</span>
+                            </div>
+                            <div>
+                                <div bb-text-expand="gift.solicitors"
+                                     bb-text-expand-max-length="25"
+                                     class="bb-field-label" />
+                            </div>
+                        </div>
+                        <div class="frog-text-list">
+                            <div>
+                                <span>{{::frogResources.recognitionCredits}}</span>
+                            </div>
+                            <div>
+                                <div bb-text-expand="gift.recognitions"
+                                     bb-text-expand-max-length="25"
+                                     class="bb-field-label" />
+                            </div>
+                        </div>
+                        <div bb-frog-testid="opportunityContainer" class="frog-text-list" ng-if="gift.opportunity">
+                            <div>
+                                <span>{{::frogResources.opportunity}}</span>
+                            </div>
+                            <div>
+                                <div bb-text-expand="gift.opportunity"
+                                     bb-text-expand-max-length="25"
+                                     class="bb-field-label" />
+                            </div>
+                        </div>
+                        <div bb-frog-testid="appliedToContainer" class="frog-text-list" ng-if="gift.appliedTo">
+                            <div>
+                                <span>{{::frogResources.appliedTo}}</span>
+                            </div>
+                            <div>
+                                <div bb-text-expand="gift.appliedTo"
+                                     bb-text-expand-max-length="25"
+                                     class="bb-field-label" />
+                            </div>
+                        </div>
+                        <div bb-frog-testid="giftAidStatusContainer" class="frog-text-list" ng-if="locals.ukInstalled">
+                            <div>
+                                <span>{{::frogResources.giftAidStatus}}</span>
+                            </div>
+                            <div>
+                                <span class="bb-field-label">{{gift.giftAidStatus}}</span>
+                            </div>
+                        </div>
+                        <div bb-frog-testid="taxClaimEligibilityContainer" class="frog-text-list" ng-if="locals.ukInstalled">
+                            <div>
+                                <span>{{::frogResources.taxClaimEligibility}}</span>
+                            </div>
+                            <div>
+                                <span class="bb-field-label">{{gift.taxClaimEligibility}}</span>
+                            </div>
+                        </div>
+                        <div bb-frog-testid="taxClaimAmountContainer" class="frog-text-list" ng-if="locals.ukInstalled">
+                            <div>
+                                <span>{{::frogResources.taxClaimAmount}}</span>
+                            </div>
+                            <div>
+                                <span class="bb-field-label"
+                                      ng-model="gift.taxClaimAmount"
+                                      bb-autonumeric="money"
+                                      bb-autonumeric-settings="gift.bbAutonumericConfig"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div bb-frog-testid="additionalDetailsError" ng-if="locals.detailsLoadError">
+                        <div bb-frog-testid="additionalDetailsErrorMessage" class="center-block frog-prospectview-recentsteps-errormessage">
+                            {{::locals.detailsLoadError}}
+                        </div>
+                    </div>
+                </div>
+                <button class="btn bb-btn-link-inline" style="margin-top: 10px" data-toggle="collapse"
+                        ng-click="locals.loadAdditionalDetails(gift.id)" data-target="#revenueDetails{{$index}}">
+                    {{::frogResources.showHideDetails}}
+                </button>
+            </div>
+        </div>
+        <div bb-frog-testid="empty" bb-tile-section ng-if="locals.recentGiftsAndCredits.length === 0">
+            <div class="bb-no-records">{{::frogResources.nogiftsorcredits}}</div>
+        </div>
+    </div>
+    <div bb-frog-testid="recentGiftsAndCreditsError" ng-if="locals.loadError">
+        <div bb-frog-testid="errorMessage" class="center-block frog-prospectview-recentsteps-errormessage">
+            {{::locals.loadError}}
+        </div>
+    </div>
+</bb-tile>

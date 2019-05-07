@@ -1,0 +1,32 @@
+﻿{
+  "Framework": "jasmine",
+  "References": [
+    { "Path": "../bower_components/blackbaud-skyux/dist/js/libs.js" },
+    { "Path": "../bower_components/blackbaud-skyux/dist/js/sky.js" },
+    { "Path": "../bower_components/jasmine/lib/jasmine-core/jasmine.js" },
+    { "Path": "../bower_components/jasmine-jquery/lib/jasmine-jquery.js" },
+    { "Path": "../lib/fallback.js" },
+    { "Path": "../bower_components/angular-mocks/angular-mocks.js" },
+    { "Path": "../bower_components/bbui-angular/dist/js/bbui.js" },
+    { "Path": "../tmp/templates.js" },
+    {
+      "Path": "../src",
+      "Includes": [ "*.js" ],
+      "Excludes": [ "*\\dependencies.js", "*\\locales\\*" ]
+    },
+    { "Path": "../build/js/locales/frog-locale-en-US.js" },
+    { "Path": "helpers.js" }
+  ],
+  "EnableTracing": false,
+  "TraceFilePath": "../chutzpah.log",
+  "Tests": [
+    {
+      "Path": ".",
+      "Excludes": [ "*\\test\\helpers.js" ]
+    }
+  ],
+  "EnableCodeCoverage ": "true",
+  "CodeCoverageIncludes": [ "*\\src*\\*.js", "*\\build\\js\\locales\\frog-locale-en-US.js" ],
+  "CodeCoverageExcludes": [ "*\\bower_components\\*", "*\\src\\index.js", "*\\src\\utils\\Debugging.js", "*\\src\\lib\\*" ],
+  "TestFileTimeout": 30000
+}

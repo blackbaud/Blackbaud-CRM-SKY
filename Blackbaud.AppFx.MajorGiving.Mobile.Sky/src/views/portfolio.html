@@ -1,0 +1,13 @@
+﻿<div ng-controller="MainController as page">
+    <bb-page>
+        <div bb-frog-testid="content" ng-if="sessionInfo">
+            <div ui-view keep-scroll-pos></div>
+        </div>
+        <div bb-frog-testid="error" ng-if="startError">
+            <div class="center-block">
+                <h2>{{::startError}}</h2>
+                <img src="images/sky/broken.svg" class="frog-empty-icon" />
+            </div>
+        </div>
+    </bb-page>
+</div>

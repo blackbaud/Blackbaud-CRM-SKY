@@ -1,0 +1,522 @@
+﻿{
+  "addAnInteraction": {
+    "_description": "Text to display for 'Add an interaction'.",
+    "message": "Add an interaction"
+  },
+  "addAStep": {
+    "_description": "Text to display for 'Add a step'.",
+    "message": "Add a step"
+  },
+  "addresses_modal_title": {
+    "_description": "Text to display header of addresses modal.",
+    "message": "Addresses"
+  },
+  "addresses_seasonal": {
+    "_description": "Text to display the seasonal addresses.",
+    "message": "Seasonal:"
+  },
+  "appliedTo": {
+    "_description": "The text to display for applied to.",
+    "message": "Applied to"
+  },
+  "editAStep": {
+    "_description": "Text to display for 'Edit a step'.",
+    "message": "Edit a step"
+  },
+  "editAnInteraction": {
+    "_description": "Text to display for 'Edit an interaction'.",
+    "message": "Edit an interaction"
+  },
+  "allPlans": {
+    "_description": "Text to display for 'All plans'.",
+    "message": "All plans"
+  },
+  "call": {
+    "_description": "The action for calling a phone number.",
+    "message": "Call"
+  },
+  "campaign": {
+    "_description": "The text to display for campaign.",
+    "message": "Campaign"
+  },
+  "canceled": {
+    "_description": "The text to display for canceled.",
+    "message": "Canceled"
+  },
+  "category": {
+    "_description": "The text to display for category.",
+    "message": "Category"
+  },
+  "city": {
+    "_description": "The text to display for city.",
+    "message": "City"
+  },
+  "clear_fields": {
+    "_description": "The text to display for clear fields.",
+    "message": "Clear fields"
+  },
+  "close": {
+    "_description": "The text to display to close.",
+    "message": "Close"
+  },
+  "comments": {
+    "_description": "The text to display for comments.",
+    "message": "Comments"
+  },
+  "completed": {
+    "_description": "The text to display for completed.",
+    "message": "Completed"
+  },
+  "contactinfo_withtype": {
+    "_description": "The format in which to display a piece of contact info (token 1), such as phone number, with its type (token 2).",
+    "message": "{0}: {1}"
+  },
+  "contactMethod": {
+    "_description": "The text to display for contact method.",
+    "message": "Contact method"
+  },
+  "contactReport_button_restoreDefaults": {
+    "_description": "The text for a contact report restore defaults button.",
+    "message": "Restore defaults"
+  },
+  "contactReport_label_choosePlan": {
+    "_description": "The text for a contact report choose plan label: 'Choose a plan for this step'.",
+    "message": "Choose a plan for this step"
+  },
+  "contactReport_label_chooseInteraction": {
+    "_description": "The text for a contact report choose interaction label: 'Choose an existing interaction to complete'.",
+    "message": "Choose an existing interaction to complete"
+  },
+  "contactReport_label_chooseStep": {
+    "_description": "The text for a contact report choose step label: 'Choose an existing step to complete'.",
+    "message": "Choose an existing step to complete"
+  },
+  "contactReport_label_defaultInteractionText": {
+    "_description": "The text for a contact report default action option: 'We've defaulted this contact report to complete this interaction assigned to you:'.",
+    "message": "We've defaulted this contact report to complete this interaction assigned to you:"
+  },
+  "contactReport_label_defaultNewInteractionText": {
+    "_description": "The text for a contact report default action option: 'We've defaulted this contact report to add a new completed interaction:'.",
+    "message": "We've defaulted this contact report to add a new completed interaction:"
+  },
+  "contactReport_label_defaultStepText": {
+    "_description": "The text for a contact report default action option: 'We've defaulted this contact report to complete this step assigned to you:'.",
+    "message": "We've defaulted this contact report to complete this step assigned to you:"
+  },
+  "contactReport_otherAction_addCompletedInteraction": {
+    "_description": "The text for a contact report other action option: 'Add a new completed interaction'.",
+    "message": "Add a new completed interaction"
+  },
+  "contactReport_otherAction_addCompletedStep": {
+    "_description": "The text for a contact report other action option: 'Add a new completed step'.",
+    "message": "Add a new completed step"
+  },
+  "contactReport_otherAction_existingInteraction": {
+    "_description": "The text for a contact report other action option: 'Complete an existing interaction'.",
+    "message": "Complete an existing interaction"
+  },
+  "contactReport_otherAction_existingStep": {
+    "_description": "The text for a contact report other action option: 'Complete an existing step'.",
+    "message": "Complete an existing step"
+  },
+  "contactReport_otherAction_somethingDifferent": {
+    "_description": "The text for a contact report other action option: 'I want to do something different'.",
+    "message": "I want to do something different"
+  },
+  "contactReport_select_chooseInteractionEmpty": {
+    "_description": "The text for a contact report choose interaction select field when no interactions found: 'No interactions found'.",
+    "message": "No interactions found"
+  },
+  "contactReport_select_chooseInteractionHeader": {
+    "_description": "The text for a contact report choose interaction select field header: 'Choose an existing interaction'.",
+    "message": "Choose an existing interaction"
+  },
+  "contactReport_select_chooseInteractionText": {
+    "_description": "The text for a contact report choose interaction select field text: 'Select an interaction'.",
+    "message": "Select an interaction"
+  },
+  "contactReport_select_chooseStepEmpty": {
+    "_description": "The text for a contact report choose step select field when no steps found: 'No steps found'.",
+    "message": "No steps found"
+  },
+  "contactReport_select_chooseStepHeader": {
+    "_description": "The text for a contact report choose step select field header: 'Choose an existing step'.",
+    "message": "Choose an existing step"
+  },
+  "contactReport_select_chooseStepText": {
+    "_description": "The text for a contact report choose step select field text: 'Select a step'.",
+    "message": "Select a step"
+  },
+  "country": {
+    "_description": "The text to display for country.",
+    "message": "Country"
+  },
+  "date": {
+    "_description": "The text to display for date.",
+    "message": "Date"
+  },
+  "deceased": {
+    "_description": "The text to display when a constituent is deceased.",
+    "message": "Deceased"
+  },
+  "declined": {
+    "_description": "The text to display for declined.",
+    "message": "Declined"
+  },
+  "designation": {
+    "_description": "The text to display for designation.",
+    "message": "Designation"
+  },
+  "email": {
+    "_description": "The action for emailing an email address.",
+    "message": "Email"
+  },
+  "error_addresses_general": {
+    "_description": "The error message to display when there is an error getting prospect addresses.",
+    "message": "Error loading addresses. {0}"
+  },
+  "error_general": {
+    "_description": "The error message to display when there is an unknown error using the application.",
+    "message": "FROG is experiencing technical difficulties. Please try again later. {0}"
+  },
+  "error_search_general": {
+    "_description": "The error message to display when there is an error returning search results.",
+    "message": "Error loading search results. {0}"
+  },
+  "error_search_searchlist_nocountryorphonesetup": {
+    "_description": "The error message to display when there is an error searching by country or phone number.",
+    "message": "Your database is not set up to search by Country/Phone number. For assistance, contact your database administrator."
+  },
+  "error_url": {
+    "_description": "The error message to display when the URL is incorrect.",
+    "message": "An error occurred loading this page.  If you accessed this page from a bookmark, the bookmarked URL may no longer be valid."
+  },
+  "error_portfolio_general": {
+    "_description": "The error message to display when there is an error getting the portfolio data.",
+    "message": "Error loading portfolio. {0}"
+  },
+  "error_portfolio_unknownmapping": {
+    "_description": "The error message to display when there is an unknown error mapping the user to a constituent",
+    "message": "Error mapping user to constituent. {0}"
+  },
+  "error_portfolio_usernotlinked": {
+    "_description": "The error message to display when the user is not linked to a fundraiser.",
+    "message": "Your user is not associated with a fundraiser."
+  },
+  "error_prospectview_general": {
+    "_description": "The error message to display when there is an error getting the prospect data.",
+    "message": "Error loading prospect. {0}"
+  },
+  "error_recentgiftsandcredits_general": {
+    "_description": "The error message to display when there is an error getting the recent gifts and credits.",
+    "message": "Error loading gifts and credits. {0}"
+  },
+  "error_summaryinformation_general": {
+    "_description": "The error message to display when there is an error getting summary information.",
+    "message": "Error loading summary information. {0}"
+  },
+  "error_loading_steps": {
+    "_description": "The error message to display when there is an error getting steps.",
+    "message": "Error loading steps. {0}"
+  },
+  "fileContactReport": {
+    "_description": "Text to display for 'File contact report'.",
+    "message": "File contact report"
+  },
+  "first_name": {
+    "_description": "The text to display for first name.",
+    "message": "First name"
+  },
+  "giftAidStatus": {
+    "_description": "The text to display for gift aid status.",
+    "message": "Gift Aid status"
+  },
+  "inactive": {
+    "_description": "The text to display when a constituent is inactive.",
+    "message": "Inactive"
+  },
+  "label_bar_format": {
+    "_description": "The format of a label, where the label is {0}.",
+    "message": "{0} | "
+  },
+  "label_colon_format": {
+    "_description": "The format of a label, where the label is {0}.",
+    "message": "{0}:"
+  },
+  "label_dash_format": {
+    "_description": "The format of a label, where the label is {0}.",
+    "message": "{0} - "
+  },
+  "last_org_name": {
+    "_description": "The text to display for last name / organization name.",
+    "message": "Last name / Organization name"
+  },
+  "list_sort_button": {
+    "_description": "The text that appears on a list's sort button next to the sort icon.",
+    "message": "Sort"
+  },
+  "location": {
+    "_description": "The text to display for location.",
+    "message": "Location"
+  },
+  "name_format": {
+    "_description": "The name format for a person. The {0} token is the first name and the {1} token is the key name. If no first name exists, the key name will be used by itself",
+    "message": "{0} {1}"
+  },
+  "nextInteraction": {
+    "_description": "Displays the text 'Next interaction'",
+    "message": "Next interaction"
+  },
+  "nextStep": {
+    "_description": "Displays the text 'Next step'",
+    "message": "Next step"
+  },
+  "nextstep_pastdue": {
+    "_description": "The text to show when the next step or interaction for a prospect occurs in the past.",
+    "message": "Past due"
+  },
+  "nextstep_today": {
+    "_description": "The text to show when the next step or interaction for a prospect is today.",
+    "message": "Today"
+  },
+  "nextstep_tomorrow": {
+    "_description": "The text to show when the next step or interaction for a prospect is tomorrow.",
+    "message": "Tomorrow"
+  },
+  "nextstep_threedays": {
+    "_description": "The text to show when the next step or interaction for a prospect occurs in three days.",
+    "message": "3 days"
+  },
+  "nextstep_twodays": {
+    "_description": "The text to show when the next step or interaction for a prospect occurs in two days.",
+    "message": "2 days"
+  },
+  "noaddresses": {
+    "_description": "The text to display when there are no addresses.",
+    "message": "No addresses found"
+  },
+  "nogiftsorcredits": {
+    "_description": "The text to display when there are no recent gifts or credits.",
+    "message": "No gifts/credits found"
+  },
+  "none": {
+    "_description": "The text to display for none.",
+    "message": "None"
+  },
+  "noplan": {
+    "_description": "The text to display when there is no plan, in place of the plan name.",
+    "message": "No plan"
+  },
+  "nosteps": {
+    "_description": "The text to display when there are no recent steps or interactions.",
+    "message": "No steps/interactions found"
+  },
+  "nosummaryinformation": {
+    "_description": "The test to display for no summary information.",
+    "message": "No summary information found"
+  },
+  "novalue": {
+    "_description": "The text to display for no value.",
+    "message": "No value"
+  },
+  "objective": {
+    "_description": "The text to display for objective.",
+    "message": "Objective"
+  },
+  "opportunity": {
+    "_description": "The text to display for opportunity.",
+    "message": "Opportunity"
+  },
+  "other": {
+    "_description": "The text to display for other.",
+    "message": "Other"
+  },
+  "otherLocation": {
+    "_description": "The text to display for other location.",
+    "message": "Other location"
+  },
+  "pending": {
+    "_description": "The text to display for pending.",
+    "message": "Pending"
+  },
+  "phone_number": {
+    "_description": "The text to display for phone number.",
+    "message": "Primary phone number"
+  },
+  "planned": {
+    "_description": "The text to display for planned.",
+    "message": "Planned"
+  },
+  "planStage": {
+    "_description": "The text to display for plan stage.",
+    "message": "Plan stage"
+  },
+  "portfolio_count": {
+    "_description": "The portfolio title including a count of the number of items in the portfolio.",
+    "message": "My portfolio ({0})"
+  },
+  "portfolio_filter_allprospects": {
+    "_description": "The filter option to show all of a fundraiser's prospects.",
+    "message": "All my prospects"
+  },
+  "portfolio_filter_primaryprospects": {
+    "_description": "The filter option to show a fundraiser's primary prospects.",
+    "message": "My primary prospects"
+  },
+  "portfolio_nextstep_none": {
+    "_description": "The text to show in the portfolio when no next step or interaction exists for a prospect.",
+    "message": "No step"
+  },
+  "portfolio_noprospects": {
+    "_description": "The message to display when there are no prospects in the portfolio.",
+    "message": "You have no prospects in your portfolio."
+  },
+  "portfolio_nosearchresults": {
+    "_description": "The message to display in the portfolio when there are no matches for your search string.",
+    "message": "No prospects found."
+  },
+  "portfolio_sort_lastfirst": {
+    "_description": "The option to sort the portfolio by Last name, First name.",
+    "message": "Last name"
+  },
+  "portfolio_sort_nextstep": {
+    "_description": "The option to sort the portfolio by next step date.",
+    "message": "Next step"
+  },
+  "portfolio_title": {
+    "_description": "The title of the portfolio page.",
+    "message": "My portfolio"
+  },
+  "primary_member": {
+    "_description": "The text to display by a prospect's primary member.",
+    "message": "Primary member"
+  },
+  "prospect_filecontactreport": {
+    "_description": "The action for filing a contact report.",
+    "message": "File contact report"
+  },
+  "prospect_manager": {
+    "_description": "The text to display by a prospect's prospect manager.",
+    "message": "Prospect manager"
+  },
+  "prospect_nextstep_none": {
+    "_description": "The text to show on the prospect view when no next step or interaction exists for a prospect.",
+    "message": "No future step"
+  },
+  "recentgiftsandcredits_recognitioncredit": {
+    "_description": "The string format to use on the prospect view when displaying recognition credit.",
+    "message": "Recognition credit"
+  },
+  "recentgiftsandcredits_recognitioncreditwithtype": {
+    "_description": "The string format to use on the prospect view when displaying recognition credit with type.",
+    "message": "Recognition credit - {0}"
+  },
+  "recentgiftsandcredits_tile_header": {
+    "_description": "The tile header for the recent gifts and credits tile on the prospect view",
+    "message": "Recent gifts/credits"
+  },
+  "recentsteps_addInteraction": {
+    "_description": "The text to display for the 'Add interaction' button.",
+    "message": "Add interaction"
+  },
+  "recentsteps_addStep": {
+    "_description": "The text to display for the 'Add step' button.",
+    "message": "Add step"
+  },
+  "upcomingsteps_tile_header": {
+    "_description": "The tile header for the upcoming steps tile on the prospect view.",
+    "message": "Upcoming steps/interactions"
+  },
+  "recentsteps_tile_header": {
+    "_description": "The tile header for the recent steps tile on the prospect view.",
+    "message": "Recent steps/interactions"
+  },
+  "recognitionCredits": {
+    "_description": "The text to display for recognition credits.",
+    "message": "Recognition credits"
+  },
+  "revenueCategory": {
+    "_description": "The text to displcay for revenue category.",
+    "message": "Revenue category"
+  },
+  "search": {
+    "_description": "The text to display for search.",
+    "message": "Search"
+  },
+  "search_address_format": {
+    "_description": "The format of an address label: '{City}, {State} {Post code}'.",
+    "message": "{0}, {1} {2}"
+  },
+  "search_all": {
+    "_description": "The text to display for the search tab.",
+    "message": "Search all"
+  },
+  "search_back": {
+    "_description": "The text to display to return to search input.",
+    "message": "Back to search"
+  },
+  "search_matches_format": {
+    "_description": "The format for displaying search matches.",
+    "message": "Showing {0} matches"
+  },
+  "showHideDetails": {
+    "_description": "The text to display for show.hide details.",
+    "message": "show/hide details"
+  },
+  "site": {
+    "_description": "The text to display for site.",
+    "message": "Site"
+  },
+  "solicitors": {
+    "_description": "The text to display for solicitors.",
+    "message": "Solicitors"
+  },
+  "spouse": {
+    "_description": "The text to display by a constituent's spouse.",
+    "message": "Spouse"
+  },
+  "state": {
+    "_description": "The text to display for state.",
+    "message": "State"
+  },
+  "status": {
+    "_description": "The text to display for status.",
+    "message": "Status"
+  },
+  "subcategory": {
+    "_description": "The text to display for subcategory.",
+    "message": "Subcategory"
+  },
+  "summaryinformation_tile_header": {
+    "_description": "The text to display for summary information.",
+    "message": "Summary information"
+  },
+  "taxClaimAmount": {
+    "_description": "The text to display for tax claim amount.",
+    "message": "Tax claim amount"
+  },
+  "taxClaimEligibility": {
+    "_description": "The text to display for tax claim eligibility.",
+    "message": "Tax claim eligibility"
+  },
+  "text": {
+    "_description": "The action for text messaging a phone number.",
+    "message": "Text"
+  },
+  "time": {
+    "_description": "The text to display for time.",
+    "message": "Time"
+  },
+  "unknown": {
+    "_description": "The text to display for an unknown value.",
+    "message": "Unknown"
+  },
+  "view_addresses": {
+    "_description": "Text to display for viewing addresses button.",
+    "message": "View addresses"
+  },
+  "zip_code": {
+    "_description": "The text to display for zip code.",
+    "message": "Zip code"
+  }
+}

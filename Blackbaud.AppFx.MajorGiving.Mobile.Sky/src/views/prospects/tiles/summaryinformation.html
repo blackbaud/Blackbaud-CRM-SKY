@@ -1,0 +1,31 @@
+﻿<bb-tile bb-frog-testid="summaryInformationTile" bb-wait="locals.loading" bb-tile-header="frogResources.summaryinformation_tile_header">
+    <div bb-frog-testid="summaryInformationSuccess" ng-if="!locals.loading && !locals.loadError">
+        <div bb-frog-testid="summaryInformation" ng-if="locals.summaryInformation.length > 0">
+            <div data-bbauto-index="{{$index}}" bb-tile-section ng-repeat="field in locals.summaryInformation" ng-if="field">
+                <div>
+                    <div class="col-xs-5 col-md-2 frog-text-aligned-col">
+                        <span bb-frog-testid="smartFieldValue"
+                              class="bb-headline"
+                              ng-model="field.smartFieldValue"
+                              bb-autonumeric="money"
+                              bb-autonumeric-settings="field.bbAutonumericConfig"></span>
+                        <span bb-frog-testid="smartFieldValueNull"
+                              class="bb-headline"
+                              ng-if="field.smartFieldValue === null">{{::frogResources.novalue}}</span>
+                    </div>
+                    <div bb-frog-testid="smartFieldName" class="col-xs-6 frog-text-aligned-col">
+                        <span>{{field.smartFieldName}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div bb-frog-testid="noSummaryInformation" bb-tile-section ng-if="locals.summaryInformation.length === 0">
+            <div class="bb-no-records">{{::frogResources.nosummaryinformation}}</div>
+        </div>
+    </div>
+    <div bb-frog-testid="summaryInformationFailure" ng-if="locals.loadError">
+        <div class="center-block frog-prospectview-recentsteps-errormessage">
+            {{::locals.loadError}}
+        </div>
+    </div>
+</bb-tile>

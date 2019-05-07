@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FC64541D-0AEB-4889-B847-6AC583BE9311}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Blackbaud.AppFx.MajorGiving.Mobile.Sky</RootNamespace>
+    <AssemblyName>Blackbaud.AppFx.MajorGiving.Mobile.Sky</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\DLLReferences\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\DLLReferences\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bower.json" />
+    <Content Include="config\grunt\_env.js" />
+    <Content Include="config\grunt\_utils.js" />
+    <Content Include="grunt.locale.js" />
+    <Content Include="package.json" />
+    <Content Include="src\api\crm.apiContactReport.js" />
+    <Content Include="src\api\crm.apiContactReportOptions.js" />
+    <Content Include="src\api\crm.custom.js" />
+    <Content Include="src\api\crm.customizable.js" />
+    <Content Include="src\api\crm.js" />
+    <Content Include="src\api\crm.module.js" />
+    <Content Include="src\api\crm.apiPortfolio.js" />
+    <Content Include="src\api\crm.apiProspectView.js" />
+    <Content Include="src\components\list.html" />
+    <Content Include="src\components\listtoolbar.html" />
+    <Content Include="src\components\listtoolbar.js" />
+    <Content Include="src\components\list.js" />
+    <Content Include="src\images\frog-sad.png" />
+    <Content Include="src\images\frog-upset.png" />
+    <Content Include="src\index.angular.js" />
+    <Content Include="src\lib\fallback.js" />
+    <Content Include="src\utils\mapping.js" />
+    <Content Include="src\utils\polyfill.js" />
+    <Content Include="src\utils\prospects.js" />
+    <Content Include="src\utils\scroll.js" />
+    <Content Include="src\views\addresses\addressesmodal.html" />
+    <Content Include="src\views\addresses\addressesmodal.js" />
+    <Content Include="src\views\contactreport\interactionpicker.html" />
+    <Content Include="src\views\contactreport\participantpicker.html" />
+    <Content Include="src\views\contactreport\contactreport.html" />
+    <Content Include="src\views\contactreport\contactreport.js" />
+    <Content Include="src\views\contactreport\solicitorpicker.html" />
+    <Content Include="src\views\contactreport\steppicker.html" />
+    <Content Include="src\views\portfolio.html" />
+    <Content Include="src\views\prospects\tiles\recentgiftsandcredits.html" />
+    <Content Include="src\views\prospects\tiles\recentgiftsandcredits.js" />
+    <Content Include="src\views\prospects\tiles\recentsteps.html" />
+    <Content Include="src\views\prospects\tiles\recentsteps.js" />
+    <Content Include="src\views\prospects\tiles\summaryinformation.html" />
+    <Content Include="src\views\prospects\tiles\summaryinformation.js" />
+    <Content Include="src\views\prospects\tiles\upcomingsteps.html" />
+    <Content Include="src\views\prospects\tiles\upcomingsteps.js" />
+    <Content Include="src\views\search\searchinput.html" />
+    <Content Include="src\views\search\searchinput.js" />
+    <Content Include="test\api\crm.authenticateAsync.spec.js" />
+    <Content Include="test\api\crm.getAdditionalRevenueDetailsAsync.spec.js" />
+    <Content Include="test\api\crm.getCategoriesAsync.spec.js" />
+    <Content Include="test\api\crm.getCountryFormatsAsync.spec.js" />
+    <Content Include="test\api\crm.getDefaultCountryAsync.spec.js" />
+    <Content Include="test\api\crm.getCountriesListAsync.spec.js" />
+    <Content Include="test\api\crm.getConstituentSearchResultsAsync.spec.js" />
+    <Content Include="test\api\crm.getStatesListAsync.spec.js" />
+    <Content Include="test\api\crm.getContactMethodsAsync.spec.js" />
+    <Content Include="test\api\crm.getContactReportPreloadAsync.spec.js" />
+    <Content Include="test\api\crm.getDatabaseName.spec.js" />
+    <Content Include="test\api\crm.getLocationsAsync.spec.js" />
+    <Content Include="test\api\crm.getPlansAsync.spec.js" />
+    <Content Include="test\api\crm.getPlanStagesAsync.spec.js" />
+    <Content Include="test\api\crm.getPortfolioAsync.spec.js" />
+    <Content Include="test\api\crm.getPotentialParticipantsAsync.spec.js" />
+    <Content Include="test\api\crm.getPotentialSolicitorsAsync.spec.js" />
+    <Content Include="test\api\crm.getProspectInfoAsync.spec.js" />
+    <Content Include="test\api\crm.getAddressesListAsync.spec.js" />
+    <Content Include="test\api\crm.getProspectSummaryAsync.spec.js" />
+    <Content Include="test\api\crm.getRecentGiftsAndCreditsAsync.spec.js" />
+    <Content Include="test\api\crm.getRecentStepsAsync.spec.js" />
+    <Content Include="test\api\crm.getSearchListInformationAsync.spec.js" />
+    <Content Include="test\api\crm.getSitesAsync.spec.js" />
+    <Content Include="test\api\crm.getStatusCodesAsync.spec.js" />
+    <Content Include="test\api\crm.getSubcategoriesAsync.spec.js" />
+    <Content Include="test\api\crm.initialize.spec.js" />
+    <Content Include="test\api\crm.getPortfolioSettingsAsync.spec.js" />
+    <Content Include="test\api\crm.productIsInstalledAsync.spec.js" />
+    <Content Include="test\components\list.html.spec.js" />
+    <Content Include="test\components\list.spec.js" />
+    <Content Include="test\components\listtoolbar.spec.js" />
+    <Content Include="test\helpers.js" />
+    <Content Include="test\locales\skyoverrides.spec.js" />
+    <Content Include="test\utils\mapping.spec.js" />
+    <Content Include="test\utils\prospects.spec.js" />
+    <Content Include="test\utils\scroll.spec.js" />
+    <Content Include="test\views\addresses\addressesmodal.spec.js" />
+    <Content Include="test\views\addresses\addressesmodal.html.spec.js" />
+    <Content Include="test\views\contactreport\contactreport.html.spec.js" />
+    <Content Include="test\views\portfolio.html.spec.js" />
+    <Content Include="test\views\prospects\prospect.html.spec.js" />
+    <Content Include="test\views\prospects\prospect.spec.js" />
+    <Content Include="test\views\prospects\prospectlist.html.spec.js" />
+    <Content Include="test\utils\browser.spec.js" />
+    <Content Include="test\utils\infinity.spec.js" />
+    <Content Include="test\utils\polyfill.spec.js" />
+    <Content Include="test\views\prospects\prospectlist.spec.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gruntfile.js" />
+    <Content Include="README.txt" />
+    <Content Include="src\utils\Debugging.js" />
+    <Content Include="src\utils\slug.js" />
+    <Content Include="src\modules.js" />
+    <Content Include="src\utils\browser.js" />
+    <Content Include="src\utils\infinity.js" />
+    <Content Include="src\dependencies.js" />
+    <Content Include="src\images\favicon.ico" />
+    <Content Include="src\index.html" />
+    <Content Include="src\index.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test\views\prospects\tiles\recentgiftsandcredits.html.spec.js" />
+    <Content Include="test\views\prospects\tiles\recentgiftsandcredits.spec.js" />
+    <Content Include="test\views\prospects\tiles\recentsteps.html.spec.js" />
+    <Content Include="test\views\prospects\tiles\recentsteps.spec.js" />
+    <Content Include="test\views\prospects\tiles\summaryInformation.html.spec.js" />
+    <Content Include="test\views\prospects\tiles\summaryInformation.spec.js" />
+    <Content Include="test\views\prospects\tiles\upcomingsteps.html.spec.js" />
+    <Content Include="test\views\prospects\tiles\upcomingsteps.spec.js" />
+    <Content Include="trx.xdt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\utils\mockable.js" />
+    <Content Include="test\utils\mockable.spec.js" />
+    <Content Include="test\utils\slug.spec.js" />
+    <Content Include="test\index.angular.spec.js" />
+    <Content Include="src\locales\template.js" />
+    <Content Include="src\views\prospects\prospect.html" />
+    <Content Include="src\views\prospects\prospect.js" />
+    <Content Include="src\resources.js" />
+    <Content Include="src\views\prospects\prospectlist.html" />
+    <Content Include="src\views\prospects\prospectlist.js" />
+    <Content Include="src\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\removehandler.web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="postbuild.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".jscsrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".jshintrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test\Chutzpah.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\locales\resources_en_US.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\locales\skyoverrides_resources_en_US.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\scss\app.scss" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>12173</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:12173/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>$(ProjectDir)postbuild.bat</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

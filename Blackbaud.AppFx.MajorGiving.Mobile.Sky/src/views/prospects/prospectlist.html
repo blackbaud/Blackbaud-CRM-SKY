@@ -1,0 +1,63 @@
+﻿<div bb-frog-testid="prospectListWrapper">
+    <div class="frog-top-padding">
+        <div bb-frog-testid="prospectList" ng-if="!prospectList.loadError">
+            <uib-tabset active="page.tabIndex">
+                <!--My portfolio tab-->
+                <uib-tab bb-frog-testid="title" class="frog-fixed-tab" index="0" heading="{{portfolioCount}}" ng-click="page.tabIndex = 0;$state.go('prospects.myportfolio')"></uib-tab>
+                <!--Search tab-->
+                <uib-tab class="frog-fixed-tab" index="1" heading="{{::resources.search_all}}" ng-click="page.tabIndex = 1;$state.go('prospects.myportfolio.searchinput')"></uib-tab>
+            </uib-tabset>
+            <!--My portfolio tab content-->
+            <div class="container-fluid frog-white-background" ng-if="page.portfolioActive">
+                <div bb-frog-testid="prospectListRow" class="row">
+                    <frog-list frog-list-options="toolbarOptions">
+                        <div class="bb-filters-inline">
+                            <div class="row">
+                                <div class="form-group col-xs-12 col-sm-6 col-lg-3">
+                                    <select ng-model="toolbarOptions.filters.prospectsFilter" bb-frog-testid="prospectsFilter" class="form-control">
+                                        <option value="">{{::resources.portfolio_filter_allprospects}}</option>
+                                        <option value="optionPrimary">{{::resources.portfolio_filter_primaryprospects}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <frog-list-contents>
+                            <div>
+                                <bb-repeater bb-frog-testid="listContents" ng-if="prospectList.data.prospects.length">
+                                    <bb-repeater-item ng-repeat="prospect in prospectList.data.prospects" data-bbauto-index="{{$index}}">
+                                        <bb-repeater-item-content>
+                                            <div class="frog-top-padding frog-bottom-padding">
+                                                <div class="pull-left frog-prospectlist-name">
+                                                    <a class="bb-emphasized frog-blue-color" ui-sref="prospects.prospect({prospectId: prospectList.getProspectIdWithSlug(prospect)})">{{prospect.name}}</a>
+                                                </div>
+                                                <div class="pull-right">
+                                                    <span bb-frog-testid="nextStepLabel" class="label" ng-if="prospect.labelClass" ng-class="prospect.labelClass">{{::prospect.nextStep}}</span>
+                                                    <span bb-frog-testid="nextStepDate" ng-if="!prospect.labelClass">{{::prospect.nextStep}}</span>
+                                                </div>
+                                            </div>
+                                            <br />
+                                        </bb-repeater-item-content>
+                                    </bb-repeater-item>
+                                </bb-repeater>
+                                <div class="frog-emptylist" bb-frog-testid="emptyList" ng-if="!prospectList.data.prospects.length">
+                                    <span class="fa fa-lock frog-emptylist-icon" />
+                                    <span class="frog-emptylist-text">{{::resources.portfolio_nosearchresults}}</span>
+                                </div>
+                            </div>
+                        </frog-list-contents>
+                    </frog-list>
+                </div>
+            </div>
+            <!--Search tab content-->
+            <div class="frog-white-background" ng-if="!page.portfolioActive">
+                <div ui-view="searchinput"></div>
+            </div>
+        </div>
+        <div bb-frog-testid="listError" ng-if="prospectList.loadError">
+            <div class="center-block">
+                <h4 bb-frog-testid="errorMessage">{{::prospectList.loadError}}</h4>
+                <img src="images/sky/broken.svg" class="frog-empty-icon" />
+            </div>
+        </div>
+    </div>
+</div>
