@@ -105,10 +105,8 @@
                                 class="form-control"></select>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="category"
-                            ng-class="{'required' : locals.isCategoryRequired() }">{{frogResources.category}}</label>
+                        <label class="control-label" for="category">{{frogResources.category}}</label>
                         <select ng-model="locals.selectedCategory" name="category"
-                                ng-required="locals.isCategoryRequired()"
                                 ng-options="category.id as category.name for category in locals.categories"
                                 class="form-control">
                             <option value="" selected></option>

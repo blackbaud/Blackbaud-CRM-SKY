@@ -8,13 +8,13 @@
     var noop = angular.noop;
 
     angular.module("frog.frogApi")
-        .factory("apiPortfolio", ["bbuiShellService", "frogResources", "prospectUtilities", "infinityCache", "bbui", "$q", "infinityUtilities", 'customizable',
-            function (bbuiShellService, frogResources, prospectUtilities, infinityCache, bbui, $q, infinityUtilities, customizable) {
+        .factory("apiPortfolio", ["bbuiShellService", "frogResources", "prospectUtilities", "infinityCache", "bbui", "$q", "infinityUtilities",
+            function (bbuiShellService, frogResources, prospectUtilities, infinityCache, bbui, $q, infinityUtilities) {
 
                 var svc,
                     FUNDRAISER_IDMAP_ID = 'C606C99A-FE2F-4F3E-AB48-3F4463344E92', // AppUser.Fundraiser.IDMapper.xml
                     MYPORTFOLIOSETTINGS_VIEW_ID = "cc816f72-b91e-452c-b715-aa15a676e98d", // FundraiserPortfolio.Mobile.DataList.Settings.View.xml
-                    MYPORTFOLIO_DATALIST_ID = customizable.getMyPortfolioDatalistId();
+                    MYPORTFOLIO_DATALIST_ID = "da329c8b-773c-4501-8329-77047018f6a9"; // FundraiserPortfolio.Mobile.DataList.xml;
 
                 /**
                  * Transforms data list load results to an array of prospects.
@@ -42,7 +42,7 @@
                         var prospectValues = row.values;
 
                         prospects.push({
-                            name: customizable.getProspectName(prospectValues),
+                            name: prospectUtilities.getFullName(frogResources, prospectValues[2], prospectValues[1]),
                             id: prospectValues[0].toUpperCase(),
                             nextStepDate: prospectValues[3]
                         });

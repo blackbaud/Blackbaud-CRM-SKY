@@ -9,8 +9,7 @@
         .module('frog')
         .controller('ContactReportController', ContactReportController);
 
-    ContactReportController.$inject = ['$scope', 'frogApi', 'frogResources', '$uibModalInstance', 
-    'prospectUtilities', 'bbMoment', 'options', 'customizable'];
+    ContactReportController.$inject = ['$scope', 'frogApi', 'frogResources', '$uibModalInstance', 'prospectUtilities', 'bbMoment', 'options'];
 
     /**
      * The contact report form. This form performs a variety of functions. It enables users to add and edit steps and interactions.
@@ -32,8 +31,7 @@
      * @param {String} options.stepInfo.planName The name of the prospect plan associated with the next step for the prospect.
      * @param {frog.util.prospectUtilities.PlanType} options.stepInfo.planType The prospect/stewardship plan type.
      */
-    function ContactReportController($scope, frogApi, frogResources, $uibModalInstance, prospectUtilities, 
-        bbMoment, options, customizable) {
+    function ContactReportController($scope, frogApi, frogResources, $uibModalInstance, prospectUtilities, bbMoment, options) {
 
         options = options || {};
         options.stepInfo = options.stepInfo || {};
@@ -118,10 +116,6 @@
                 label: frogResources.contactReport_otherAction_addCompletedInteraction
             }
         ];
-
-        function isCategoryRequired() {
-            return customizable.categoryRequired(locals.selectedStatus, currentPlanType);
-        }
 
         function setUpForPlan(planType) {
             currentPlanType = planType;
@@ -802,8 +796,7 @@
                 otherActions: otherActions,
                 restoreDefaults: restoreDefaults,
                 saveForm: saveForm,
-                selectedActionOption: null,
-                isCategoryRequired: isCategoryRequired
+                selectedActionOption: null
             };
 
             if (options.fileContactReport && !options.stepInfo.stepId) {

@@ -2,40 +2,36 @@
 
 /*global angular */
 
+/* This file, meant to be used in tandem with crm.customizable.js, names customizable components within Fundraiser on the Go.
+ * Here, specify the desired behavior of properties/functions as you want them to behave in your custom application.
+ * The alternate version of the same property/function must appear in crm.customizable.js.
+ */
 (function () {
     'use strict';
 
     angular.module("frog.frogApi")
-        .factory('customizable', ['customizableRoot', 'apiContactReportOptions', function (customizableRoot, apiContactReportOptions) {
+        .factory('customizable', ['customizableRoot', function (customizableRoot) {
             return {
 
-                // getRootFolder: customizableRoot.getRootFolder,
+                /**
+                 * Gets the name of the application's root folder. Corresponds to customizableRoot.getRootFolder.
+                 * 
+                 * Do not remove this function.
+                 */
                 getRootFolder: function () {
                     return 'frogger';
                 },
 
-                // isCustomApp: customizableRoot.isCustomApp,
+                /**
+                 * Gets a value indicating whether or not this is a custom application. Corresponds to customizableRoot.isCustomApp.
+                 * 
+                 * Do not remove this function.
+                 */
                 isCustomApp: function () {
                     return true;
                 },
 
-                // getMyPortfolioDatalistId: customizableRoot.getMyPortfolioDatalistId,
-                getMyPortfolioDatalistId: function () {
-                    return '021dfdcb-c901-4a72-8b4c-7cea05d6d01b'; // CustomPortfolio.DataList.xml
-                },
-
-                // categoryRequired: customizableRoot.categoryRequired,
-                categoryRequired: function (selectedStatus, currentPlanType) {
-                    if (selectedStatus === apiContactReportOptions.getCompletedStatusCode(currentPlanType)) {
-                        return true;
-                    }
-                    return false;
-                },
-
-                // getProspectName: customizableRoot.getProspectName
-                getProspectName: function (prospectValues) {
-                    return prospectValues[1] + ' - ' + prospectValues[2];
-                }
+                // Add other custom components here.
             };
         }]);
 
