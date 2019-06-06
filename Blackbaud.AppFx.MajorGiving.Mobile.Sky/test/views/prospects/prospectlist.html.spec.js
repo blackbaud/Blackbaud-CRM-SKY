@@ -46,8 +46,6 @@
 
         testUtils.checkHtml(formDOM);
 
-        // TODO check expected state here rather than in each test individually
-
     }
 
     beforeEach(function () {
@@ -168,7 +166,7 @@
 
         });
 
-        it('shows empty list when there are no primary prospects. WI# 661908', function () {
+        it('shows empty list when there are no primary prospects', function () {
 
             var formDOM;
 

@@ -94,10 +94,10 @@
     <Content Include="src\images\frog-upset.png" />
     <Content Include="src\index.angular.js" />
     <Content Include="src\lib\fallback.js" />
-    <Content Include="src\utils\mapping.js" />
+    <Content Include="src\utils\frog\mapping.js" />
+    <Content Include="src\utils\frog\prospects.js" />
+    <Content Include="src\utils\frog\scroll.js" />
     <Content Include="src\utils\polyfill.js" />
-    <Content Include="src\utils\prospects.js" />
-    <Content Include="src\utils\scroll.js" />
     <Content Include="src\views\addresses\addressesmodal.html" />
     <Content Include="src\views\addresses\addressesmodal.js" />
     <Content Include="src\views\contactreport\interactionpicker.html" />
@@ -123,7 +123,7 @@
     <Content Include="test\api\crm.getCountryFormatsAsync.spec.js" />
     <Content Include="test\api\crm.getDefaultCountryAsync.spec.js" />
     <Content Include="test\api\crm.getCountriesListAsync.spec.js" />
-    <Content Include="test\api\crm.getConstituentSearchResultsAsync.spec.js" />
+    <Content Include="test\api\crm.getSearchResultsAsync.spec.js" />
     <Content Include="test\api\crm.getStatesListAsync.spec.js" />
     <Content Include="test\api\crm.getContactMethodsAsync.spec.js" />
     <Content Include="test\api\crm.getContactReportPreloadAsync.spec.js" />
@@ -170,10 +170,7 @@
     <Content Include="gruntfile.js" />
     <Content Include="README.txt" />
     <Content Include="src\utils\Debugging.js" />
-    <Content Include="src\utils\slug.js" />
     <Content Include="src\modules.js" />
-    <Content Include="src\utils\browser.js" />
-    <Content Include="src\utils\infinity.js" />
     <Content Include="src\dependencies.js" />
     <Content Include="src\images\favicon.ico" />
     <Content Include="src\index.html" />
@@ -194,7 +191,6 @@
     <Content Include="trx.xdt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\utils\mockable.js" />
     <Content Include="test\utils\mockable.spec.js" />
     <Content Include="test\utils\slug.spec.js" />
     <Content Include="test\index.angular.spec.js" />

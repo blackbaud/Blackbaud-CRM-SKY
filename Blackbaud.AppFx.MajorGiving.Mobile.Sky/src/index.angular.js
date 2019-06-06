@@ -199,7 +199,7 @@
                 message = error.message || "";
             }
 
-            // Error message from bbui-angular. WI# 669988.
+            // Error message from bbui-angular.
             if (message === "You must either provide a baseUrl and databaseName as parameters or set them globally using bbuiShellServiceConfig.") {
                 $scope.startError = frogResources.error_url;
             } else {

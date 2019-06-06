@@ -41,18 +41,6 @@ describe('Grid toolbars', function () {
         $rootScope.$digest();
     }
 
-    //function clickSortButton() {
-
-    //    var sortButtonEl = el.find('.frog-sort-btn');
-    //    expect(sortButtonEl).toBeVisible("sort button should be visible");
-
-    //    sortButtonEl.click();
-
-    //    $animate.flush();
-    //    $scope.$digest();
-
-    //}
-
     beforeEach(module('ngMock'));
     beforeEach(module(
         'ngAnimateMock',
@@ -216,17 +204,11 @@ describe('Grid toolbars', function () {
             $scope.locals.gridOptions.filtersAreActive = true;
             $scope.$digest();
 
-
-            //expect(filterButtonEl).toHaveClass('bb-filters-inline-active');
-
             expect($scope.locals.gridOptions.filters.check).toBe(true);
-
-
+            
             $scope.locals.gridOptions.filters.check = false;
             $scope.locals.gridOptions.filtersAreActive = false;
             $scope.$digest();
-
-            //expect(filterButtonEl).not.toHaveClass('bb-filters-inline-active');
 
             expect($scope.locals.gridOptions.filters.check).toBe(false);
 
@@ -242,104 +224,6 @@ describe('Grid toolbars', function () {
         });
 
     });
-
-    //describe("sort", function () {
-
-    //    it("TODO", function () {
-
-    //        var sortDropdownEl,
-    //            //sortOption1El,
-    //            //sortOption2El,
-    //            controller;
-
-    //        options.hideFilters = true;
-
-    //        options.hideSort = false;
-
-    //        options.sortOptionSelected = jasmine.createSpy("sortOptionSelected spy")/*.and.callFake(function (i) {
-    //            console.log("sortOptionSelected " + i);
-    //        })*/;
-
-    //        options.sortOptions = [
-    //            {
-    //                title: "Option 1",
-    //                selected: true
-    //            },
-    //            {
-    //                title: "Option 2"
-    //            }
-    //        ];
-
-
-    //        setOptions(options);
-
-    //        el = setUpGrid(basicGridHtml, locals);
-    //        controller = el.controller("frogList");
-
-    //        sortDropdownEl = el.find('[bb-frog-testid="sortDropdown"]');
-    //        //sortOption1El = el.find("[bb-frog-testid='sortItem'][data-bbauto-index=0]>li>a");
-    //        //sortOption2El = el.find("[bb-frog-testid='sortItem'][data-bbauto-index=1]>li>a");
-
-    //        //expect($scope.locals.gridOptions.sortOpen).not.toBeDefined("sort menu should be closed to start");
-    //        expect($scope.locals.gridOptions.sortOpen).toBe(false, "sort menu should be closed to start");
-    //        //expect(el.find(".frog-list-toolbar-contextmenu")).not.toBeVisible("sort menu visible upon creation")
-    //        expect(el.find(".frog-list-toolbar-contextmenu")).not.toHaveClass("open");
-    //        //expect(sortDropdownEl).not.toBeVisible("sort menu visible upon creation");
-    //        //expect(sortOption1El).not.toBeVisible("sort menu option visible upon creation");
-    //        //expect(sortOption2El).not.toBeVisible("sort menu option visible upon creation");
-    //        expect(locals.gridOptions.sortOptionSelected.calls.count()).toBe(0, "sortOptionSelected");
-
-    //        console.log("Clicking");
-    //        clickSortButton();
-
-    //        //console.log("html: " + el.html());
-    //        console.log("class: " + el.find(".frog-list-toolbar-contextmenu").attr("class"));
-
-    //        console.log("test options: " + JSON.stringify($scope.locals.gridOptions));
-
-    //        expect($scope.locals.gridOptions.sortOpen).toBe(true, "sort menu should be open after button is clicked");
-    //        //// TODO ChristineVi I can't figure out how to test if the dropdown is open.
-    //        //// I don't see any examples in SKY tests that do this.
-    //        //// Spent too much time on it already, hope to come back to it later.
-    //        //expect(sortDropdownEl).toBeVisible("sort menu not visible after button is clicked");
-    //        expect(el.find(".frog-list-toolbar-contextmenu")).toHaveClass("open");
-    //        ////expect(sortOption1El).toBeVisible("sort menu option should be visible");
-    //        ////expect(sortOption2El).toBeVisible("sort menu option should be visible");
-    //        ////expect(sortDropdownEl).toBeVisible();
-    //        ////expect(sortOption1El).toHaveClass("in");
-    //        ////expect(el.find('div.frog-list-toolbar-contextmenu.dropdown').length).toBe(1);
-    //        ////expect(el.find('ul.dropdown-menu')).toBeVisible();
-
-    //        //sortOption2El.click();
-    //        //$scope.locals.gridOptions.sortOptions[0].selected = false;
-    //        //$scope.locals.gridOptions.sortOptions[1].selected = true;
-    //        //$scope.locals.gridOptions.sortIsActive = true;
-    //        ////$animate.flush();
-    //        //$scope.$digest();
-
-
-    //        //expect(sortButtonEl).toHaveClass('frog-sort-inline-active');
-    //        //expect(locals.gridOptions.sortOptionSelected).toHaveBeenCalledWith(1);
-
-    //        //sortOption1El.click();
-    //        //$scope.locals.gridOptions.sortOptions[0].selected = true;
-    //        //$scope.locals.gridOptions.sortOptions[1].selected = false;
-    //        //$scope.locals.gridOptions.sortIsActive = false;
-    //        //$scope.$digest();
-
-    //        //expect(sortButtonEl).not.toHaveClass('frog-sort-inline-active');
-
-    //        //sortButtonEl.click();
-
-    //        //$scope.$digest();
-
-    //        //expect(sortDropdownEl).not.toBeVisible();
-
-    //        //expect($scope.locals.gridOptions.sortOpen).toBe(false, "sort menu should be closed after button is clicked");
-
-    //    });
-
-    //});
 
     describe('searching', function () {
         it('sets searchText on search', function () {

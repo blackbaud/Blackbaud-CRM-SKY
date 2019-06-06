@@ -146,8 +146,6 @@
 
                 expect($scope.sessionInfo).toEqual(userInfo);
 
-                // TODO end page wait
-
             });
 
             it("authenticate failure sets error message", function () {

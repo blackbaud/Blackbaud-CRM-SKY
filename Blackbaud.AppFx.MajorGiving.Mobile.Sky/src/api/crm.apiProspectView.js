@@ -396,8 +396,6 @@
                                             // This trick determines if you have a whole number, and if so, don't include decimal padding.
                                             aPad: amount % 1 !== 0
                                         }
-                                        // TODO: decimal digits and rounding type?
-                                        // autonumeric doesn't look to support Infinity Currency rounding options
                                     });
                                 }
 
@@ -575,8 +573,6 @@
                                             // This trick determines if you have a whole number, and if so, don't include decimal padding.
                                             aPad: amount % 1 !== 0
                                         }
-                                        // TODO: decimal digits and rounding type?
-                                        // autonumeric doesn't look to support Infinity Currency rounding options
                                     });
                                 }
 

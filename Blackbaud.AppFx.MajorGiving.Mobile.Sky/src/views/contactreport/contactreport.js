@@ -202,7 +202,6 @@
                     locals.potentialSolicitors = solicitors;
                 })
                 .catch(function (error) {
-                    // WI# 673039
                     console.warn("Potential solicitors failed to load: " + error.message);
                 })
                 .finally(function () {
@@ -323,7 +322,6 @@
                     }
                 })
                 .catch(function (error) {
-                    // WI# 673039
                     console.warn("Contact methods failed to load: " + error.message);
                 })
                 .finally(decrementLoading);
@@ -337,7 +335,6 @@
                     locals.planStages = response.planStages;
                 })
                 .catch(function (error) {
-                    // WI# 673039
                     console.warn("Plan stages failed to load:" + error.message);
                 })
                 .finally(decrementLoading);
@@ -351,7 +348,6 @@
                     locals.categories = response.categories;
                 })
                 .catch(function (error) {
-                    // WI# 673039
                     console.warn("Categories failed to load: " + error.message);
                 })
                 .finally(decrementLoading);
@@ -365,7 +361,6 @@
                     locals.locations = response.locations;
                 })
                 .catch(function (error) {
-                    // WI# 673039
                     console.warn("Locations failed to load: " + error.message);
                 })
                 .finally(decrementLoading);
@@ -380,7 +375,6 @@
                         locals.plans = response.plans;
                     })
                     .catch(function (error) {
-                        // WI# 673039
                         console.warn("Plans failed to load: " + error.message);
                     })
                     .finally(decrementLoading);
@@ -399,7 +393,6 @@
                         }
                     })
                     .catch(function (error) {
-                        // WI# 673039
                         console.warn("Statuses failed to load: " + error.message);
                     })
                     .finally(decrementLoading);
@@ -645,7 +638,6 @@
                                     matchLocation(response.location);
                                 })
                                 .catch(function (error) {
-                                    // WI# 673039
                                     console.warn("Locations failed to load: " + error.message);
                                 })
                                 .finally(decrementLoading);
@@ -819,7 +811,6 @@
                             locals.subcategories = response.subcategories;
                         })
                         .catch(function (error) {
-                            // WI# 673039
                             console.warn("Failed to load subcategories: " + error.message);
                         })
                         .finally(decrementLoading);

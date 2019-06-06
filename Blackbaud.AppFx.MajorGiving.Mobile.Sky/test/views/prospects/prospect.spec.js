@@ -1,13 +1,6 @@
 ﻿/*jshint jasmine: true */
 /*globals module, inject, setTimeout, angular */
 
-// TODO WI# 673039
-// File a contact report button is disabled when user does not have rights
-// $scope.openContactReport does not error with missing options param
-// $scope.openContactReport does not error with null options param
-// $scope.openContactReport does not error with {} options param
-// $scope.openContactReport calls bbModal.open with expected parameters
-
 (function () {
     'use strict';
     

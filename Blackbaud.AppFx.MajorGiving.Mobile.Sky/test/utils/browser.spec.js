@@ -99,10 +99,6 @@
 
             });
 
-            // TODO
-            // We don't support this at this time. We probably should be there's no real need at this time.
-            // This could break something if a user has this (valid value) in their query string but
-            // right now there's no way that I know of for that to get there without them editing the URL.
             xit("works with query parameter with no value", function () {
 
                 windowLocation.href = "http://MockHost/MockPath/sky/frog/?someKey";

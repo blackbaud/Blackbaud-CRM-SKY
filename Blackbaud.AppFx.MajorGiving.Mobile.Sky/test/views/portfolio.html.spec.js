@@ -41,8 +41,6 @@
 
         testUtils.checkHtml(formDOM);
 
-        // TODO check expected state here rather than in each test individually
-
     }
 
     beforeEach(function () {

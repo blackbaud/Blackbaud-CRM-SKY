@@ -150,7 +150,6 @@
                 $timeout.flush();
             });
 
-            //not sure if this should pass?
             it("does not error with null IDs", function (done) {
                 details = {
                     countryId: null

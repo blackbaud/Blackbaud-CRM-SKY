@@ -1,11 +1,6 @@
 ﻿/*jshint jasmine: true */
 /*globals module, inject, angular, $ */
 
-// TODO WI# 673063
-// Add step button click triggers appropriate action with appropriate params
-// TODO WI# 673067
-// Add interaction button click triggers appropriate action with appropriate params
-
 (function () {
     'use strict';
 

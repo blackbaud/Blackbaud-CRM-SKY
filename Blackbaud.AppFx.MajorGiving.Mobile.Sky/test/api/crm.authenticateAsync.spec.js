@@ -322,9 +322,6 @@
 
         xit("WS Federation triggers correct behavior", function (done) {
 
-            //TODO set WWW-Authenticate=Bearer
-            //and implement in code
-
             sessionStartIsSuccessful = false;
             sessionStartFailureStatus = 404;
 

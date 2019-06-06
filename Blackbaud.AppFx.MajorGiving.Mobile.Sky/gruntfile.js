@@ -13,8 +13,7 @@ module.exports = function (grunt) {
         initialForceState = grunt.option("force"),
         testResultsFolder,
         isCrmInstallation = true,
-        isChristi = true,
-        vroot = isChristi ? '' : 'CRM_SP_DEV/';
+        vroot = '';
 
     console.log("Running Blackbaud.AppFx.MajorGiving.Mobile.Sky/gruntfile.js");
     console.log("IsDesktopBuild: " + isDesktopBuild);
@@ -47,8 +46,6 @@ module.exports = function (grunt) {
     }
 
     function getDestinationFolder(isCustomApp, rootFolder) {
-        // Leslie: C:/Program Files/Blackbaud/CRM_SP_DEV/bbappfx/vroot/sky/
-        // Christi: C:/Program Files/Blackbaud/bbappfx/vroot/sky/
         var result = (isCrmInstallation ? 'C:/Program Files/Blackbaud/' + vroot + 'bbappfx/vroot/' : '../../../../Blackbaud.AppFx.Server/Deploy/') + (isCustomApp ? 'browser/htmlforms/custom/' : 'sky/') + rootFolder;
         return result;
     }
@@ -266,16 +263,6 @@ module.exports = function (grunt) {
                     ]
                 }
             }
-            //tests: {
-            //    files: {
-            //        'test/unittests.js': [
-            //            'test/helpers.js',
-            //            'test/index.angular.spec.js',
-            //            'test/**/*.js',
-            //            '!test/unittests.*'
-            //        ]
-            //    }
-            //}
         },
         uglify: {
             options: {
@@ -295,10 +282,6 @@ module.exports = function (grunt) {
                 src: ['<%= buildPath %>/js/dependencies-bundle.js'],
                 dest: '<%= buildPath %>/js/dependencies-bundle.min.js'
             }
-            //tests: {
-            //    src: ['test/unittests.js'],
-            //    dest: 'test/unittests.min.js'
-            //}
         },
         copy: getCopyFiles(),
         sass: {
@@ -337,24 +320,6 @@ module.exports = function (grunt) {
             },
             all: jsHintFiles
         },
-        //watch: {
-        //    sass: {
-        //        files: ['src/scss/*.scss'],
-        //        tasks: ['sass']
-        //    },
-        //    scripts: {
-        //        files: ['src/**/*.js'],
-        //        tasks: ['concat_sourcemap:app', 'copy:js']
-        //    },
-        //    html: {
-        //        files: ['src/index.html'],
-        //        tasks: ['copy:html']
-        //    },
-        //    templates: {
-        //        files: ['src/views/**/*.html'],
-        //        tasks: ['html2js', 'concat_sourcemap:app', 'copy:js']
-        //    }
-        //},
         exec: {
             chutzpah: '"packages/Chutzpah.4.2.3/tools/chutzpah.console.exe" test /coverage /coveragehtml "' +
                 testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.coverage.html" /coveragejson "' +
@@ -392,7 +357,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-sass');
-    //grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-concat-sourcemap');
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -424,13 +388,10 @@ module.exports = function (grunt) {
         }
     });
 
-    // Make this a separate task. Because we are using the CDN, it may start failing if new checks are added.
-    // TODO it would be ideal to host the version that matches the SKY UX version we are using and always check against that.
-    // In the meantime, expect developers to run this lint task occasionally.
+    // Make this a separate task. Because we are using the CDN, it may start failing if new checks are added. We expect developers to run this lint task occasionally.
     grunt.registerTask('bbskylint', ['skylint']);
     grunt.registerTask('default', ['defaultcommon', 'copybuiltin']);
-    grunt.registerTask('defaultcommon', ['html2js', 'localize', 'concat_sourcemap:app', 'concat_sourcemap:dependencies',
-    'uglify:app', 'uglify:dependencies', 'sass', 'copy:fonts']);
+    grunt.registerTask('defaultcommon', ['html2js', 'localize', 'concat_sourcemap:app', 'concat_sourcemap:dependencies', 'uglify:app', 'uglify:dependencies', 'sass', 'copy:fonts']);
     grunt.registerTask('copybuiltin', ['copy:jsbuiltin', 'copy:htmlbuiltin', 'copy:cssbuiltin', 'copy:imagesbuiltin', 'copy:crmbuiltin']);
     grunt.registerTask('copycustom', ['copy:jscustom', 'copy:htmlcustom', 'copy:csscustom', 'copy:imagescustom', 'copy:crmcustom']);
     if (isDesktopBuild) {
@@ -442,11 +403,6 @@ module.exports = function (grunt) {
         grunt.registerTask('lint', ['jshint', 'jscs']);
         grunt.registerTask('build', ['default']);
     }
-    //grunt.registerTask('visualtest', ['cleanupwebdrivertestfixtures', 'cleanupworkingscreenshots', 'buildwebdrivertestfixtures', 'connect:webdrivertest', 'webdriver:test', 'cleanupwebdrivertestfixtures', 'cleanupworkingscreenshots']);
-    //grunt.registerTask('docs', ['stache_jsdoc', 'status:demo/build', 'stache', 'copy:demo']);
-    grunt.registerTask('test', ['lint', //'concat_sourcemap:tests', 'uglify:tests',
-        "mkdir:" + testResultsFolder, "force:on", "exec:chutzpah", "xdt:trx", "force:restore"/*, 'visualtest', 'docs'*/]);
+    grunt.registerTask('test', ['lint', "mkdir:" + testResultsFolder, "force:on", "exec:chutzpah", "xdt:trx", "force:restore"]);
     grunt.registerTask('buildandtest', ['build', 'test']);
-    //grunt.registerTask('watch', ['build', 'karma:watch:start', 'watchNoConflict']);
-
 };

@@ -262,7 +262,7 @@
 
                 });
 
-                it("no primary prospects sets expected values. WI# 661908", function (done) {
+                it("no primary prospects sets expected values", function (done) {
 
                     primaryProspects = [];
 
@@ -584,7 +584,7 @@
 
                 });
 
-                it("counts correctly for multiple matches. WI# 652918", function () {
+                it("counts correctly for multiple matches", function () {
 
                     prospects = [
                         {
@@ -638,14 +638,15 @@
 
                 it("restores the portfolio when searching and filtering together", function () {
 
-                    // Open portfolio
-                    // Search to return one prospect who is not in primary portfolio
-                    // Filter to primary
-                    // Filter to all
-                    // Filter to primary
-                    // Filter to all
-                    // Remove search text
-                    // Filter to primary
+                    /* Open portfolio
+                     * Search to return one prospect who is not in primary portfolio
+                     * Filter to primary
+                     * Filter to all
+                     * Filter to primary
+                     * Filter to all
+                     * Remove search text
+                     * Filter to primary
+                     */
 
                     prospects = [
                         {
@@ -762,14 +763,15 @@
 
                 it("restores the portfolio when searching and sorting together", function () {
 
-                    // Open portfolio
-                    // Search to return reduced portfolio
-                    // Sort by next step
-                    // Sort by last date
-                    // Sort by next step
-                    // Sort by last date
-                    // Remove search text
-                    // Sort by next step
+                    /* Open portfolio
+                     * Search to return reduced portfolio
+                     * Sort by next step
+                     * Sort by last date
+                     * Sort by next step
+                     * Sort by last date
+                     * Remove search text
+                     * Sort by next step
+                     */
 
                     prospects = [
                         {

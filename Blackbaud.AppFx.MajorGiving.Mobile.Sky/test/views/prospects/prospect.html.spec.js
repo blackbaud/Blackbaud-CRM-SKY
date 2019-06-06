@@ -1,10 +1,6 @@
 ﻿/*jshint jasmine: true */
 /*globals module, inject, angular, $ */
 
-// TODO WI# 673039
-// File a contact report button click triggers appropriate action with appropriate params
-// File a contact report button is disabled when user does not have rights
-
 (function () {
     'use strict';
 

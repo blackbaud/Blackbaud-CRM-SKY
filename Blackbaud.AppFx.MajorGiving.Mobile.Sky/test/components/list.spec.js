@@ -12,9 +12,6 @@
     function compileFormWithState(controllerState, listHtml) {
         controllerState = controllerState || {};
 
-        //$scope.options = {};
-        //angular.extend($scope.options, controllerState);
-
         var el,
             controller,
             scope;
@@ -130,12 +127,8 @@
                         "<frog-list><frog-list-contents></frog-list-contents></frog-list>"
                     );
 
-                    // TODO spyOn bbViewKeeperBuilder.syncElPosition
-
                     expect(form.scope.syncViewKeepers).toBeDefined();
                     form.scope.syncViewKeepers();
-
-                    // TODO check that syncElPosition was called
 
                 });
 
@@ -152,12 +145,8 @@
                         "<frog-list><frog-list-contents></frog-list-contents></frog-list>"
                     );
 
-                    // TODO when this does something, test stuff
-
                     expect(form.controller.highlightSearchText).toBeDefined();
                     form.controller.highlightSearchText();
-
-                    // TODO when this does something, test stuff
 
                 });
 
@@ -177,8 +166,6 @@
                         "<frog-list><frog-list-contents></frog-list-contents></frog-list>"
                     );
 
-                    // TODO when this does something, test stuff
-
                     form.controller.applySearchText = function () {
                         functionCalled = true;
                     };
@@ -187,8 +174,6 @@
                     form.scope.locals.applySearchText();
 
                     expect(functionCalled).toBe(true);
-
-                    // TODO when this does something, test stuff
 
                 });
 
@@ -286,8 +271,6 @@
                     );
 
                     expect(form.scope.options.searchText).toBe("test 1");
-
-                    // TODO test stuff once it's hooked up
 
                 });
 
