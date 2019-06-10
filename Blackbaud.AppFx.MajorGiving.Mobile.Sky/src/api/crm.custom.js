@@ -10,7 +10,7 @@
     'use strict';
 
     angular.module("frog.frogApi")
-        .factory('customizable', ['customizableRoot', function (customizableRoot) {
+        .factory('customizable', ['customizableRoot', function () {
             return {
 
                 /**
@@ -29,7 +29,7 @@
                  */
                 isCustomApp: function () {
                     return true;
-                },
+                }
 
                 // Add other custom components here.
             };

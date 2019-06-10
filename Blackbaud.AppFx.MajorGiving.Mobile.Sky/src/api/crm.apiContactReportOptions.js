@@ -426,7 +426,7 @@
 
                                 participants.push({
                                     id: participantValues[0].toUpperCase(),
-                                    name: getFullName(frogResources, participantValues[1], participantValues[2])
+                                    name: prospectUtilities.getFullName(frogResources, participantValues[1], participantValues[2])
                                 });
                             });
 
