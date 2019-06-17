@@ -53,6 +53,6 @@ Follow these instructions to enable your development machine to create and exten
 
     `bower install`
     
-    `grunt buildboth`
+    `grunt buildcustom`
 
 7. Access installation by navigating to: &#60;application root&#62;/browser/htmlforms/custom/frogger&databaseName=BBInfinity

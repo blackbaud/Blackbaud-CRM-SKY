@@ -46,7 +46,22 @@ module.exports = function (grunt) {
     }
 
     function getDestinationFolder(isCustomApp, rootFolder) {
-        var result = (isCrmInstallation ? 'C:/Program Files/Blackbaud/' + vroot + 'bbappfx/vroot/' : '../../../../Blackbaud.AppFx.Server/Deploy/') + (isCustomApp ? 'browser/htmlforms/custom/' : 'sky/') + rootFolder;
+        var result = '';
+
+        if (isCrmInstallation) {
+            result += 'C:/Program Files/Blackbaud/' + vroot + 'bbappfx/vroot/';
+        } else {
+            result += '../../../../Blackbaud.AppFx.Server/Deploy/';
+        }
+
+        if (isCustomApp) {
+            result += 'browser/htmlforms/custom/';
+        } else {
+            result += 'sky/';
+        }
+
+        result += rootFolder;
+
         return result;
     }
 
@@ -388,21 +403,23 @@ module.exports = function (grunt) {
         }
     });
 
-    // Make this a separate task. Because we are using the CDN, it may start failing if new checks are added. We expect developers to run this lint task occasionally.
+    // Optionally, make this a separate task. Because we are using the CDN, it may start failing if new checks are added. We expect developers to run this lint task occasionally.
     grunt.registerTask('bbskylint', ['skylint']);
-    grunt.registerTask('default', ['defaultcommon', 'copybuiltin']);
-    grunt.registerTask('defaultcommon', ['html2js', 'localize', 'concat_sourcemap:app', 'concat_sourcemap:dependencies', 'uglify:app', 'uglify:dependencies', 'sass', 'copy:fonts']);
+
+    grunt.registerTask('default', ['html2js', 'localize', 'concat_sourcemap:app', 'concat_sourcemap:dependencies', 'uglify:app', 'uglify:dependencies', 'sass', 'copy:fonts']);
     grunt.registerTask('copybuiltin', ['copy:jsbuiltin', 'copy:htmlbuiltin', 'copy:cssbuiltin', 'copy:imagesbuiltin', 'copy:crmbuiltin']);
     grunt.registerTask('copycustom', ['copy:jscustom', 'copy:htmlcustom', 'copy:csscustom', 'copy:imagescustom', 'copy:crmcustom']);
+    
     if (isDesktopBuild) {
         grunt.registerTask('lint', ['jshint', 'jscs', 'bbskylint']);
-        grunt.registerTask('build', ['lint', 'default']);
-        grunt.registerTask('buildboth', ['lint', 'default', 'copycustom']);
-        grunt.registerTask('buildcustom', ['lint', 'defaultcommon', 'copycustom']);
+        grunt.registerTask('build', ['lint', 'default', 'copybuiltin']);
+        grunt.registerTask('buildcustom', ['lint', 'default', 'copycustom']);
     } else {
         grunt.registerTask('lint', ['jshint', 'jscs']);
-        grunt.registerTask('build', ['default']);
+        grunt.registerTask('build', ['default', 'copybuiltin']);
+        grunt.registerTask('buildcustom', ['default', 'copycustom']);
     }
+
     grunt.registerTask('test', ['lint', "mkdir:" + testResultsFolder, "force:on", "exec:chutzpah", "xdt:trx", "force:restore"]);
     grunt.registerTask('buildandtest', ['build', 'test']);
 };
