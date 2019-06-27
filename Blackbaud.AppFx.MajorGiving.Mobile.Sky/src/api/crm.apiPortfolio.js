@@ -217,26 +217,26 @@
                 /**
                  * Get search list information for the given search list.
                  *
-                 * @param {String} searchListId The search list whose information is desired.
+                 * @param {String} constituentSearchListId The search list whose information is desired.
                  *
                  * @returns {Promise<Object>} return
                  * @returns {Object[]} return.optionalFilterFields The optional filter fields in use on the search list.
                  * @returns {String} return.optionalFilterFields[].fieldId The field ID of the optional filter field.
                  */
-                function getSearchListInformationAsync(searchListId) {
+                function getConstituentSearchListInformationAsync(constituentSearchListId) {
                     var SEARCHLISTINFORMATION_VIEW_ID = "48861a67-60fe-4438-b725-0ee3418eebbf", // SearchListInformation.Mobile.View.xml
                         cacheKey,
                         cacheResult;
 
-                    if (!searchListId || typeof searchListId !== "string") {
+                    if (!constituentSearchListId || typeof constituentSearchListId !== "string") {
                         return $q.reject({
-                            message: "searchListId is required"
+                            message: "constituentSearchListId is required"
                         });
                     }
 
-                    searchListId = searchListId.toUpperCase();
+                    constituentSearchListId = constituentSearchListId.toUpperCase();
 
-                    cacheKey = "dataFormLoad-" + SEARCHLISTINFORMATION_VIEW_ID + "-" + searchListId;
+                    cacheKey = "dataFormLoad-" + SEARCHLISTINFORMATION_VIEW_ID + "-" + constituentSearchListId;
                     cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
@@ -248,7 +248,7 @@
                     return svc.dataFormLoad(
                         SEARCHLISTINFORMATION_VIEW_ID,
                         {
-                            recordId: searchListId
+                            recordId: constituentSearchListId
                         }
                     ).then(function (reply) {
                         var result = {};
@@ -292,15 +292,15 @@
                  * @returns {String} return.searchResults[].state The prospect's address' state.
                  * @returns {String} return.searchResults[].postCode The prospect's address' post/ZIP code.
                  */
-                function getSearchResultsAsync(options) {
-                    var SEARCH_DATALIST_ID = "5c14275b-01f7-44ec-9707-e076cea1d361";  // ProspectSearch.Mobile.DataList.xml
+                function getConstituentSearchResultsAsync(options) {
+                    var PROSPECTSEARCH_DATALIST_ID = "5c14275b-01f7-44ec-9707-e076cea1d361";  // ProspectSearch.Mobile.DataList.xml
 
                     options = infinityUtilities.cloneOrNew(bbui, options);
 
                     svc = bbuiShellService.create();
 
                     return svc.dataListLoad(
-                        SEARCH_DATALIST_ID,
+                        PROSPECTSEARCH_DATALIST_ID,
                         undefined,
                         options
                     )
@@ -308,30 +308,30 @@
                             var data,
                                 i,
                                 n,
-                                searchResult,
-                                searchResults = [],
+                                constituentSearchResult,
+                                constituentSearchResults = [],
                                 displayAddress;
 
                             data = {
-                                searchResults: searchResults
+                                constituentSearchResults: constituentSearchResults
                             };
 
                             for (i = 0, n = reply.data.rows.length; i < n; i++) {
-                                searchResult = reply.data.rows[i].values;
+                                constituentSearchResult = reply.data.rows[i].values;
 
                                 // Set displayAddress to use for ng-if in HTML.
-                                if (!searchResult[2] || !searchResult[3] || !searchResult[4]) {
+                                if (!constituentSearchResult[2] || !constituentSearchResult[3] || !constituentSearchResult[4]) {
                                     displayAddress = false;
                                 } else {
                                     displayAddress = true;
                                 }
 
-                                searchResults.push({
-                                    id: infinityUtilities.toUpperIdOrNullIfEmpty(searchResult[0]),
-                                    fullName: searchResult[1],
-                                    city: searchResult[2],
-                                    state: searchResult[3],
-                                    postCode: searchResult[4],
+                                constituentSearchResults.push({
+                                    id: infinityUtilities.toUpperIdOrNullIfEmpty(constituentSearchResult[0]),
+                                    fullName: constituentSearchResult[1],
+                                    city: constituentSearchResult[2],
+                                    state: constituentSearchResult[3],
+                                    postCode: constituentSearchResult[4],
                                     displayAddress: displayAddress
                                 });
                             }
@@ -600,8 +600,8 @@
                 return {
                     getPortfolioAsync: getPortfolioAsync,
                     getPortfolioSettingsAsync: getPortfolioSettingsAsync,
-                    getSearchListInformationAsync: getSearchListInformationAsync,
-                    getSearchResultsAsync: getSearchResultsAsync,
+                    getConstituentSearchListInformationAsync: getConstituentSearchListInformationAsync,
+                    getConstituentSearchResultsAsync: getConstituentSearchResultsAsync,
                     getCountriesListAsync: getCountriesListAsync,
                     getStatesListAsync: getStatesListAsync,
                     getDefaultCountryAsync: getDefaultCountryAsync,
