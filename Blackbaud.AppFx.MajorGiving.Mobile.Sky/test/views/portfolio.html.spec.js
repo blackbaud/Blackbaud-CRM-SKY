@@ -46,7 +46,7 @@
     beforeEach(function () {
 
         module("frog.test");
-        module('frog.frogApi');
+        module('frog.api');
 
         module(function ($provide) {
 
@@ -120,7 +120,7 @@
 
             }
 
-            $provide.value("frogApi", {
+            $provide.value("api", {
                 getDatabaseName: getDatabaseName,
                 initialize: initialize,
                 authenticateAsync: authenticateAsyncWait,

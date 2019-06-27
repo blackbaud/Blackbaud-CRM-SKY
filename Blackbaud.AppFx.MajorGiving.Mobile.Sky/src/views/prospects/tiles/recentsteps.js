@@ -7,14 +7,14 @@
         .module('frog')
         .controller('RecentStepsController', RecentStepsController);
 
-    RecentStepsController.$inject = ['$scope', 'bbMoment', 'frogApi', 'frogResources', 'prospectUtilities', 'bbModal', 'bbuiShellService', 'prospectId'];
+    RecentStepsController.$inject = ['$scope', 'bbMoment', 'api', 'frogResources', 'prospectUtilities', 'bbModal', 'bbuiShellService', 'prospectId'];
 
     /**
      * The controller for the Recent Steps/Interactions tile on the prospect page. This tile shows the five most recent steps/interactions associated with a prospect.
      * 
      * @param {String} prospectId The system ID of the prospect.
      */
-    function RecentStepsController($scope, bbMoment, frogApi, frogResources, prospectUtilities, bbModal, bbuiShellService, prospectId) {
+    function RecentStepsController($scope, bbMoment, api, frogResources, prospectUtilities, bbModal, bbuiShellService, prospectId) {
         var locals;
 
         $scope.frogResources = frogResources;
@@ -32,7 +32,7 @@
         function loadSteps() {
             locals.loading = true;
 
-            frogApi.getRecentStepsAsync(prospectId)
+            api.getRecentStepsAsync(prospectId)
                 .then(function (response) {
                     locals.recentSteps = response.steps;
                 })

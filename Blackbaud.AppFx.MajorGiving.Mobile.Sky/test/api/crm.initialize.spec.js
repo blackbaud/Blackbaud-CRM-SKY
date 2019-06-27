@@ -33,7 +33,7 @@
 
         beforeEach(function () {
 
-            module('frog.frogApi');
+            module('frog.api');
 
         });
 

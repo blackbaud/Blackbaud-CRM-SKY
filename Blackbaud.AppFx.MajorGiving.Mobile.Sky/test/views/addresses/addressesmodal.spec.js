@@ -30,7 +30,7 @@
         }
 
         beforeEach(function () {
-            module('frog.frogApi');
+            module('frog.api');
 
             module(function ($provide) {
 
@@ -62,7 +62,7 @@
 
                 }
 
-                $provide.value("frogApi", {
+                $provide.value("api", {
                     initialize: angular.noop,
                     getDatabaseName: function () {
                         return "BBInfinityMock";

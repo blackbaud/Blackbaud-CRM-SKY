@@ -18,7 +18,7 @@
 
         beforeEach(function () {
 
-            module('frog.frogApi');
+            module('frog.api');
 
             module(function ($provide) {
 

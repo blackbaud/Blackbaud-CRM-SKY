@@ -37,7 +37,7 @@
 
         beforeEach(function () {
 
-            module('frog.frogApi');
+            module('frog.api');
 
             module(function ($provide) {
 
@@ -82,7 +82,7 @@
                     fail("Unknown feature ID or feature type.");
                 }
 
-                $provide.value("frogApi", {
+                $provide.value("api", {
                     initialize: angular.noop,
                     getDatabaseName: function () {
                         return "BBInfinityMock";

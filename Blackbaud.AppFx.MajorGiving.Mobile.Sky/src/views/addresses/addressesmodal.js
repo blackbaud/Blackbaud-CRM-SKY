@@ -9,7 +9,7 @@
         .module('frog')
         .controller('AddressesModalController', AddressesModalController);
 
-    AddressesModalController.$inject = ['$scope', 'frogApi', 'frogResources', '$uibModalInstance', 'options', 'mapping'];
+    AddressesModalController.$inject = ['$scope', 'api', 'frogResources', '$uibModalInstance', 'options', 'mapping'];
 
     /**
      * A modal dialog that allows users to view address information of a prospect.
@@ -17,7 +17,7 @@
      * @param {Object} options
      * @param {String} options.prospectId The system ID for the prospect.
      */
-    function AddressesModalController($scope, frogApi, frogResources, $uibModalInstance, options, mapping) {
+    function AddressesModalController($scope, api, frogResources, $uibModalInstance, options, mapping) {
 
         var locals;
 
@@ -46,7 +46,7 @@
                 locals.loading = false;
             }
 
-            frogApi.getAddressesListAsync(options.prospectId, loadAddressesSuccess, loadAddressesFailure, loadAddressesFinally);
+            api.getAddressesListAsync(options.prospectId, loadAddressesSuccess, loadAddressesFailure, loadAddressesFinally);
         }
 
         loadAddresses();

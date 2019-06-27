@@ -7,7 +7,7 @@
         .module('frog')
         .controller('ProspectPageController', ProspectPageController);
 
-    ProspectPageController.$inject = ['$scope', '$state', 'bbWait', 'bbWindow', 'frogApi', 'frogResources', 'slug', 'prospectUtilities', 'mapping', 'bbModal', 'prospectId', 'prospectIdWithSlug', 'prospectName'];
+    ProspectPageController.$inject = ['$scope', '$state', 'bbWait', 'bbWindow', 'api', 'frogResources', 'slug', 'prospectUtilities', 'mapping', 'bbModal', 'prospectId', 'prospectIdWithSlug', 'prospectName'];
 
     /**
      * The controller behind the main prospect page.
@@ -15,7 +15,7 @@
      * @param {String} prospectId The system ID of the prospect.
      * @param {String} prospectName The name of the prospect.
      */
-    function ProspectPageController($scope, $state, bbWait, bbWindow, frogApi, frogResources, slug, prospectUtilities, mapping, bbModal, prospectId, prospectIdWithSlug, prospectName) {
+    function ProspectPageController($scope, $state, bbWait, bbWindow, api, frogResources, slug, prospectUtilities, mapping, bbModal, prospectId, prospectIdWithSlug, prospectName) {
         var self = this,
             waiting = false,
             locals = $scope.locals = {
@@ -49,7 +49,7 @@
             waiting = true;
             bbWait.beginPageWait();
 
-            frogApi.getProspectInfoAsync(prospectId, { forceReload: forceReload })
+            api.getProspectInfoAsync(prospectId, { forceReload: forceReload })
                 .then(function (prospect) {
                     var nextStepInfo,
                         name = prospect.keyName;

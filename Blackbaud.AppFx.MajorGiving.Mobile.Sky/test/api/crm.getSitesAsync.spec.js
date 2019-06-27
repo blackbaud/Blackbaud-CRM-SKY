@@ -19,7 +19,7 @@
             module("sky.moment");
             module("frog.resources");
 
-            module('frog.frogApi');
+            module('frog.api');
 
             module(function ($provide) {
 

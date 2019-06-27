@@ -16,7 +16,7 @@
             summaryInformation;
 
         beforeEach(function () {
-            module('frog.frogApi');
+            module('frog.api');
             module("sky.moment");
             module("frog.resources");
 

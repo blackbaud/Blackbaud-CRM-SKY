@@ -23,7 +23,7 @@
 
             module('frog.resources');
 
-            module('frog.frogApi');
+            module('frog.api');
 
             module(function ($provide) {
 
@@ -47,7 +47,7 @@
 
                 }
 
-                $provide.value("frogApi", {
+                $provide.value("api", {
                     getDatabaseName: getDatabaseName,
                     initialize: initialize,
                     authenticateAsync: authenticateAsync

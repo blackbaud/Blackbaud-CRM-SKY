@@ -7,14 +7,14 @@
         .module('frog')
         .controller('UpcomingStepsController', UpcomingStepsController);
 
-    UpcomingStepsController.$inject = ['$scope', 'bbMoment', 'frogApi', 'frogResources', 'prospectUtilities', 'bbModal', 'bbuiShellService', 'prospectId'];
+    UpcomingStepsController.$inject = ['$scope', 'bbMoment', 'api', 'frogResources', 'prospectUtilities', 'bbModal', 'bbuiShellService', 'prospectId'];
 
     /**
      * The controller for the Upcoming Steps tile. This tile shows information on upcoming steps/interactions for the prospect.
      * 
      * @param {String} prospectId The system ID of the prospect.
      */
-    function UpcomingStepsController($scope, bbMoment, frogApi, frogResources, prospectUtilities, bbModal, bbuiShellService, prospectId) {
+    function UpcomingStepsController($scope, bbMoment, api, frogResources, prospectUtilities, bbModal, bbuiShellService, prospectId) {
 
         var locals;
 
@@ -54,7 +54,7 @@
                 ]
             };
 
-            frogApi.getRecentStepsAsync(prospectId, options)
+            api.getRecentStepsAsync(prospectId, options)
                 .then(function (response) {
                     locals.upcomingSteps = response.steps;
                 })

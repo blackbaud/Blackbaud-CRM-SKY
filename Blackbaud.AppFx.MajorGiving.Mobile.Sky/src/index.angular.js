@@ -6,7 +6,7 @@
 
     var euc = encodeURIComponent;
 
-    angular.module('frog', ['sky', 'ui.bootstrap', 'ui.router', 'ngAnimate', 'frog.frogApi', 'frog.templates', 'frog.resources', 'Debugging', 'frog.util', 'frog.list'])
+    angular.module('frog', ['sky', 'ui.bootstrap', 'ui.router', 'ngAnimate', 'frog.api', 'frog.templates', 'frog.resources', 'Debugging', 'frog.util', 'frog.list'])
         .config(authInterceptorConfig)
         .config(config)
         .run(['bbWindowConfig', 'customizable', '$state', function (bbWindowConfig, customizable) {
@@ -21,22 +21,35 @@
         }])
         .controller('MainController', MainController);
 
-    authInterceptorConfig.$inject = ["$httpProvider", 'frogApiProvider'];
-    function authInterceptorConfig($httpProvider, frogApiProvider) {
-        var frogApi = frogApiProvider.$get();
-        $httpProvider.interceptors.push(frogApi.getAuthInterceptors());
+    function authInterceptorConfig($httpProvider) {
+        $httpProvider.interceptors.push(["$q", "infinityUtilities", "browserUtilities", function ($q, infinityUtilities, browserUtilities) {
+            return {
+                "responseError": function (response) {
+                    var redirectUrl,
+                        status = response.status,
+                        FORMS_AUTH_HEADER = "X-BB-FormsAuth";
+
+                    if (status === 401 || status === 404) {
+                        redirectUrl = infinityUtilities.getWebShellLoginUrl(browserUtilities.getQueryStringParameters().databasename, response.headers(FORMS_AUTH_HEADER));
+                        browserUtilities.redirect(redirectUrl);
+                    }
+
+                    return $q.reject(response);
+                }
+            };
+        }]);
     }
 
-    config.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', 'frogApiProvider', 'frogResources', '$compileProvider', 'bbViewKeeperConfig'];
+    config.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', 'apiProvider', 'frogResources', '$compileProvider', 'bbViewKeeperConfig'];
 
-    function config($locationProvider, $stateProvider, $urlRouterProvider, frogApiProvider, frogResources, $compileProvider, bbViewKeeperConfig) {
+    function config($locationProvider, $stateProvider, $urlRouterProvider, apiProvider, frogResources, $compileProvider, bbViewKeeperConfig) {
 
         bbViewKeeperConfig.hasOmnibar = false;
 
         var hrefSanitization,
             API;
 
-        API = frogApiProvider.$get();
+        API = apiProvider.$get();
 
         $locationProvider.html5Mode({
             enabled: true,
@@ -150,9 +163,9 @@
 
     }
 
-    MainController.$inject = ['$scope', '$document', '$timeout', 'Routing', 'bbWait', 'frogApi', 'frogResources', '$location', 'customizable'];
+    MainController.$inject = ['$scope', '$document', '$timeout', 'Routing', 'bbWait', 'api', 'frogResources', '$location', 'customizable'];
 
-    function MainController($scope, $document, $timeout, Routing, bbWait, frogApi, frogResources, $location, customizable) {
+    function MainController($scope, $document, $timeout, Routing, bbWait, api, frogResources, $location, customizable) {
         var self = this;
 
         // These two attributes help with page navigation between tabs and using the browser back button.
@@ -169,7 +182,7 @@
 
         bbWait.beginPageWait();
 
-        frogApi.authenticateAsync(authenticateSuccess, authenticateFailure, authenticateFinally);
+        api.authenticateAsync(authenticateSuccess, authenticateFailure, authenticateFinally);
 
         function authenticateSuccess(sessionInfo) {
             $scope.sessionInfo = sessionInfo;
@@ -247,12 +260,12 @@
             }
         
             function doLogOut() {
-                frogApi.logoutAsync()
+                api.logoutAsync()
                     .then(function (logoutWasSuccessful) {
                         if (logoutWasSuccessful) {
                             var url;
                             
-                            url = (customizable.isCustomApp() ? '../' : '') + "../../webui/WebShellLogin.aspx?databaseName=" + euc(frogApi.getDatabaseName());
+                            url = (customizable.isCustomApp() ? '../' : '') + "../../webui/WebShellLogin.aspx?databaseName=" + euc(api.getDatabaseName());
                             url += "&url=" + euc($location.absUrl()) + "&status=inactive";
 
                             // $location.replace() doesn't seem to work here so using window.location.replace directly

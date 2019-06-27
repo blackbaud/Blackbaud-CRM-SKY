@@ -20,7 +20,7 @@
 
         beforeEach(function () {
 
-            module('frog.frogApi');
+            module('frog.api');
 
             module("sky.moment");
 
@@ -334,6 +334,7 @@
             }
 
             API.getAddressesListAsync(prospectId, successCallback, failureCallback, finallyCallback);
+
             $timeout.flush();
 
         });

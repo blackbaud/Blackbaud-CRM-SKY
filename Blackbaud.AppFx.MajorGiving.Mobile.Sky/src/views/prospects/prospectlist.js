@@ -25,7 +25,7 @@
     /**
      * The controller for the list of prospects shown after performing a prospect search.
      */
-    function ProspectListController($document, $scope, bbWindow, slug, frogResources, pageTitle, frogApi, bbWait, $state) {
+    function ProspectListController($document, $scope, bbWindow, slug, frogResources, pageTitle, api, bbWait, $state) {
 
         var self = this,
             prospectsData,
@@ -57,7 +57,7 @@
         function loadProspects(onlyPrimary, sort) {
             beginLoading();
 
-            frogApi.getPortfolioAsync({
+            api.getPortfolioAsync({
                 onlyPrimary: onlyPrimary,
                 sort: sort
             })
@@ -160,7 +160,7 @@
 
             }
 
-            frogApi.getPortfolioSettingsAsync(getPortfolioSettingsSuccess, null, getPortfolioSettingsFinally);
+            api.getPortfolioSettingsAsync(getPortfolioSettingsSuccess, null, getPortfolioSettingsFinally);
 
         }
 
@@ -228,7 +228,7 @@
         loadSettings();
     }
 
-    ProspectListController.$inject = ['$document', '$scope', 'bbWindow', 'slug', 'frogResources', 'pageTitle', 'frogApi', 'bbWait', '$state'];
+    ProspectListController.$inject = ['$document', '$scope', 'bbWindow', 'slug', 'frogResources', 'pageTitle', 'api', 'bbWait', '$state'];
 
     angular.module('frog').controller('ProspectListController', ProspectListController);
 

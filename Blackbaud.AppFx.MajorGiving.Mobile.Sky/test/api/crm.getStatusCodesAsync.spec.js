@@ -13,7 +13,7 @@
             $timeout;
 
         beforeEach(function () {
-            module('frog.frogApi');
+            module('frog.api');
         });
 
         beforeEach(inject(function (_api_, _prospectUtilities_, _$timeout_) {

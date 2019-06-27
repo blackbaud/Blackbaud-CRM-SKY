@@ -17,7 +17,7 @@
 
             module('sky.moment');
 
-            module('frog.frogApi');
+            module('frog.api');
 
             module(function ($provide) {
                 var bbuiShellService = {
