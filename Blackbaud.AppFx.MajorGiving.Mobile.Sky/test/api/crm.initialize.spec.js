@@ -15,7 +15,9 @@
 
             module('sky.moment');
 
-            module('frog.util');
+            module('infinity.util');
+
+            module('frog.api');
 
             module(function ($provide, mockableUtilitiesProvider) {
 
@@ -28,12 +30,6 @@
                 $provide.value("mockableUtilities", mockUtil);
 
             });
-
-        });
-
-        beforeEach(function () {
-
-            module('frog.api');
 
         });
 

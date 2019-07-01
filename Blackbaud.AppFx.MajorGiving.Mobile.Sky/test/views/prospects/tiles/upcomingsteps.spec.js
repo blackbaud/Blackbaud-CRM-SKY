@@ -39,6 +39,8 @@
 
             module('frog.api');
 
+            module('infinity.util');
+
             module(function ($provide) {
 
                 function getRecentStepsAsync() {

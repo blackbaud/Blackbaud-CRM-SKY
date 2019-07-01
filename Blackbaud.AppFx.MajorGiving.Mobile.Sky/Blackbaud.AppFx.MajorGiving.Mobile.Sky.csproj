@@ -87,14 +87,10 @@
     <Content Include="src\images\frog-upset.png" />
     <Content Include="src\index.angular.js" />
     <Content Include="src\lib\fallback.js" />
-    <Content Include="src\utils\browser.js" />
     <Content Include="src\utils\frog\mapping.js" />
     <Content Include="src\utils\frog\prospects.js" />
     <Content Include="src\utils\frog\scroll.js" />
-    <Content Include="src\utils\infinity.js" />
-    <Content Include="src\utils\mockable.js" />
     <Content Include="src\utils\polyfill.js" />
-    <Content Include="src\utils\slug.js" />
     <Content Include="src\views\addresses\addressesmodal.html" />
     <Content Include="src\views\addresses\addressesmodal.js" />
     <Content Include="src\views\contactreport\interactionpicker.html" />

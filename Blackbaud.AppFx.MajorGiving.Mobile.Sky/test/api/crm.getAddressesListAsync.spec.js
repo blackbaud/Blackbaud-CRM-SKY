@@ -26,6 +26,8 @@
 
             module("frog.resources");
 
+            module('infinity.util');
+
             module(function ($provide) {
 
                 bbuiShellService = {

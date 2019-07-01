@@ -383,6 +383,8 @@
 
         module("frog");
 
+        module('infinity.util');
+
     });
 
     beforeEach(inject(function (_$rootScope_, _$templateCache_, _$compile_, _frogResources_, _testUtils_) {

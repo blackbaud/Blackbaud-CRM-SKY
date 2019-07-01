@@ -14,6 +14,7 @@
 
         beforeEach(function () {
             module('frog.api');
+            module('infinity.util');
         });
 
         beforeEach(inject(function (_api_, _prospectUtilities_, _$timeout_) {

@@ -20,6 +20,8 @@
 
             module('frog.util');
 
+            module('infinity.util');
+
             module(function ($provide, mockableUtilitiesProvider) {
 
                 var mockUtil = mockableUtilitiesProvider.$get();
