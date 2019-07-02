@@ -5,207 +5,16 @@
 (function () {
     'use strict';
 
-    var GUID_EMPTY = '00000000-0000-0000-0000-000000000000',
-        noop = angular.noop,
-        ProspectIdRequiredMessage = "prospectId is required";
-
-    function requestFailure(reply, failureCallback) {
-        var result = {};
-
-        if (reply && reply.data && reply.data.message) {
-            result.message = reply.data.message;
-        }
-
-        failureCallback(result);
-    }
-
-    // Using this function in order to keep from accidentally modifying an options object passed into a function.
-    function cloneOrNew(bbui, options) {
-        if (options) {
-            return bbui.clone(options);
-        }
-
-        return {};
-    }
-
-    function toUpperIdOrNullIfEmpty(id) {
-        if (!id || id === GUID_EMPTY) {
-            return null;
-        }
-
-        return id.toUpperCase();
-    }
-
-    function getFullName(frogResources, firstName, keyName) {
-        if (firstName) {
-            return frogResources.name_format.format(firstName, keyName);
-        }
-
-        return keyName;
-    }
+    var noop = angular.noop;
 
     angular.module("frog.api", ["frog.util", "bbui", "sky.moment", "frog.resources"])
-        .factory("apiCache", ["$cacheFactory", function ($cacheFactory) {
-
-            var cache;
-
-            cache = $cacheFactory.get('bbcrm');
-            if (!cache) {
-                cache = $cacheFactory('bbcrm');
-            }
-
-            return {
-                cache: cache
-            };
-
-        }])
-
-        .factory("apiAuthenticate", ["infinityUtilities", "browserUtilities", "bbuiShellService", "$q",
-            function (infinityUtilities, browserUtilities, bbuiShellService, $q) {
-
-                var svc,
-                    authenticateSuccessCallback,
-                    authenticateFailureCallback,
-                    authenticateFinallyCallback,
-                    FORMS_AUTH_HEADER = "X-BB-FormsAuth";
-
-                function sessionStartSuccess(reply) {
-                    authenticateSuccessCallback(reply.data);
-                    authenticateFinallyCallback();
-                }
-
-                function sessionStartFailure(data, status, headers) {
-
-                    var //formsAuthInUse,
-                        redirectUrl;
-                    //wsFederationEnabled,
-                    //authHeader,
-                    //isBearerAuthenticated,
-                    //homePageUrl;
-
-                    //homePageUrl = BBUI.urlConcat(svc.baseUrl, "browser/Default.aspx");
-                    //homePageUrl += "?DatabaseName=" + encodeURIComponent(svc.databaseName);
-
-                    //wsFederationEnabled = false;
-                    // TODO CEV
-                    //if (BBUI && BBUI.globals && BBUI.globals._auth) {
-                    //    wsFederationEnabled = !!BBUI.globals._auth.wsFederationEnabled;
-                    //}
-
-                    // TODO CEV
-                    //authHeader = request.getResponseHeader("WWW-Authenticate");
-                    //isBearerAuthenticated = authHeader && authHeader === "Bearer";
-
-                    //When using Federated Authentication, there may be a "Bearer" WWW-Authenticate header;
-                    //But if the session start failed, all we can do is display the error on the login/migration form
-                    //formsAuthInUse = (!authHeader || isBearerAuthenticated) || wsFederationEnabled;
-
-                    // Unathorized (401)
-                    // NotFound (404) implies WSFederation Authenticated but unable to match to AppUser
-                    if ((status === 401) || (status === 404)) {
-
-                        //if (formsAuthInUse) {
-                        // Forms authentication is configured on the server.  Redirect to the login page.
-                        redirectUrl = infinityUtilities.getWebShellLoginUrl(svc.databaseName, headers(FORMS_AUTH_HEADER));
-                        //} else {
-                        //    // Basic authentication is enabled and the user probably canceled the browser's
-                        //    // credentials prompt.  Redirect to the start page.
-                        //    redirectUrl = homePageUrl;
-                        //}
-                        browserUtilities.redirect(redirectUrl);
-                        authenticateFinallyCallback();
-                        // Don't call failure callback because we're just redirecting anyway.
-                    } else {
-                        // Not totally sure what the response object looks like with non-401 error codes.
-                        // I think this should get the user something that is mildly helpful.
-                        if (!data || !data.message) {
-                            data = {
-                                message: data
-                            };
-                        }
-                        authenticateFailureCallback(data);
-                        authenticateFinallyCallback();
-                        //$(document.body).html(Res.getEncodedString("Viewport_NavigationLoadFail", false, error.message));
-                    }
-
-                }
-
-                function startSession() {
-
-                    // Need to save HTTP object since we need to do both .then and .error,
-                    // which are not supported together.
-                    var http = svc.sessionStart();
-
-                    http.then(sessionStartSuccess);
-
-                    http.error(sessionStartFailure);
-
-                }
-
-                function authenticateAsync(successCallback, failureCallback, finallyCallback) {
-
-                    authenticateSuccessCallback = successCallback || noop;
-                    authenticateFailureCallback = failureCallback || noop;
-                    authenticateFinallyCallback = finallyCallback || noop;
-
-                    var httpHeaders = {};
-
-                    // Add a custom HTTP header to all requests so the server will send back a 401 response without a challenge
-                    // header when the user logs in unsuccessfully.  This will keep the user from being prompted for credentials
-                    // by the browser.
-                    httpHeaders[FORMS_AUTH_HEADER] = "true";
-
-                    try {
-
-                        svc = bbuiShellService.create(null, null, {
-                            httpHeaders: httpHeaders
-                        });
-
-                        startSession();
-
-                    } catch (ex) {
-                        failureCallback(ex);
-                        finallyCallback();
-                    }
-
-                }
-
-                /**
-                 * Log out of the application.
-                 * 
-                 * @returns {Promise<Boolean>} return True if the logout was successful. Unsuccessful logout typically means the user is not using custom authentication.
-                 */
-                function logoutAsync() {
-                    return bbuiShellService
-                        .create()
-                        .logout()
-                        .then(function (reply) {
-                            return reply.data;
-                        }, function (reply) {
-                            var error = { message: "" };
-
-                            if (reply && reply.data && reply.data.message) {
-                                error.message = reply.data.message;
-                            }
-
-                            $q.reject(error);
-                        });
-                }
-
-                return {
-                    authenticateAsync: authenticateAsync,
-                    logoutAsync: logoutAsync
-                };
-
-            }])
-
-        .factory("apiPortfolio", ["bbuiShellService", "frogResources", "prospectUtilities", "apiCache", "bbui", "$q",
-            function (bbuiShellService, frogResources, prospectUtilities, apiCache, bbui, $q) {
+        .factory("apiPortfolio", ["bbuiShellService", "frogResources", "prospectUtilities", "infinityCache", "bbui", "$q", "infinityUtilities",
+            function (bbuiShellService, frogResources, prospectUtilities, infinityCache, bbui, $q, infinityUtilities) {
 
                 var svc,
                     FUNDRAISER_IDMAP_ID = 'C606C99A-FE2F-4F3E-AB48-3F4463344E92', // AppUser.Fundraiser.IDMapper.xml
-                    MYPORTFOLIO_DATALIST_ID = "da329c8b-773c-4501-8329-77047018f6a9", // FundraiserPortfolio.Mobile.DataList.xml
-                    MYPORTFOLIOSETTINGS_VIEW_ID = "cc816f72-b91e-452c-b715-aa15a676e98d"; // FundraiserPortfolio.Mobile.DataList.Settings.View.xml
+                    MYPORTFOLIOSETTINGS_VIEW_ID = "cc816f72-b91e-452c-b715-aa15a676e98d", // FundraiserPortfolio.Mobile.DataList.Settings.View.xml
+                    MYPORTFOLIO_DATALIST_ID = "da329c8b-773c-4501-8329-77047018f6a9"; // FundraiserPortfolio.Mobile.DataList.xml;
 
                 /**
                  * Transforms data list load results to an array of prospects.
@@ -233,7 +42,7 @@
                         var prospectValues = row.values;
 
                         prospects.push({
-                            name: getFullName(frogResources, prospectValues[2], prospectValues[1]),
+                            name: prospectUtilities.getFullName(frogResources, prospectValues[2], prospectValues[1]),
                             id: prospectValues[0].toUpperCase(),
                             nextStepDate: prospectValues[3]
                         });
@@ -281,7 +90,7 @@
                  * @returns {Date} return.prospects[].nextStepDate The date of the next step or interaction on the prospect.
                  */
                 function getPortfolioAsync(options) {
-                    options = cloneOrNew(bbui, options);
+                    options = infinityUtilities.cloneOrNew(bbui, options);
                     options.onlyPrimary = !!options.onlyPrimary;
                     options.sort = options.sort || 0;
 
@@ -299,7 +108,7 @@
                                 fundraiserId = fundraiserId.toUpperCase();
 
                                 cacheKey = "dataListLoad-" + MYPORTFOLIO_DATALIST_ID + "-" + fundraiserId + "-onlyPrimary:" + options.onlyPrimary + ";" + "sort:" + options.sort;
-                                cacheResult = apiCache.cache.get(cacheKey);
+                                cacheResult = infinityCache.cache.get(cacheKey);
 
                                 if (cacheResult) {
                                     deferred.resolve(cacheResult);
@@ -325,7 +134,7 @@
                                 )
                                     .then(function (reply) {
                                         var data = transformProspects(reply.data);
-                                        apiCache.cache.put(cacheKey, bbui.clone(data));
+                                        infinityCache.cache.put(cacheKey, bbui.clone(data));
                                         deferred.resolve(data);
                                     })
                                     .catch(function (reply) {
@@ -397,7 +206,7 @@
 
                         })
                         .catch(function (failureData) {
-                            // The form failed to load for some reason. Maybe insufficient rights.
+                            // The form failed to load for some reason, possibly insufficient rights.
                             failureCallback(failureData);
                         })
                         .finally(function () {
@@ -408,27 +217,27 @@
                 /**
                  * Get search list information for the given search list.
                  *
-                 * @param {String} searchListId The search list whose information is desired.
+                 * @param {String} constituentSearchListId The search list whose information is desired.
                  *
                  * @returns {Promise<Object>} return
                  * @returns {Object[]} return.optionalFilterFields The optional filter fields in use on the search list.
                  * @returns {String} return.optionalFilterFields[].fieldId The field ID of the optional filter field.
                  */
-                function getConstituentSearchListInformationAsync(searchListId) {
-                    var SearchListInformationViewId = "48861a67-60fe-4438-b725-0ee3418eebbf", // SearchListInformation.Mobile.View.xml
+                function getConstituentSearchListInformationAsync(constituentSearchListId) {
+                    var SEARCHLISTINFORMATION_VIEW_ID = "48861a67-60fe-4438-b725-0ee3418eebbf", // SearchListInformation.Mobile.View.xml
                         cacheKey,
                         cacheResult;
 
-                    if (!searchListId || typeof searchListId !== "string") {
+                    if (!constituentSearchListId || typeof constituentSearchListId !== "string") {
                         return $q.reject({
-                            message: "searchListId is required"
+                            message: "constituentSearchListId is required"
                         });
                     }
 
-                    searchListId = searchListId.toUpperCase();
+                    constituentSearchListId = constituentSearchListId.toUpperCase();
 
-                    cacheKey = "dataFormLoad-" + SearchListInformationViewId + "-" + searchListId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheKey = "dataFormLoad-" + SEARCHLISTINFORMATION_VIEW_ID + "-" + constituentSearchListId;
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -437,9 +246,9 @@
                     svc = bbuiShellService.create();
 
                     return svc.dataFormLoad(
-                        SearchListInformationViewId,
+                        SEARCHLISTINFORMATION_VIEW_ID,
                         {
-                            recordId: searchListId
+                            recordId: constituentSearchListId
                         }
                     ).then(function (reply) {
                         var result = {};
@@ -454,7 +263,7 @@
                             });
                         }
 
-                        apiCache.cache.put(cacheKey, bbui.clone(result));
+                        infinityCache.cache.put(cacheKey, bbui.clone(result));
                         return result;
                     }, function (reply) {
                         var error = { message: "" };
@@ -484,14 +293,14 @@
                  * @returns {String} return.searchResults[].postCode The prospect's address' post/ZIP code.
                  */
                 function getConstituentSearchResultsAsync(options) {
-                    var SEARCH_DATALIST_ID = "5c14275b-01f7-44ec-9707-e076cea1d361";  // ProspectSearch.Mobile.DataList.xml
+                    var PROSPECTSEARCH_DATALIST_ID = "5c14275b-01f7-44ec-9707-e076cea1d361";  // ProspectSearch.Mobile.DataList.xml
 
-                    options = cloneOrNew(bbui, options);
+                    options = infinityUtilities.cloneOrNew(bbui, options);
 
                     svc = bbuiShellService.create();
 
                     return svc.dataListLoad(
-                        SEARCH_DATALIST_ID,
+                        PROSPECTSEARCH_DATALIST_ID,
                         undefined,
                         options
                     )
@@ -518,7 +327,7 @@
                                 }
 
                                 constituentSearchResults.push({
-                                    id: toUpperIdOrNullIfEmpty(constituentSearchResult[0]),
+                                    id: infinityUtilities.toUpperIdOrNullIfEmpty(constituentSearchResult[0]),
                                     fullName: constituentSearchResult[1],
                                     city: constituentSearchResult[2],
                                     state: constituentSearchResult[3],
@@ -553,7 +362,7 @@
                         cacheResult;
 
                     cacheKey = "simpleDataListLoad-" + COUNTRY_SIMPLELIST_ID;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -582,7 +391,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         },
 
@@ -618,13 +427,13 @@
                         cacheResult;
 
                     cacheKey = "simpleDataListLoad-" + STATEABBREVIATION_SIMPLELIST_ID + "-" + countryId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
                     }
 
-                    options = cloneOrNew(bbui, options);
+                    options = infinityUtilities.cloneOrNew(bbui, options);
                     if (countryId) {
                         angular.extend(options, {
                             parameters: [
@@ -665,7 +474,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         },
 
@@ -687,12 +496,12 @@
                  * @returns {String} return.result.countryId The system ID of the default country.
                  */
                 function getDefaultCountryAsync() {
-                    var DefaultCountryViewId = "679f844a-8cda-4180-83bc-3353d78a5aaf", // DefaultCountry.Mobile.View.xml
+                    var DEFAULTCOUNTRY_VIEW_ID = "679f844a-8cda-4180-83bc-3353d78a5aaf", // DefaultCountry.Mobile.View.xml
                         cacheKey,
                         cacheResult;
 
-                    cacheKey = "dataFormLoad-" + DefaultCountryViewId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheKey = "dataFormLoad-" + DEFAULTCOUNTRY_VIEW_ID;
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -700,7 +509,7 @@
 
                     svc = bbuiShellService.create();
 
-                    return svc.dataFormLoad(DefaultCountryViewId)
+                    return svc.dataFormLoad(DEFAULTCOUNTRY_VIEW_ID)
                         .then(function (reply) {
                             var result = {};
 
@@ -708,13 +517,13 @@
                                 reply.data.values.forEach(function (dfi) {
                                     switch (dfi.name) {
                                         case "COUNTRYID":
-                                            result.countryId = toUpperIdOrNullIfEmpty(dfi.value);
+                                            result.countryId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                             break;
                                     }
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(result));
+                            infinityCache.cache.put(cacheKey, bbui.clone(result));
                             return result;
                         }, function (reply) {
                             var error = { message: "" };
@@ -744,7 +553,7 @@
                         cacheResult;
 
                     cacheKey = "dataListLoad-" + COUNTRYFORMAT_DATALIST_ID;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -767,13 +576,13 @@
                                 format = reply.data.rows[i].values;
 
                                 data.formats.push({
-                                    id: toUpperIdOrNullIfEmpty(format[0]),
+                                    id: infinityUtilities.toUpperIdOrNullIfEmpty(format[0]),
                                     city: format[1],
                                     state: format[2],
                                     postCode: format[3]
                                 });
                             }
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         },
 
@@ -800,16 +609,8 @@
                 };
             }])
 
-        .factory('searchStorage', function () {
-            return {
-                showInput: true,
-                savedInput: {},
-                prospects: []
-            };
-        })
-
-        .factory("apiProspectView", ["bbuiShellService", "apiCache", "infinityUtilities", "frogResources", "bbui", "$q",
-            function (bbuiShellService, apiCache, infinityUtilities, frogResources, bbui, $q) {
+        .factory("apiProspectView", ["bbuiShellService", "infinityCache", "infinityUtilities", "frogResources", "bbui", "$q", "prospectUtilities",
+            function (bbuiShellService, infinityCache, infinityUtilities, frogResources, bbui, $q, prospectUtilities) {
 
                 var svc;
 
@@ -947,11 +748,11 @@
                         cacheKey,
                         cacheResult;
 
-                    options = cloneOrNew(bbui, options);
+                    options = infinityUtilities.cloneOrNew(bbui, options);
 
                     if (!prospectId || typeof prospectId !== "string") {
                         return $q.reject({
-                            message: ProspectIdRequiredMessage
+                            message: prospectUtilities.ProspectIdRequiredMessage
                         });
                     }
 
@@ -959,7 +760,7 @@
 
                     if (!options.forceReload) {
                         cacheKey = "dataFormLoad-" + ProspectViewId + "-" + prospectId;
-                        cacheResult = apiCache.cache.get(cacheKey);
+                        cacheResult = infinityCache.cache.get(cacheKey);
 
                         if (cacheResult) {
                             return $q.resolve(cacheResult);
@@ -1019,7 +820,7 @@
                                         result.jobTitle = dfi.value;
                                         break;
                                     case "PRIMARYBUSINESSID":
-                                        result.primaryBusinessId = toUpperIdOrNullIfEmpty(dfi.value);
+                                        result.primaryBusinessId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                         break;
                                     case "PRIMARYBUSINESSNAME":
                                         result.primaryBusinessName = dfi.value;
@@ -1031,10 +832,10 @@
                                         prospectManagerKeyName = dfi.value;
                                         break;
                                     case "PROSPECTMANAGERID":
-                                        result.prospectManagerId = toUpperIdOrNullIfEmpty(dfi.value);
+                                        result.prospectManagerId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                         break;
                                     case "PRIMARYMEMBERID":
-                                        result.primaryMemberId = toUpperIdOrNullIfEmpty(dfi.value);
+                                        result.primaryMemberId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                         break;
                                     case "PRIMARYMEMBERFIRSTNAME":
                                         primaryMemberFirstName = dfi.value;
@@ -1043,7 +844,7 @@
                                         primaryMemberKeyName = dfi.value;
                                         break;
                                     case "SPOUSEID":
-                                        result.spouseId = toUpperIdOrNullIfEmpty(dfi.value);
+                                        result.spouseId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                         break;
                                     case "SPOUSEFIRSTNAME":
                                         spouseFirstName = dfi.value;
@@ -1055,13 +856,13 @@
                                         result.spouseDeceased = dfi.value;
                                         break;
                                     case "NEXTSTEPPLANID":
-                                        result.nextStepPlanId = toUpperIdOrNullIfEmpty(dfi.value);
+                                        result.nextStepPlanId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                         break;
                                     case "NEXTSTEPPLANNAME":
                                         result.nextStepPlanName = dfi.value;
                                         break;
                                     case "NEXTSTEPCONTACTMETHODID":
-                                        result.nextStepContactMethodId = toUpperIdOrNullIfEmpty(dfi.value);
+                                        result.nextStepContactMethodId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                         break;
                                     case "NEXTSTEPCONTACTMETHOD":
                                         result.nextStepContactMethod = dfi.value;
@@ -1079,7 +880,7 @@
                                         result.nextStepTime = infinityUtilities.convertHourMinute(dfi.value);
                                         break;
                                     case "NEXTSTEPID":
-                                        result.nextStepId = toUpperIdOrNullIfEmpty(dfi.value);
+                                        result.nextStepId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                         break;
                                     case "NEXTSTEPCOMMENTS":
                                         result.nextStepComments = dfi.value;
@@ -1087,10 +888,10 @@
                                 }
                             });
 
-                            spouseFullName = getFullName(frogResources, spouseFirstName, spouseLastName);
-                            primaryMemberFullName = getFullName(frogResources, primaryMemberFirstName, primaryMemberKeyName);
-                            prospectManagerFullName = getFullName(frogResources, prospectManagerFirstName, prospectManagerKeyName);
-                            result.prospectFullName = getFullName(frogResources, result.firstName, result.keyName);
+                            spouseFullName = prospectUtilities.getFullName(frogResources, spouseFirstName, spouseLastName);
+                            primaryMemberFullName = prospectUtilities.getFullName(frogResources, primaryMemberFirstName, primaryMemberKeyName);
+                            prospectManagerFullName = prospectUtilities.getFullName(frogResources, prospectManagerFirstName, prospectManagerKeyName);
+                            result.prospectFullName = prospectUtilities.getFullName(frogResources, result.firstName, result.keyName);
 
                             if (spouseFullName) {
                                 result.spouseName = spouseFullName;
@@ -1105,7 +906,7 @@
                             }
                         }
 
-                        apiCache.cache.put(cacheKey, bbui.clone(result));
+                        infinityCache.cache.put(cacheKey, bbui.clone(result));
                         return result;
                     }, function (reply) {
                         var error = { message: "" };
@@ -1144,7 +945,7 @@
 
                         if (failureCallback) {
                             failureCallback({
-                                message: ProspectIdRequiredMessage
+                                message: prospectUtilities.ProspectIdRequiredMessage
                             });
 
                             finallyCallback();
@@ -1152,14 +953,14 @@
                             return;
                         }
 
-                        throw new Error(ProspectIdRequiredMessage);
+                        throw new Error(prospectUtilities.ProspectIdRequiredMessage);
                     }
 
                     failureCallback = failureCallback || noop;
 
                     prospectId = prospectId.toUpperCase();
                     cacheKey = "dataListLoad-" + ProspectSummaryDataListId + "-" + prospectId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         successCallback(cacheResult);
@@ -1196,16 +997,14 @@
                                             // This trick determines if you have a whole number, and if so, don't include decimal padding.
                                             aPad: amount % 1 !== 0
                                         }
-                                        // TODO: decimal digits and rounding type?
-                                        // autonumeric doesn't look to support Infinity Currency rounding options
                                     });
                                 }
 
-                                apiCache.cache.put(cacheKey, bbui.clone(data));
+                                infinityCache.cache.put(cacheKey, bbui.clone(data));
                                 successCallback(data);
                             })
                             .catch(function (reply) {
-                                requestFailure(reply, failureCallback);
+                                prospectUtilities.requestFailure(reply, failureCallback);
                             })
                             .finally(finallyCallback);
                     }
@@ -1234,10 +1033,10 @@
                 function getRecentStepsAsync(prospectId, options) {
                     var RECENTSTEPS_DATALIST_ID = "580e374a-3d5f-4218-9d39-5d2356e04b42";  // RecentSteps.Mobile.DataList.xml
 
-                    options = cloneOrNew(bbui, options);
+                    options = infinityUtilities.cloneOrNew(bbui, options);
 
                     if (!prospectId || typeof prospectId !== "string") {
-                        return $q.reject({ message: ProspectIdRequiredMessage });
+                        return $q.reject({ message: prospectUtilities.ProspectIdRequiredMessage });
                     }
 
                     prospectId = prospectId.toUpperCase();
@@ -1267,7 +1066,7 @@
                                     date: step[3],
                                     comments: step[4],
                                     planName: step[5],
-                                    planId: toUpperIdOrNullIfEmpty(step[6])
+                                    planId: infinityUtilities.toUpperIdOrNullIfEmpty(step[6])
                                 });
                             });
 
@@ -1317,7 +1116,7 @@
 
                         if (failureCallback) {
                             failureCallback({
-                                message: ProspectIdRequiredMessage
+                                message: prospectUtilities.ProspectIdRequiredMessage
                             });
 
                             finallyCallback();
@@ -1325,7 +1124,7 @@
                             return;
                         }
 
-                        throw new Error(ProspectIdRequiredMessage);
+                        throw new Error(prospectUtilities.ProspectIdRequiredMessage);
 
                     }
 
@@ -1333,7 +1132,7 @@
 
                     prospectId = prospectId.toUpperCase();
                     cacheKey = "dataListLoad-" + RecentGiftsAndCreditsDataListId + "-" + prospectId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         successCallback(cacheResult);
@@ -1375,16 +1174,14 @@
                                             // This trick determines if you have a whole number, and if so, don't include decimal padding.
                                             aPad: amount % 1 !== 0
                                         }
-                                        // TODO: decimal digits and rounding type?
-                                        // autonumeric doesn't look to support Infinity Currency rounding options
                                     });
                                 }
 
-                                apiCache.cache.put(cacheKey, bbui.clone(data));
+                                infinityCache.cache.put(cacheKey, bbui.clone(data));
                                 successCallback(data);
                             })
                             .catch(function (reply) {
-                                requestFailure(reply, failureCallback);
+                                prospectUtilities.requestFailure(reply, failureCallback);
                             })
                             .finally(finallyCallback);
                     }
@@ -1419,7 +1216,7 @@
 
                         if (failureCallback) {
                             failureCallback({
-                                message: ProspectIdRequiredMessage
+                                message: prospectUtilities.ProspectIdRequiredMessage
                             });
 
                             finallyCallback();
@@ -1427,7 +1224,7 @@
                             return;
                         }
 
-                        throw new Error(ProspectIdRequiredMessage);
+                        throw new Error(prospectUtilities.ProspectIdRequiredMessage);
 
                     }
 
@@ -1435,7 +1232,7 @@
 
                     prospectId = prospectId.toUpperCase();
                     cacheKey = "dataListLoad-" + AddressesDataList + "-" + prospectId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         successCallback(cacheResult);
@@ -1472,11 +1269,11 @@
                                     });
                                 }
 
-                                apiCache.cache.put(cacheKey, bbui.clone(data));
+                                infinityCache.cache.put(cacheKey, bbui.clone(data));
                                 successCallback(data);
                             })
                             .catch(function (reply) {
-                                requestFailure(reply, failureCallback);
+                                prospectUtilities.requestFailure(reply, failureCallback);
                             })
                             .finally(finallyCallback);
                     }
@@ -1513,7 +1310,7 @@
                     lineItemId = lineItemId.toUpperCase();
 
                     cacheKey = "dataFormLoad-" + RevenueDetailsViewId + "-" + lineItemId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -1533,7 +1330,7 @@
                             reply.data.values.forEach(function (dfi) {
                                 switch (dfi.name) {
                                     case "CURRENCYID":
-                                        result.currencyId = toUpperIdOrNullIfEmpty(dfi.value);
+                                        result.currencyId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
                                         break;
                                     case "CAMPAIGNS":
                                         result.campaigns = dfi.value;
@@ -1566,7 +1363,7 @@
                             });
                         }
 
-                        apiCache.cache.put(cacheKey, bbui.clone(result));
+                        infinityCache.cache.put(cacheKey, bbui.clone(result));
                         return result;
                     }, function (reply) {
                         var error = { message: "" };
@@ -1589,8 +1386,8 @@
                 };
             }])
 
-        .factory("apiContactReportOptions", ["bbuiShellService", "apiCache", "bbui", "prospectUtilities", "$q", "frogResources",
-            function (bbuiShellService, apiCache, bbui, prospectUtilities, $q, frogResources) {
+        .factory("apiContactReportOptions", ["bbuiShellService", "infinityCache", "bbui", "prospectUtilities", "$q", "frogResources", "infinityUtilities",
+            function (bbuiShellService, infinityCache, bbui, prospectUtilities, $q, frogResources, infinityUtilities) {
 
                 var svc,
                     CONTACTMETHOD_SIMPLELIST_ID = "a89a4f2b-76f2-43fa-8abc-ae0e84d2d64e", // ContactMethods.Mobile.SimpleList.xml
@@ -1616,7 +1413,7 @@
                         cacheResult;
 
                     cacheKey = "simpleDataListLoad-" + CONTACTMETHOD_SIMPLELIST_ID;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -1648,7 +1445,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         }, function (reply) {
                             var error = { message: "" };
@@ -1679,7 +1476,7 @@
                         ProspectPlanStagesSimpleDataListId = "48182a32-39ee-454e-87e8-ac6ae255c259";
 
                     cacheKey = "simpleDataListLoad-" + ProspectPlanStagesSimpleDataListId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -1711,7 +1508,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         }, function (reply) {
                             var error = { message: "" };
@@ -1748,7 +1545,7 @@
                     if (planType === prospectUtilities.PLAN_TYPE.STEWARDSHIP) {
                         simpleListId = CodeTableEntryMobileSimpleDataListId;
                         cacheKey = "simpleDataListLoad-" + CodeTableEntryMobileSimpleDataListId + "-" + StewardshipStepCategoryCode;
-                        options = cloneOrNew(bbui, options);
+                        options = infinityUtilities.cloneOrNew(bbui, options);
 
                         angular.extend(options, {
                             parameters: [{
@@ -1763,7 +1560,7 @@
                         cacheKey = "simpleDataListLoad-" + INTERACTIONCATEGORIES_SIMPLELIST_ID;
                     }
 
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -1792,7 +1589,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         }, function (reply) {
                             var error = { message: "" };
@@ -1825,13 +1622,13 @@
                         LocationSimpleDataListId = "b0cb4058-4355-431a-abdb-3e9f2be8c918";
 
                     cacheKey = "simpleDataListLoad-" + LocationSimpleDataListId + "-" + prospectId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
                     }
 
-                    options = cloneOrNew(bbui, options);
+                    options = infinityUtilities.cloneOrNew(bbui, options);
                     angular.extend(options, {
                         parameters: [
                             {
@@ -1871,7 +1668,7 @@
                                 name: frogResources.other
                             });
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         }, function (reply) {
                             var error = { message: "" };
@@ -1908,13 +1705,13 @@
                         cacheResult;
 
                     cacheKey = "simpleDataListLoad-" + SUBCATEGORIES_SIMPLELIST_ID + "-" + categoryId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
                     }
 
-                    options = cloneOrNew(bbui, options);
+                    options = infinityUtilities.cloneOrNew(bbui, options);
                     angular.extend(options, {
                         parameters: [
                             {
@@ -1950,7 +1747,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         }, function (reply) {
                             var error = { message: "" };
@@ -1979,12 +1776,12 @@
                         cacheResult;
 
                     if (!prospectId || typeof prospectId !== "string") {
-                        return $q.reject({ message: ProspectIdRequiredMessage });
+                        return $q.reject({ message: prospectUtilities.ProspectIdRequiredMessage });
                     }
 
                     prospectId = prospectId.toUpperCase();
                     cacheKey = "dataListLoad-" + InteractionParticipantCandidatesMobileDataListId + "-" + prospectId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -2009,11 +1806,11 @@
 
                                 participants.push({
                                     id: participantValues[0].toUpperCase(),
-                                    name: getFullName(frogResources, participantValues[1], participantValues[2])
+                                    name: prospectUtilities.getFullName(frogResources, participantValues[1], participantValues[2])
                                 });
                             });
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
 
                             return data;
                         }, function (reply) {
@@ -2053,13 +1850,13 @@
                         cacheResult;
 
                     cacheKey = "simpleDataListLoad-" + POTENTIALSOLICITORS_SIMPLELIST_ID + "-" + planId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
                     }
 
-                    options = cloneOrNew(bbui, options);
+                    options = infinityUtilities.cloneOrNew(bbui, options);
                     angular.extend(options, {
                         parameters: [
                             {
@@ -2095,7 +1892,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         }, function (reply) {
                             var error = { message: "" };
@@ -2121,7 +1918,7 @@
                         cacheResult;
 
                     cacheKey = "simpleDataListLoad-" + SITES_SIMPLELIST_ID;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -2149,7 +1946,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         }, function (reply) {
                             var error = { message: "" };
@@ -2180,13 +1977,13 @@
 
                     if (!prospectId || typeof prospectId !== "string") {
                         return $q.reject({
-                            message: ProspectIdRequiredMessage
+                            message: prospectUtilities.ProspectIdRequiredMessage
                         });
                     }
 
                     prospectId = prospectId.toUpperCase();
                     cacheKey = "dataListLoad-" + ProspectPlansMobileDataListId + "-" + prospectId;
-                    cacheResult = apiCache.cache.get(cacheKey);
+                    cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
                         return $q.resolve(cacheResult);
@@ -2219,7 +2016,7 @@
                                 });
                             }
 
-                            apiCache.cache.put(cacheKey, bbui.clone(data));
+                            infinityCache.cache.put(cacheKey, bbui.clone(data));
                             return data;
                         }, function (reply) {
                             var error = { message: "" };
@@ -2284,6 +2081,14 @@
                     });
                 }
 
+                function getCompletedStatusCode(planType) {
+                    if (planType === prospectUtilities.PLAN_TYPE.STEWARDSHIP) {
+                        return 1;
+                    } else {
+                        return 2;
+                    }
+                }
+
                 return {
                     getContactMethodsAsync: getContactMethodsAsync,
                     getPlanStagesAsync: getPlanStagesAsync,
@@ -2294,606 +2099,537 @@
                     getPotentialSolicitorsAsync: getPotentialSolicitorsAsync,
                     getSitesAsync: getSitesAsync,
                     getPlansAsync: getPlansAsync,
-                    getStatusCodesAsync: getStatusCodesAsync
+                    getStatusCodesAsync: getStatusCodesAsync,
+                    getCompletedStatusCode: getCompletedStatusCode
                 };
 
             }])
 
-        .factory("apiContactReport", ["bbuiShellService", "prospectUtilities", "$rootScope", "$q", "frogResources", function (bbuiShellService, prospectUtilities, $rootScope, $q, frogResources) {
-            var svc,
-                StepAddId = "8eab8484-8188-4e63-a514-e08bea349a05",
-                StepEditId = "28ae3c5b-a40a-4bd2-ba3a-504f8ab010c8",
-                ConstituentIdFieldName = "CONSTITUENTID",
-                FundraiserIdFieldName = "FUNDRAISERID",
-                ProspectPlanIdFieldName = "PROSPECTPLANID",
-                StewardshipPlanIdFieldName = "STEWARDSHIPPLANID",
-                InteractionTypeCodeIdFieldName = "INTERACTIONTYPECODEID",
-                ObjectiveFieldName = "OBJECTIVE",
-                DateFieldName = "DATE",
-                StatusCodeFieldName = "STATUSCODE",
-                CommentFieldName = "COMMENT",
-                ParticipantsFieldName = "PARTICIPANTS",
-                InteractionCategoryIdFieldName = "INTERACTIONCATEGORYID",
-                InteractionSubcategoryIdFieldName = "INTERACTIONSUBCATEGORYID",
-                LocationFieldName = "LOCATION",
-                LocationIdFieldName = "LOCATIONID",
-                OtherLocationFieldName = "OTHERLOCATION",
-                StewardshipCategoryIdFieldName = "STEWARDSHIPCATEGORYID",
-                ProspectPlanStatusCodeIdFieldName = "PROSPECTPLANSTATUSCODEID",
-                AdditionalSolicitorsFieldName = "ADDITIONALSOLICITORS",
-                SiteIdFieldName = "SITEID",
-                SiteRequiredFieldName = "SITEREQUIRED",
-                PlanTypeFieldName = "PLANTYPE",
-                FirstNameFieldName = "FIRSTNAME",
-                KeyNameFieldName = "KEYNAME";
+        .factory("apiContactReport", ["bbuiShellService", "prospectUtilities", "$rootScope", "$q", "frogResources", "infinityUtilities",
+            function (bbuiShellService, prospectUtilities, $rootScope, $q, frogResources, infinityUtilities) {
+                var svc,
+                    StepAddId = "8eab8484-8188-4e63-a514-e08bea349a05",
+                    StepEditId = "28ae3c5b-a40a-4bd2-ba3a-504f8ab010c8",
+                    ConstituentIdFieldName = "CONSTITUENTID",
+                    FundraiserIdFieldName = "FUNDRAISERID",
+                    ProspectPlanIdFieldName = "PROSPECTPLANID",
+                    StewardshipPlanIdFieldName = "STEWARDSHIPPLANID",
+                    InteractionTypeCodeIdFieldName = "INTERACTIONTYPECODEID",
+                    ObjectiveFieldName = "OBJECTIVE",
+                    DateFieldName = "DATE",
+                    StatusCodeFieldName = "STATUSCODE",
+                    CommentFieldName = "COMMENT",
+                    ParticipantsFieldName = "PARTICIPANTS",
+                    InteractionCategoryIdFieldName = "INTERACTIONCATEGORYID",
+                    InteractionSubcategoryIdFieldName = "INTERACTIONSUBCATEGORYID",
+                    LocationFieldName = "LOCATION",
+                    LocationIdFieldName = "LOCATIONID",
+                    OtherLocationFieldName = "OTHERLOCATION",
+                    StewardshipCategoryIdFieldName = "STEWARDSHIPCATEGORYID",
+                    ProspectPlanStatusCodeIdFieldName = "PROSPECTPLANSTATUSCODEID",
+                    AdditionalSolicitorsFieldName = "ADDITIONALSOLICITORS",
+                    SiteIdFieldName = "SITEID",
+                    SiteRequiredFieldName = "SITEREQUIRED",
+                    PlanTypeFieldName = "PLANTYPE",
+                    FirstNameFieldName = "FIRSTNAME",
+                    KeyNameFieldName = "KEYNAME";
 
-            return {
-                addStepAsync: addStepAsync,
-                editStepAsync: editStepAsync,
-                loadStepAsync: loadStepAsync,
-                getContactReportPreloadAsync: getContactReportPreloadAsync
-            };
+                return {
+                    addStepAsync: addStepAsync,
+                    editStepAsync: editStepAsync,
+                    loadStepAsync: loadStepAsync,
+                    getContactReportPreloadAsync: getContactReportPreloadAsync
+                };
 
-            /**
-             * Transform a list of participants into a standard list that controllers can use.
-             * 
-             * @param {Object[]} participants
-             * @param {String} participants.constituentId The system ID of the participant.
-             * 
-             * @returns {Object[]} transformedParticipants
-             * @returns {String} transformedParticipants.name The FieldId to use. Hard-coded to "CONSTITUENTID."
-             * @returns {String} transformedParticipants.value The system ID of the particpant.
-             */
-            function getTransformedParticipants(participants) {
-                var transformedParticipants = [];
+                /**
+                 * Transform a list of participants into a standard list that controllers can use.
+                 * 
+                 * @param {Object[]} participants
+                 * @param {String} participants.constituentId The system ID of the participant.
+                 * 
+                 * @returns {Object[]} transformedParticipants
+                 * @returns {String} transformedParticipants.name The FieldId to use. Hard-coded to "CONSTITUENTID."
+                 * @returns {String} transformedParticipants.value The system ID of the particpant.
+                 */
+                function getTransformedParticipants(participants) {
+                    var transformedParticipants = [];
 
-                if (participants) {
-                    participants.forEach(function (participant) {
-                        transformedParticipants.push([
-                            {
-                                name: ConstituentIdFieldName,
-                                value: participant.constituentId
-                            }
-                        ]);
-                    });
+                    if (participants) {
+                        participants.forEach(function (participant) {
+                            transformedParticipants.push([
+                                {
+                                    name: ConstituentIdFieldName,
+                                    value: participant.constituentId
+                                }
+                            ]);
+                        });
+                    }
+
+                    return transformedParticipants;
                 }
 
-                return transformedParticipants;
-            }
+                /**
+                 * Transform a list of solicitors into a standard list that controllers can use.
+                 * 
+                 * @param {Object[]} solicitors
+                 * @param {String} solicitors.constituentId The system ID of the solicitor.
+                 * 
+                 * @returns {Object[]} transformedSolicitors
+                 * @returns {String} transformedSolicitors.name The FieldId to use. Hard-coded to "FUNDRAISERID."
+                 * @returns {String} transformedSolicitors.value The system ID of the solicitor.
+                 */
+                function getTransformedSolicitors(solicitors) {
+                    var transformedSolicitors = [];
 
-            /**
-             * Transform a list of solicitors into a standard list that controllers can use.
-             * 
-             * @param {Object[]} solicitors
-             * @param {String} solicitors.constituentId The system ID of the solicitor.
-             * 
-             * @returns {Object[]} transformedSolicitors
-             * @returns {String} transformedSolicitors.name The FieldId to use. Hard-coded to "FUNDRAISERID."
-             * @returns {String} transformedSolicitors.value The system ID of the solicitor.
-             */
-            function getTransformedSolicitors(solicitors) {
-                var transformedSolicitors = [];
+                    if (solicitors) {
+                        solicitors.forEach(function (solicitor) {
+                            transformedSolicitors.push([
+                                {
+                                    name: FundraiserIdFieldName,
+                                    value: solicitor.constituentId
+                                }
+                            ]);
+                        });
+                    }
 
-                if (solicitors) {
-                    solicitors.forEach(function (solicitor) {
-                        transformedSolicitors.push([
-                            {
-                                name: FundraiserIdFieldName,
-                                value: solicitor.constituentId
-                            }
-                        ]);
-                    });
+                    return transformedSolicitors;
                 }
 
-                return transformedSolicitors;
-            }
+                /**
+                 * Add a step to a prospect/stewardship plan.
+                 *
+                 * @param {Object} step
+                 * @param {String} step.prospectId The system ID of the prospect.
+                 * @param {String} step.contactMethodId The system ID for the contact method to be used.
+                 * @param {String} step.objective The step's objective.
+                 * @param {Date} step.date The step's date.
+                 * @param {Number} step.statusCode The step's status code.
+                 * @param {String} step.comments The comments on the step.
+                 * @param {Object[]} step.participants
+                 * @param {String} step.participants.constituentId The system ID of the participant.
+                 * @param {String} step.categoryId The category of the step.
+                 * @param {String} step.subcategoryId The subcategory of the step.
+                 * @param {String} step.planStageId The system ID for the plan stage.
+                 * @param {Object[]} step.solicitors
+                 * @param {String} step.solicitors.constituentId The system ID of the solicitor.
+                 * @param {String} step.planId The system ID to which to add the step.
+                 * @param {frog.utils.prospectUtilities.PlanType} step.planType The plan type.
+                 * @param {String} step.siteId The system ID for the step's site.
+                 * 
+                 * @returns {Promise<String>} The ID of the step saved.
+                 */
+                function addStepAsync(step) {
+                    step = step || {};
+                    svc = bbuiShellService.create();
 
-            /**
-             * Add a step to a prospect/stewardship plan.
-             *
-             * @param {Object} step
-             * @param {String} step.prospectId The system ID of the prospect.
-             * @param {String} step.contactMethodId The system ID for the contact method to be used.
-             * @param {String} step.objective The step's objective.
-             * @param {Date} step.date The step's date.
-             * @param {Number} step.statusCode The step's status code.
-             * @param {String} step.comments The comments on the step.
-             * @param {Object[]} step.participants
-             * @param {String} step.participants.constituentId The system ID of the participant.
-             * @param {String} step.categoryId The category of the step.
-             * @param {String} step.subcategoryId The subcategory of the step.
-             * @param {String} step.planStageId The system ID for the plan stage.
-             * @param {Object[]} step.solicitors
-             * @param {String} step.solicitors.constituentId The system ID of the solicitor.
-             * @param {String} step.planId The system ID to which to add the step.
-             * @param {frog.utils.prospectUtilities.PlanType} step.planType The plan type.
-             * @param {String} step.siteId The system ID for the step's site.
-             * 
-             * @returns {Promise<String>} The ID of the step saved.
-             */
-            function addStepAsync(step) {
-                step = step || {};
-                svc = bbuiShellService.create();
-
-                return svc.dataFormSave(
-                    StepAddId,
-                    {
-                        values: [
-                            {
-                                name: ConstituentIdFieldName,
-                                value: step.prospectId
-                            },
-                            {
-                                name: ProspectPlanIdFieldName,
-                                value: step.planType === prospectUtilities.PLAN_TYPE.PROSPECT ? step.planId : null
-                            },
-                            {
-                                name: StewardshipPlanIdFieldName,
-                                value: step.planType === prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.planId : null
-                            },
-                            {
-                                name: InteractionTypeCodeIdFieldName,
-                                value: step.contactMethodId
-                            },
-                            {
-                                name: ObjectiveFieldName,
-                                value: step.objective
-                            },
-                            {
-                                name: DateFieldName,
-                                value: step.date
-                            },
-                            {
-                                name: StatusCodeFieldName,
-                                value: step.statusCode
-                            },
-                            {
-                                name: CommentFieldName,
-                                value: step.comments
-                            },
-                            {
-                                name: ParticipantsFieldName,
-                                collectionValue: getTransformedParticipants(step.participants)
-                            },
-                            {
-                                name: InteractionCategoryIdFieldName,
-                                value: step.planType !== prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.categoryId : null
-                            },
-                            {
-                                name: InteractionSubcategoryIdFieldName,
-                                value: step.subcategoryId
-                            },
-                            {
-                                name: LocationIdFieldName,
-                                value: step.locationId
-                            },
-                            {
-                                name: OtherLocationFieldName,
-                                value: step.otherLocation
-                            },
-                            {
-                                name: StewardshipCategoryIdFieldName,
-                                value: step.planType === prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.categoryId : null
-                            },
-                            {
-                                name: ProspectPlanStatusCodeIdFieldName,
-                                value: step.planStageId
-                            },
-                            {
-                                name: AdditionalSolicitorsFieldName,
-                                collectionValue: getTransformedSolicitors(step.solicitors)
-                            },
-                            {
-                                name: SiteIdFieldName,
-                                value: step.siteId
-                            }
-                        ]
-                    }
-                )
-                    .then(function (reply) {
-                        $rootScope.$broadcast("stepSaved");
-                        return reply.data.id;
-                    }, function (reply) {
-                        var error = { message: "" };
-
-                        if (reply.data && reply.data.message) {
-                            error.message = reply.data.message;
+                    return svc.dataFormSave(
+                        StepAddId,
+                        {
+                            values: [
+                                {
+                                    name: ConstituentIdFieldName,
+                                    value: step.prospectId
+                                },
+                                {
+                                    name: ProspectPlanIdFieldName,
+                                    value: step.planType === prospectUtilities.PLAN_TYPE.PROSPECT ? step.planId : null
+                                },
+                                {
+                                    name: StewardshipPlanIdFieldName,
+                                    value: step.planType === prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.planId : null
+                                },
+                                {
+                                    name: InteractionTypeCodeIdFieldName,
+                                    value: step.contactMethodId
+                                },
+                                {
+                                    name: ObjectiveFieldName,
+                                    value: step.objective
+                                },
+                                {
+                                    name: DateFieldName,
+                                    value: step.date
+                                },
+                                {
+                                    name: StatusCodeFieldName,
+                                    value: step.statusCode
+                                },
+                                {
+                                    name: CommentFieldName,
+                                    value: step.comments
+                                },
+                                {
+                                    name: ParticipantsFieldName,
+                                    collectionValue: getTransformedParticipants(step.participants)
+                                },
+                                {
+                                    name: InteractionCategoryIdFieldName,
+                                    value: step.planType !== prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.categoryId : null
+                                },
+                                {
+                                    name: InteractionSubcategoryIdFieldName,
+                                    value: step.subcategoryId
+                                },
+                                {
+                                    name: LocationIdFieldName,
+                                    value: step.locationId
+                                },
+                                {
+                                    name: OtherLocationFieldName,
+                                    value: step.otherLocation
+                                },
+                                {
+                                    name: StewardshipCategoryIdFieldName,
+                                    value: step.planType === prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.categoryId : null
+                                },
+                                {
+                                    name: ProspectPlanStatusCodeIdFieldName,
+                                    value: step.planStageId
+                                },
+                                {
+                                    name: AdditionalSolicitorsFieldName,
+                                    collectionValue: getTransformedSolicitors(step.solicitors)
+                                },
+                                {
+                                    name: SiteIdFieldName,
+                                    value: step.siteId
+                                }
+                            ]
                         }
+                    )
+                        .then(function (reply) {
+                            $rootScope.$broadcast("stepSaved");
+                            return reply.data.id;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                        return $q.reject(error);
-                    });
-            }
-
-            /**
-             * Edit an existing prospect/stewardship plan step or interaction.
-             * 
-             * @param {Object} step
-             * @param {String} step.prospectId The system ID of the prospect.
-             * @param {String} step.contactMethodId The system ID for the contact method to be used.
-             * @param {String} step.objective The step's objective.
-             * @param {Date} step.date The step's date.
-             * @param {Number} step.statusCode The step's status code.
-             * @param {String} step.comments The comments on the step.
-             * @param {Object[]} step.participants
-             * @param {String} step.participants.constituentId The system ID of the participant.
-             * @param {String} step.categoryId The category of the step.
-             * @param {String} step.subcategoryId The subcategory of the step.
-             * @param {String} step.planStageId The system ID for the plan stage.
-             * @param {Object[]} step.solicitors
-             * @param {String} step.solicitors.constituentId The system ID of the solicitor.
-             * @param {String} step.planId The system ID to which to add the step.
-             * @param {frog.utils.prospectUtilities.PlanType} step.planType The plan type.
-             * 
-             * @returns {Promise<String>} The ID of the step saved.
-             */
-            function editStepAsync(step) {
-                step = step || {};
-                svc = bbuiShellService.create();
-
-                return svc.dataFormSave(
-                    StepEditId,
-                    {
-                        recordId: step.id,
-                        values: [
-                            {
-                                name: InteractionTypeCodeIdFieldName,
-                                value: step.contactMethodId
-                            },
-                            {
-                                name: ObjectiveFieldName,
-                                value: step.objective
-                            },
-                            {
-                                name: DateFieldName,
-                                value: step.date
-                            },
-                            {
-                                name: StatusCodeFieldName,
-                                value: step.statusCode
-                            },
-                            {
-                                name: CommentFieldName,
-                                value: step.comments
-                            },
-                            {
-                                name: ParticipantsFieldName,
-                                collectionValue: getTransformedParticipants(step.participants)
-                            },
-                            {
-                                name: InteractionCategoryIdFieldName,
-                                value: step.planType !== prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.categoryId : null
-                            },
-                            {
-                                name: InteractionSubcategoryIdFieldName,
-                                value: step.subcategoryId
-                            },
-                            {
-                                name: LocationIdFieldName,
-                                value: step.locationId
-                            },
-                            {
-                                name: OtherLocationFieldName,
-                                value: step.otherLocation
-                            },
-                            {
-                                name: StewardshipCategoryIdFieldName,
-                                value: step.planType === prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.categoryId : null
-                            },
-                            {
-                                name: ProspectPlanStatusCodeIdFieldName,
-                                value: step.planStageId
-                            },
-                            {
-                                name: AdditionalSolicitorsFieldName,
-                                collectionValue: getTransformedSolicitors(step.solicitors)
+                            if (reply.data && reply.data.message) {
+                                error.message = reply.data.message;
                             }
-                        ]
-                    }
-                )
-                    .then(function (reply) {
-                        $rootScope.$broadcast("stepSaved");
-                        return reply.data.id;
-                    }, function (reply) {
-                        var error = { message: "" };
 
-                        if (reply.data && reply.data.message) {
-                            error.message = reply.data.message;
+                            return $q.reject(error);
+                        });
+                }
+
+                /**
+                 * Edit an existing prospect/stewardship plan step or interaction.
+                 * 
+                 * @param {Object} step
+                 * @param {String} step.prospectId The system ID of the prospect.
+                 * @param {String} step.contactMethodId The system ID for the contact method to be used.
+                 * @param {String} step.objective The step's objective.
+                 * @param {Date} step.date The step's date.
+                 * @param {Number} step.statusCode The step's status code.
+                 * @param {String} step.comments The comments on the step.
+                 * @param {Object[]} step.participants
+                 * @param {String} step.participants.constituentId The system ID of the participant.
+                 * @param {String} step.categoryId The category of the step.
+                 * @param {String} step.subcategoryId The subcategory of the step.
+                 * @param {String} step.planStageId The system ID for the plan stage.
+                 * @param {Object[]} step.solicitors
+                 * @param {String} step.solicitors.constituentId The system ID of the solicitor.
+                 * @param {String} step.planId The system ID to which to add the step.
+                 * @param {frog.utils.prospectUtilities.PlanType} step.planType The plan type.
+                 * 
+                 * @returns {Promise<String>} The ID of the step saved.
+                 */
+                function editStepAsync(step) {
+                    step = step || {};
+                    svc = bbuiShellService.create();
+
+                    return svc.dataFormSave(
+                        StepEditId,
+                        {
+                            recordId: step.id,
+                            values: [
+                                {
+                                    name: InteractionTypeCodeIdFieldName,
+                                    value: step.contactMethodId
+                                },
+                                {
+                                    name: ObjectiveFieldName,
+                                    value: step.objective
+                                },
+                                {
+                                    name: DateFieldName,
+                                    value: step.date
+                                },
+                                {
+                                    name: StatusCodeFieldName,
+                                    value: step.statusCode
+                                },
+                                {
+                                    name: CommentFieldName,
+                                    value: step.comments
+                                },
+                                {
+                                    name: ParticipantsFieldName,
+                                    collectionValue: getTransformedParticipants(step.participants)
+                                },
+                                {
+                                    name: InteractionCategoryIdFieldName,
+                                    value: step.planType !== prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.categoryId : null
+                                },
+                                {
+                                    name: InteractionSubcategoryIdFieldName,
+                                    value: step.subcategoryId
+                                },
+                                {
+                                    name: LocationIdFieldName,
+                                    value: step.locationId
+                                },
+                                {
+                                    name: OtherLocationFieldName,
+                                    value: step.otherLocation
+                                },
+                                {
+                                    name: StewardshipCategoryIdFieldName,
+                                    value: step.planType === prospectUtilities.PLAN_TYPE.STEWARDSHIP ? step.categoryId : null
+                                },
+                                {
+                                    name: ProspectPlanStatusCodeIdFieldName,
+                                    value: step.planStageId
+                                },
+                                {
+                                    name: AdditionalSolicitorsFieldName,
+                                    collectionValue: getTransformedSolicitors(step.solicitors)
+                                }
+                            ]
                         }
+                    )
+                        .then(function (reply) {
+                            $rootScope.$broadcast("stepSaved");
+                            return reply.data.id;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                        return $q.reject(error);
-                    });
-            }
+                            if (reply.data && reply.data.message) {
+                                error.message = reply.data.message;
+                            }
 
-            /**
-             * Loads information associated with a given interaction or a given step for a stewardship or prospect plan.
-             * 
-             * @param {String} The id of the interaction/step to load.
-             * 
-             * @returns {Promise<Object>} return The loaded interaction/step.
-             * @returns {String} return.interactionTypeCodeId The system ID for the interaction/step type.
-             * @returns {String} return.objective The objective of the interaction/step.
-             * @returns {Date} return.expectedDate The expected date of the interaction/step.
-             * @returns {Number} return.statusCode The status code of the interaction/step.
-             * @returns {String} return.comment The comment on the interaction/step.
-             * @returns {String} return.categoryId The system ID for the category on the interaction/step.
-             * @returns {String} return.subcategoryId The system ID for the subcategory on the interaction/step.
-             * @returns {String} return.location The location of the interaction/step.
-             * @returns {String} return.prospectPlanStatusCodeId The system ID for the prospest plan status code.
-             * @returns {String} return.planId The system ID for the plan.
-             * @returns {frog.utils.prospectUtilities.PlanType} return.planType The plan type.
-             * 
-             * @returns {Object[]} return.participants
-             * @returns {String} return.participants.constituentid The system ID for the participant.
-             * @returns {String} return.participants.name The name of the participant.
-             * 
-             * @returns {Object[]} return.solicitors
-             * @returns {String} return.solicitors.constituentId The system ID for the solicitor.
-             * @returns {String} return.solicitors.name The name of the solicitor.
-             */
-            function loadStepAsync(id) {
-                svc = bbuiShellService.create();
-                return svc.dataFormLoad(StepEditId, {
-                    recordId: id
-                })
-                    .then(function (reply) {
-                        var result = {
-                            comment: "",
-                            date: null,
-                            interactionCategoryId: null,
-                            interactionSubcategoryId: null,
-                            interactionTypeCodeId: null,
-                            location: "",
-                            objective: "",
-                            participants: [],
-                            prospectPlanStatusCodeId: null,
-                            solicitors: [],
-                            statusCode: null,
-                            stewardshipCategoryId: null
-                        };
+                            return $q.reject(error);
+                        });
+                }
 
-                        reply.data.values.forEach(function (dfi) {
-                            switch (dfi.name) {
-                                case InteractionTypeCodeIdFieldName:
-                                    result.interactionTypeCodeId = toUpperIdOrNullIfEmpty(dfi.value);
-                                    break;
+                /**
+                 * Loads information associated with a given interaction or a given step for a stewardship or prospect plan.
+                 * 
+                 * @param {String} The id of the interaction/step to load.
+                 * 
+                 * @returns {Promise<Object>} return The loaded interaction/step.
+                 * @returns {String} return.interactionTypeCodeId The system ID for the interaction/step type.
+                 * @returns {String} return.objective The objective of the interaction/step.
+                 * @returns {Date} return.expectedDate The expected date of the interaction/step.
+                 * @returns {Number} return.statusCode The status code of the interaction/step.
+                 * @returns {String} return.comment The comment on the interaction/step.
+                 * @returns {String} return.categoryId The system ID for the category on the interaction/step.
+                 * @returns {String} return.subcategoryId The system ID for the subcategory on the interaction/step.
+                 * @returns {String} return.location The location of the interaction/step.
+                 * @returns {String} return.prospectPlanStatusCodeId The system ID for the prospest plan status code.
+                 * @returns {String} return.planId The system ID for the plan.
+                 * @returns {frog.utils.prospectUtilities.PlanType} return.planType The plan type.
+                 * 
+                 * @returns {Object[]} return.participants
+                 * @returns {String} return.participants.constituentid The system ID for the participant.
+                 * @returns {String} return.participants.name The name of the participant.
+                 * 
+                 * @returns {Object[]} return.solicitors
+                 * @returns {String} return.solicitors.constituentId The system ID for the solicitor.
+                 * @returns {String} return.solicitors.name The name of the solicitor.
+                 */
+                function loadStepAsync(id) {
+                    svc = bbuiShellService.create();
+                    return svc.dataFormLoad(StepEditId, {
+                        recordId: id
+                    })
+                        .then(function (reply) {
+                            var result = {
+                                comment: "",
+                                date: null,
+                                interactionCategoryId: null,
+                                interactionSubcategoryId: null,
+                                interactionTypeCodeId: null,
+                                location: "",
+                                objective: "",
+                                participants: [],
+                                prospectPlanStatusCodeId: null,
+                                solicitors: [],
+                                statusCode: null,
+                                stewardshipCategoryId: null
+                            };
 
-                                case ObjectiveFieldName:
-                                    result.objective = dfi.value;
-                                    break;
+                            reply.data.values.forEach(function (dfi) {
+                                switch (dfi.name) {
+                                    case InteractionTypeCodeIdFieldName:
+                                        result.interactionTypeCodeId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
+                                        break;
 
-                                case DateFieldName:
-                                    result.date = dfi.value;
-                                    break;
+                                    case ObjectiveFieldName:
+                                        result.objective = dfi.value;
+                                        break;
 
-                                case StatusCodeFieldName:
-                                    result.statusCode = dfi.value;
-                                    break;
+                                    case DateFieldName:
+                                        result.date = dfi.value;
+                                        break;
 
-                                case CommentFieldName:
-                                    result.comment = dfi.value;
-                                    break;
+                                    case StatusCodeFieldName:
+                                        result.statusCode = dfi.value;
+                                        break;
 
-                                case ParticipantsFieldName:
-                                    angular.forEach(dfi.value, function (participantDfi) {
-                                        var participant = {},
-                                            firstName,
-                                            keyName;
+                                    case CommentFieldName:
+                                        result.comment = dfi.value;
+                                        break;
 
-                                        angular.forEach(participantDfi, function (field) {
-                                            switch (field.name) {
-                                                case ConstituentIdFieldName:
-                                                    participant.constituentId = field.value.toUpperCase();
-                                                    break;
+                                    case ParticipantsFieldName:
+                                        angular.forEach(dfi.value, function (participantDfi) {
+                                            var participant = {},
+                                                firstName,
+                                                keyName;
 
-                                                case FirstNameFieldName:
-                                                    firstName = field.value;
-                                                    break;
+                                            angular.forEach(participantDfi, function (field) {
+                                                switch (field.name) {
+                                                    case ConstituentIdFieldName:
+                                                        participant.constituentId = field.value.toUpperCase();
+                                                        break;
 
-                                                case KeyNameFieldName:
-                                                    keyName = field.value;
-                                                    break;
-                                            }
+                                                    case FirstNameFieldName:
+                                                        firstName = field.value;
+                                                        break;
+
+                                                    case KeyNameFieldName:
+                                                        keyName = field.value;
+                                                        break;
+                                                }
+                                            });
+
+                                            participant.name = prospectUtilities.getFullName(frogResources, firstName, keyName);
+
+                                            result.participants.push(participant);
                                         });
 
-                                        participant.name = getFullName(frogResources, firstName, keyName);
+                                        break;
 
-                                        result.participants.push(participant);
-                                    });
+                                    case InteractionCategoryIdFieldName:
+                                        result.categoryId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
+                                        break;
 
-                                    break;
+                                    case InteractionSubcategoryIdFieldName:
+                                        result.subcategoryId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
+                                        break;
 
-                                case InteractionCategoryIdFieldName:
-                                    result.categoryId = toUpperIdOrNullIfEmpty(dfi.value);
-                                    break;
+                                    case LocationFieldName:
+                                        result.location = dfi.value;
+                                        break;
 
-                                case InteractionSubcategoryIdFieldName:
-                                    result.subcategoryId = toUpperIdOrNullIfEmpty(dfi.value);
-                                    break;
+                                    case ProspectPlanStatusCodeIdFieldName:
+                                        result.prospectPlanStatusCodeId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
+                                        break;
 
-                                case LocationFieldName:
-                                    result.location = dfi.value;
-                                    break;
+                                    case StewardshipCategoryIdFieldName:
+                                        result.stewardshipCategoryId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
+                                        break;
 
-                                case ProspectPlanStatusCodeIdFieldName:
-                                    result.prospectPlanStatusCodeId = toUpperIdOrNullIfEmpty(dfi.value);
-                                    break;
+                                    case AdditionalSolicitorsFieldName:
+                                        angular.forEach(dfi.value, function (participantDfi) {
+                                            var solicitor = {},
+                                                firstName,
+                                                keyName;
 
-                                case StewardshipCategoryIdFieldName:
-                                    result.stewardshipCategoryId = toUpperIdOrNullIfEmpty(dfi.value);
-                                    break;
+                                            angular.forEach(participantDfi, function (field) {
+                                                switch (field.name) {
+                                                    case FundraiserIdFieldName:
+                                                        solicitor.constituentId = field.value.toUpperCase();
+                                                        break;
 
-                                case AdditionalSolicitorsFieldName:
-                                    angular.forEach(dfi.value, function (participantDfi) {
-                                        var solicitor = {},
-                                            firstName,
-                                            keyName;
+                                                    case FirstNameFieldName:
+                                                        firstName = field.value;
+                                                        break;
 
-                                        angular.forEach(participantDfi, function (field) {
-                                            switch (field.name) {
-                                                case FundraiserIdFieldName:
-                                                    solicitor.constituentId = field.value.toUpperCase();
-                                                    break;
+                                                    case KeyNameFieldName:
+                                                        keyName = field.value;
+                                                        break;
+                                                }
+                                            });
 
-                                                case FirstNameFieldName:
-                                                    firstName = field.value;
-                                                    break;
+                                            solicitor.name = prospectUtilities.getFullName(frogResources, firstName, keyName);
 
-                                                case KeyNameFieldName:
-                                                    keyName = field.value;
-                                                    break;
-                                            }
+                                            result.solicitors.push(solicitor);
                                         });
 
-                                        solicitor.name = getFullName(frogResources, firstName, keyName);
+                                        break;
 
-                                        result.solicitors.push(solicitor);
-                                    });
+                                    case PlanTypeFieldName:
+                                        result.planType = dfi.value;
+                                        break;
+                                }
+                            });
 
-                                    break;
+                            return result;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                                case PlanTypeFieldName:
-                                    result.planType = dfi.value;
-                                    break;
+                            if (reply.data && reply.data.message) {
+                                error.message = reply.data.message;
                             }
+
+                            return $q.reject(error);
                         });
+                }
 
-                        return result;
-                    }, function (reply) {
-                        var error = { message: "" };
+                /**
+                 * Preload data for the contact report form.
+                 * 
+                 * @returns {Promise<Object>} return
+                 * @returns {Boolean} return.siteRequired Specifies whether or not a site is required for the user.
+                 * @returns {String} return.siteId The default site for the user.
+                 */
+                function getContactReportPreloadAsync() {
+                    svc = bbuiShellService.create();
+                    return svc.dataFormLoad(StepAddId)
+                        .then(function (reply) {
+                            var result = {
+                                siteRequired: false,
+                                siteId: null
+                            };
 
-                        if (reply.data && reply.data.message) {
-                            error.message = reply.data.message;
-                        }
+                            reply.data.values.forEach(function (dfi) {
+                                switch (dfi.name) {
+                                    case SiteRequiredFieldName:
+                                        result.siteRequired = dfi.value;
+                                        break;
 
-                        return $q.reject(error);
-                    });
-            }
+                                    case SiteIdFieldName:
+                                        result.siteId = infinityUtilities.toUpperIdOrNullIfEmpty(dfi.value);
+                                        break;
+                                }
+                            });
 
-            /**
-             * Preload data for the contact report form.
-             * 
-             * @returns {Promise<Object>} return
-             * @returns {Boolean} return.siteRequired Specifies whether or not a site is required for the user.
-             * @returns {String} return.siteId The default site for the user.
-             */
-            function getContactReportPreloadAsync() {
-                svc = bbuiShellService.create();
-                return svc.dataFormLoad(StepAddId)
-                    .then(function (reply) {
-                        var result = {
-                            siteRequired: false,
-                            siteId: null
-                        };
+                            return result;
+                        }, function (reply) {
+                            var error = { message: "" };
 
-                        reply.data.values.forEach(function (dfi) {
-                            switch (dfi.name) {
-                                case SiteRequiredFieldName:
-                                    result.siteRequired = dfi.value;
-                                    break;
-
-                                case SiteIdFieldName:
-                                    result.siteId = toUpperIdOrNullIfEmpty(dfi.value);
-                                    break;
+                            if (reply.data && reply.data.message) {
+                                error.message = reply.data.message;
                             }
+
+                            return $q.reject(error);
                         });
-
-                        return result;
-                    }, function (reply) {
-                        var error = { message: "" };
-
-                        if (reply.data && reply.data.message) {
-                            error.message = reply.data.message;
-                        }
-
-                        return $q.reject(error);
-                    });
-            }
-
-        }])
-
-        .factory("apiProducts", ["bbui", "bbuiShellService", "apiCache", "$q", function (bbui, bbuiShellService, apiCache, $q) {
-            var apiProducts,
-                svc;
-
-            apiProducts = {
-                productIsInstalledAsync: productIsInstalledAsync
-            };
-
-            return apiProducts;
-
-            /**
-             * Checks if a given product is installed. If the request fails, the error message will exist in the message property of the result.
-             * 
-             * @param {String} productId The installed product's ID.
-             * @returns {Promise<Boolean>} result Indicates if the product is installed.
-             */
-            function productIsInstalledAsync(productId) {
-                var InstalledProductsMobileDataListId = "c495bc28-db3a-48dc-a980-259b0a0b08c1",
-                    cacheKey = "dataListLoad-" + InstalledProductsMobileDataListId,
-                    cacheResult;
-
-                if (!productId || typeof productId !== "string") {
-                    return $q.reject({ message: "productId is required." });
                 }
 
-                productId = productId.toUpperCase();
-                cacheResult = apiCache.cache.get(cacheKey);
+            }])
 
-                if (cacheResult) {
-                    return $q.resolve(cacheResult.installedProducts.indexOf(productId) !== -1);
-                }
-
-                svc = bbuiShellService.create();
-
-                return svc.dataListLoad(InstalledProductsMobileDataListId)
-                    .then(function (reply) {
-                        var i,
-                            n,
-                            rows = reply.data.rows,
-                            data,
-                            installedProducts = [];
-
-                        data = {
-                            installedProducts: installedProducts
-                        };
-
-                        for (i = 0, n = rows.length; i < n; ++i) {
-                            installedProducts.push(rows[i].values[0].toUpperCase());
-                        }
-
-                        apiCache.cache.put(cacheKey, bbui.clone(data));
-                        return installedProducts.indexOf(productId) !== -1;
-                    }, function (reply) {
-                        var result = {};
-
-                        if (reply && reply.data && reply.data.message) {
-                            result.message = reply.data.message;
-                        }
-
-                        return $q.reject(result);
-                    });
-            }
-        }])
-
-        .factory("api", ["infinityUtilities", "browserUtilities", "bbuiShellServiceConfig", "apiAuthenticate",
-            "apiPortfolio", "apiProspectView", "apiContactReportOptions", "apiContactReport", "apiProducts",
-            function (infinityUtilities, browserUtilities, bbuiShellServiceConfig, apiAuthenticate,
-                apiPortfolio, apiProspectView, apiContactReportOptions, apiContactReport, apiProducts) {
-
-                function getDatabaseName() {
-                    return bbuiShellServiceConfig.databaseName;
-                }
+        .factory("api", ["infinityUtilities", "infinityAuth", "apiPortfolio", "apiProspectView", "apiContactReportOptions", "apiContactReport", "infinityProduct", 'customizable',
+            function (infinityUtilities, infinityAuth, apiPortfolio, apiProspectView, apiContactReportOptions, apiContactReport, infinityProduct, customizable) {
 
                 function initialize() {
-                    bbuiShellServiceConfig.baseUrl = "/" + infinityUtilities.getVirtualDirectory();
-                    bbuiShellServiceConfig.databaseName = browserUtilities.getQueryStringParameters().databasename;
+                    infinityUtilities.initialize(customizable.getRootFolder(), customizable.isCustomApp());
                 }
 
                 return {
-                    getDatabaseName: getDatabaseName,
+                    getDatabaseName: infinityUtilities.getDatabaseName,
                     initialize: initialize,
-                    authenticateAsync: apiAuthenticate.authenticateAsync,
-                    logoutAsync: apiAuthenticate.logoutAsync,
+                    authenticateAsync: infinityAuth.authenticateAsync,
+                    logoutAsync: infinityAuth.logoutAsync,
                     getPortfolioAsync: apiPortfolio.getPortfolioAsync,
                     getPortfolioSettingsAsync: apiPortfolio.getPortfolioSettingsAsync,
                     getConstituentSearchListInformationAsync: apiPortfolio.getConstituentSearchListInformationAsync,
@@ -2918,11 +2654,13 @@
                     getSitesAsync: apiContactReportOptions.getSitesAsync,
                     getPlansAsync: apiContactReportOptions.getPlansAsync,
                     getStatusCodesAsync: apiContactReportOptions.getStatusCodesAsync,
+                    getCompletedStatusCode: apiContactReportOptions.getCompletedStatusCode,
                     loadStepAsync: apiContactReport.loadStepAsync,
                     addStepAsync: apiContactReport.addStepAsync,
                     editStepAsync: apiContactReport.editStepAsync,
                     getContactReportPreloadAsync: apiContactReport.getContactReportPreloadAsync,
-                    productIsInstalledAsync: apiProducts.productIsInstalledAsync
+                    productIsInstalledAsync: infinityProduct.productIsInstalledAsync,
+                    getAuthInterceptors: infinityAuth.getAuthInterceptors
                 };
 
             }
