@@ -52,6 +52,8 @@
 
         module("frog.test");
 
+        module("infinity.util");
+
         module("frog");
 
         module("frog.util");

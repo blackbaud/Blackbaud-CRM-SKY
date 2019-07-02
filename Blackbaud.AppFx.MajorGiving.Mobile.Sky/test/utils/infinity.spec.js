@@ -18,9 +18,10 @@
 
             module('sky.moment');
 
+            module('infinity.util');
+
             module('frog.util');
 
-            module('infinity.util');
 
             module(function ($provide, mockableUtilitiesProvider) {
 

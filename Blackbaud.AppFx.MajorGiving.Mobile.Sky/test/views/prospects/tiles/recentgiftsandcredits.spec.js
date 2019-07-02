@@ -31,6 +31,7 @@
         }
 
         beforeEach(function () {
+            module('infinity.util');
             module('frog.api');
 
             module(function ($provide) {

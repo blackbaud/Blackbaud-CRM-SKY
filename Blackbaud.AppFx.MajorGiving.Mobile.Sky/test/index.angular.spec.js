@@ -23,6 +23,8 @@
 
             module('frog.resources');
 
+            module('infinity.util');
+
             module('frog.api');
 
             module(function ($provide) {
@@ -284,6 +286,7 @@
 
             });
 
+            module('infinity.util');
             module('frog');
 
         });
