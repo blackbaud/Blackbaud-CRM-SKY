@@ -6,32 +6,30 @@
 
     describe('utils.infinity', function () {
 
-        var infinityUtilities,
-            windowLocation;
+        var infinityUtilities;
 
         beforeEach(function () {
 
-            windowLocation = {
-                href: "http://MockHost/MockPath/sky/frog/?databaseName=BBInfinityMock",
-                replace: angular.noop
-            };
-
             module('sky.moment');
-
-            module('infinity.util');
 
             module('frog.util');
 
+            module('infinity.util');
 
             module(function ($provide, mockableUtilitiesProvider) {
 
                 var mockUtil = mockableUtilitiesProvider.$get();
                 mockUtil.getWindowLocation = function () {
-                    return windowLocation;
+                    return {
+                        href: "http://MockHost/MockPath/sky/frog/?databaseName=BBInfinityMock",
+                        replace: angular.noop
+                    };
                 };
                 $provide.value("mockableUtilities", mockUtil);
 
             });
+
+            module('frog.api');
 
         });
 
