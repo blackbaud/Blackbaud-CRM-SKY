@@ -2691,7 +2691,7 @@
             };
         }])
 
-        .factory('customizable', ['customizableRoot', function () {
+        .factory('customizable', ['customizableRoot', function (customizableRoot) {
             return {
 
                 /**
@@ -2700,7 +2700,7 @@
                  * Do not remove this function.
                  */
                 getRootFolder: function () {
-                    return 'frogger';
+                    return customizableRoot.getRootFolder();
                 },
 
                 /**
@@ -2709,7 +2709,7 @@
                  * Do not remove this function.
                  */
                 isCustomApp: function () {
-                    return true;
+                    return customizableRoot.isCustomApp();
                 }
 
                 // Add other custom components here.

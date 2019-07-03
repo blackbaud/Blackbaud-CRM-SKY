@@ -35,6 +35,8 @@
 
         beforeEach(inject(function (_infinityUtilities_) {
             infinityUtilities = _infinityUtilities_;
+
+            infinityUtilities.initialize("frog", false);
         }));
 
         it("factory exists", function () {
