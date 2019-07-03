@@ -84,12 +84,25 @@
                     fail("Unknown feature ID or feature type.");
                 }
 
+                function getAuthInterceptors() {
+                    return [
+                        function () {
+                            return {
+                                "responseError": function (response) {
+                                    return $q.reject(response);
+                                }
+                            };
+                        }
+                    ];
+                }
+
                 $provide.value("api", {
                     initialize: angular.noop,
                     getDatabaseName: function () {
                         return "BBInfinityMock";
                     },
-                    getRecentStepsAsync: getRecentStepsAsync
+                    getRecentStepsAsync: getRecentStepsAsync,
+                    getAuthInterceptors: getAuthInterceptors
                 });
 
                 $provide.value("bbuiShellService", {

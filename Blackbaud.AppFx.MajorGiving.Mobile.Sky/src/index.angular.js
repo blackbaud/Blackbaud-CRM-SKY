@@ -21,23 +21,10 @@
         }])
         .controller('MainController', MainController);
 
-    function authInterceptorConfig($httpProvider) {
-        $httpProvider.interceptors.push(["$q", "infinityUtilities", "browserUtilities", function ($q, infinityUtilities, browserUtilities) {
-            return {
-                "responseError": function (response) {
-                    var redirectUrl,
-                        status = response.status,
-                        FORMS_AUTH_HEADER = "X-BB-FormsAuth";
-
-                    if (status === 401 || status === 404) {
-                        redirectUrl = infinityUtilities.getWebShellLoginUrl(browserUtilities.getQueryStringParameters().databasename, response.headers(FORMS_AUTH_HEADER));
-                        browserUtilities.redirect(redirectUrl);
-                    }
-
-                    return $q.reject(response);
-                }
-            };
-        }]);
+    authInterceptorConfig.$inject = ["$httpProvider", 'apiProvider'];
+    function authInterceptorConfig($httpProvider, apiProvider) {
+        var api = apiProvider.$get();
+        $httpProvider.interceptors.push(api.getAuthInterceptors());
     }
 
     config.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider', 'apiProvider', 'frogResources', '$compileProvider', 'bbViewKeeperConfig'];

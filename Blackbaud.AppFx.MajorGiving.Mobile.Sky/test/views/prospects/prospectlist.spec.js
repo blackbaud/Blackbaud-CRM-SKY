@@ -102,13 +102,26 @@
 
                 }
 
+                function getAuthInterceptors() {
+                    return [
+                        function () {
+                            return {
+                                "responseError": function (response) {
+                                    return $q.reject(response);
+                                }
+                            };
+                        }
+                    ];
+                }
+
                 $provide.value("api", {
                     initialize: angular.noop,
                     getDatabaseName: function () {
                         return "BBInfinityMock";
                     },
                     getPortfolioAsync: getPortfolioAsync,
-                    getPortfolioSettingsAsync: getPortfolioSettingsAsyncWait
+                    getPortfolioSettingsAsync: getPortfolioSettingsAsyncWait,
+                    getAuthInterceptors: getAuthInterceptors
                 });
 
             });

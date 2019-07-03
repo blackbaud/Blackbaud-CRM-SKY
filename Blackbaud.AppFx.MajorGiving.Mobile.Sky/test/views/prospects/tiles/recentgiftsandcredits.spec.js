@@ -93,6 +93,18 @@
                     return deferred.promise;
                 }
 
+                function getAuthInterceptors() {
+                    return [
+                        function () {
+                            return {
+                                "responseError": function (response) {
+                                    return $q.reject(response);
+                                }
+                            };
+                        }
+                    ];
+                }
+
                 $provide.value("api", {
                     initialize: angular.noop,
                     getDatabaseName: function () {
@@ -100,7 +112,8 @@
                     },
                     getRecentGiftsAndCreditsAsync: getRecentGiftsAndCreditsAsyncWait,
                     productIsInstalledAsync: productIsInstalledAsync,
-                    getAdditionalRevenueDetailsAsync: getAdditionalRevenueDetailsAsync
+                    getAdditionalRevenueDetailsAsync: getAdditionalRevenueDetailsAsync,
+                    getAuthInterceptors: getAuthInterceptors
                 });
 
             });

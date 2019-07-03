@@ -49,10 +49,23 @@
 
                 }
 
+                function getAuthInterceptors() {
+                    return [
+                        function () {
+                            return {
+                                "responseError": function (response) {
+                                    return $q.reject(response);
+                                }
+                            };
+                        }
+                    ];
+                }
+
                 $provide.value("api", {
                     getDatabaseName: getDatabaseName,
                     initialize: initialize,
-                    authenticateAsync: authenticateAsync
+                    authenticateAsync: authenticateAsync,
+                    getAuthInterceptors: getAuthInterceptors
                 });
 
             });
