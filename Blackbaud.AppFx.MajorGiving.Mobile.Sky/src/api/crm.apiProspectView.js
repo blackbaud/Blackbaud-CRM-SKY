@@ -7,9 +7,10 @@
 
     var noop = angular.noop;
 
-    angular.module("frog.frogApi")
+    angular.module("frog.api")
         .factory("apiProspectView", ["bbuiShellService", "infinityCache", "infinityUtilities", "frogResources", "bbui", "$q", "prospectUtilities",
             function (bbuiShellService, infinityCache, infinityUtilities, frogResources, bbui, $q, prospectUtilities) {
+
 
                 var svc;
 
@@ -396,6 +397,8 @@
                                             // This trick determines if you have a whole number, and if so, don't include decimal padding.
                                             aPad: amount % 1 !== 0
                                         }
+                                        // TODO: decimal digits and rounding type?
+                                        // autonumeric doesn't look to support Infinity Currency rounding options
                                     });
                                 }
 
@@ -573,6 +576,8 @@
                                             // This trick determines if you have a whole number, and if so, don't include decimal padding.
                                             aPad: amount % 1 !== 0
                                         }
+                                        // TODO: decimal digits and rounding type?
+                                        // autonumeric doesn't look to support Infinity Currency rounding options
                                     });
                                 }
 
@@ -782,6 +787,7 @@
                     getRecentGiftsAndCreditsAsync: getRecentGiftsAndCreditsAsync,
                     getAddressesListAsync: getAddressesListAsync,
                     getAdditionalRevenueDetailsAsync: getAdditionalRevenueDetailsAsync
+
                 };
             }]);
 

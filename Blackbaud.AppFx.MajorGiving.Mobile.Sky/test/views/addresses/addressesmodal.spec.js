@@ -11,6 +11,7 @@
         var $rootScope,
             $scope,
             $controller,
+            $q,
             getAddressesIsSuccessful,
             getAddressesFailureData,
             addresses,
@@ -30,7 +31,9 @@
         }
 
         beforeEach(function () {
-            module('frog.frogApi');
+            module('frog.api');
+
+            module('infinity.util');
 
             module(function ($provide) {
 
@@ -62,12 +65,25 @@
 
                 }
 
-                $provide.value("frogApi", {
+                function getAuthInterceptors() {
+                    return [
+                        function () {
+                            return {
+                                "responseError": function (response) {
+                                    return $q.reject(response);
+                                }
+                            };
+                        }
+                    ];
+                }
+
+                $provide.value("api", {
                     initialize: angular.noop,
                     getDatabaseName: function () {
                         return "BBInfinityMock";
                     },
-                    getAddressesListAsync: getAddressesAsyncWait
+                    getAddressesListAsync: getAddressesAsyncWait,
+                    getAuthInterceptors: getAuthInterceptors
                 });
 
             });
@@ -77,10 +93,11 @@
         });
 
         // Inject objects needed to drive the controller
-        beforeEach(inject(function (_$rootScope_, _$controller_) {
+        beforeEach(inject(function (_$rootScope_, _$controller_, _$q_) {
             $rootScope = _$rootScope_;
             $controller = _$controller_;
             $scope = _$rootScope_.$new();
+            $q = _$q_;
         }));
 
         describe("AddressesModalController", function () {

@@ -1,4 +1,4 @@
-﻿/// <reference path="../../../../bower_components/angular/angular.js" />
+﻿/// <reference path="../../../bower_components/angular/angular.js" />
 
 /* jshint jasmine: true */
 /* globals module, inject, angular, $ */
@@ -187,6 +187,7 @@
 
     beforeEach(function () {
         module("frog.test");
+        module('infinity.util');
         module("frog");
         module("frog.resources");
     });

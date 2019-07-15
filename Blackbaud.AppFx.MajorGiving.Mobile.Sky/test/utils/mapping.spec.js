@@ -13,6 +13,8 @@
 
             module("frog.util");
 
+            module('infinity.util');
+
             baseMapUrl = "http://maps.google.com/?q=";
 
         });

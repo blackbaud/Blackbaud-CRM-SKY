@@ -1,4 +1,4 @@
-﻿/*jshint jasmine: true */
+/*jshint jasmine: true */
 /*globals module, inject */
 
 (function () {
@@ -12,7 +12,7 @@
             API,
             dataFormLoadIsSuccessful,
             dataFormLoadError,
-            searchListId,
+            constituentSearchListId,
             information;
 
         function successCallbackFail() {
@@ -24,7 +24,9 @@
         }
 
         beforeEach(function () {
-            module('frog.frogApi');
+            module('frog.api');
+
+            module('infinity.util');
 
             module(function ($provide) {
 
@@ -97,7 +99,7 @@
 
             dataFormLoadError = {};
 
-            searchListId = "FB2B38D7-16F5-445E-90D1-AF7CFBA2FA21";
+            constituentSearchListId = "FB2B38D7-16F5-445E-90D1-AF7CFBA2FA21";
 
             information = {
                 optionalFilterFields: [
@@ -113,63 +115,63 @@
 
         describe("parameters", function () {
 
-            it("throws an error with missing searchListId", function (done) {
+            it("throws an error with missing constituentSearchListId", function (done) {
                 API.getConstituentSearchListInformationAsync()
                     .then(successCallbackFail)
                     .catch(function (error) {
-                        expect(error.message).toBe("searchListId is required");
+                        expect(error.message).toBe("constituentSearchListId is required");
                     })
                     .finally(done);
 
                 $timeout.flush();
             });
 
-            it("throws error with null searchListId", function (done) {
-                searchListId = null;
+            it("throws error with null constituentSearchListId", function (done) {
+                constituentSearchListId = null;
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(successCallbackFail)
                     .catch(function (error) {
-                        expect(error.message).toBe("searchListId is required");
+                        expect(error.message).toBe("constituentSearchListId is required");
                     })
                     .finally(done);
 
                 $timeout.flush();
             });
 
-            it("throws error with undefined searchListId", function (done) {
-                searchListId = undefined;
+            it("throws error with undefined constituentSearchListId", function (done) {
+                constituentSearchListId = undefined;
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(successCallbackFail)
                     .catch(function (error) {
-                        expect(error.message).toBe("searchListId is required");
+                        expect(error.message).toBe("constituentSearchListId is required");
                     })
                     .finally(done);
 
                 $timeout.flush();
             });
 
-            it("throws error with blank searchListId", function (done) {
-                searchListId = "";
+            it("throws error with blank constituentSearchListId", function (done) {
+                constituentSearchListId = "";
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(successCallbackFail)
                     .catch(function (error) {
-                        expect(error.message).toBe("searchListId is required");
+                        expect(error.message).toBe("constituentSearchListId is required");
                     })
                     .finally(done);
 
                 $timeout.flush();
             });
 
-            it("throws error with non-string searchListId", function (done) {
-                searchListId = { id: "something" };
+            it("throws error with non-string constituentSearchListId", function (done) {
+                constituentSearchListId = { id: "something" };
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(successCallbackFail)
                     .catch(function (error) {
-                        expect(error.message).toBe("searchListId is required");
+                        expect(error.message).toBe("constituentSearchListId is required");
                     })
                     .finally(done);
 
@@ -181,7 +183,7 @@
         describe("general functionality", function () {
 
             it("successCallback and finallyCallback are called", function (done) {
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(function (response) {
                         expect(response).toEqual(information);
                     })
@@ -197,7 +199,7 @@
                     message: "Test error 1"
                 };
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(successCallbackFail)
                     .catch(function (error) {
                         expect(error).toEqual(dataFormLoadError);
@@ -211,7 +213,7 @@
                 dataFormLoadIsSuccessful = false;
                 dataFormLoadError = {};
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(successCallbackFail)
                     .catch(function (error) {
                         expect(error).toEqual({ message: "" });
@@ -225,7 +227,7 @@
                 dataFormLoadIsSuccessful = false;
                 dataFormLoadError = null;
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(successCallbackFail)
                     .catch(function (error) {
                         expect(error).toEqual({ message: "" });
@@ -242,7 +244,7 @@
             it("caches successful result", function (done) {
                 var originalInformation = information;
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(function (response) {
                         expect(response).toEqual(originalInformation);
 
@@ -257,7 +259,7 @@
                             ]
                         };
 
-                        return API.getConstituentSearchListInformationAsync(searchListId);
+                        return API.getConstituentSearchListInformationAsync(constituentSearchListId);
                     })
                     .then(function (response) {
                         expect(response).toEqual(originalInformation);
@@ -271,7 +273,7 @@
             it("caches a copy of the results", function (done) {
                 var originalInformation = information;
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(function (response) {
                         expect(response).toEqual(originalInformation);
 
@@ -280,7 +282,7 @@
                                 fieldId: "Test field 3"
                             }
                         ];
-                        
+
                         information = {
                             optionalFilterFields: [
                                 {
@@ -292,7 +294,7 @@
                             ]
                         };
 
-                        return API.getConstituentSearchListInformationAsync(searchListId);
+                        return API.getConstituentSearchListInformationAsync(constituentSearchListId);
                     })
                     .then(function (response) {
                         expect(response).toEqual(originalInformation);
@@ -306,7 +308,7 @@
             it("caches based on search list id", function (done) {
                 var originalInformation = information;
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(function (response) {
                         expect(response).toEqual(originalInformation);
 
@@ -321,9 +323,9 @@
                             ]
                         };
 
-                        searchListId = "B0477E2E-564B-4AB6-A1C9-7985E57D721C";
+                        constituentSearchListId = "B0477E2E-564B-4AB6-A1C9-7985E57D721C";
 
-                        return API.getConstituentSearchListInformationAsync(searchListId);
+                        return API.getConstituentSearchListInformationAsync(constituentSearchListId);
                     })
                     .then(function (response) {
                         expect(response).toEqual(information);
@@ -340,13 +342,13 @@
                     message: "Test error 1"
                 };
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(successCallbackFail, function (error) {
                         expect(error).toEqual(dataFormLoadError);
 
                         dataFormLoadIsSuccessful = true;
 
-                        return API.getConstituentSearchListInformationAsync(searchListId);
+                        return API.getConstituentSearchListInformationAsync(constituentSearchListId);
                     })
                     .then(function (response) {
                         expect(response).toEqual(information);
@@ -357,12 +359,12 @@
                 $timeout.flush();
             });
 
-            it("does not care about searchListId case", function (done) {
-                searchListId = "fb2b38d7-16f5-445e-90d1-af7cfba2fa21";
+            it("does not care about constituentSearchListId case", function (done) {
+                constituentSearchListId = "fb2b38d7-16f5-445e-90d1-af7cfba2fa21";
 
                 var originalInformation = information;
 
-                API.getConstituentSearchListInformationAsync(searchListId)
+                API.getConstituentSearchListInformationAsync(constituentSearchListId)
                     .then(function (response) {
                         expect(response).toEqual(originalInformation);
 
@@ -377,9 +379,9 @@
                             ]
                         };
 
-                        searchListId = "FB2B38D7-16F5-445E-90D1-AF7CFBA2FA21";
+                        constituentSearchListId = "FB2B38D7-16F5-445E-90D1-AF7CFBA2FA21";
 
-                        return API.getConstituentSearchListInformationAsync(searchListId);
+                        return API.getConstituentSearchListInformationAsync(constituentSearchListId);
                     })
                     .then(function (response) {
                         expect(response).toEqual(originalInformation);

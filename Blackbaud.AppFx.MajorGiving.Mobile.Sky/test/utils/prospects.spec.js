@@ -17,6 +17,8 @@
 
             module('frog.util');
 
+            module('infinity.util');
+
         });
 
         beforeEach(inject(function (_prospectUtilities_, _bbMoment_) {

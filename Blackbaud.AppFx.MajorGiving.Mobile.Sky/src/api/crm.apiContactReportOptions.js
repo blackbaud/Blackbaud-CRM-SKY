@@ -5,10 +5,9 @@
 (function () {
     'use strict';
 
-    angular.module("frog.frogApi")
-        .factory("apiContactReportOptions", ["bbuiShellService", "infinityCache", "bbui", "prospectUtilities", "$q", "frogResources", "infinityUtilities",
-            function (bbuiShellService, infinityCache, bbui, prospectUtilities, $q, frogResources, infinityUtilities) {
-
+    angular.module("frog.api")
+        .factory("apiContactReportOptions", ["bbuiShellService", "infinityCache", "bbui", "infinityUtilities", "prospectUtilities", "$q", "frogResources",
+            function (bbuiShellService, infinityCache, bbui, infinityUtilities, prospectUtilities, $q, frogResources) {
                 var svc,
                     CONTACTMETHOD_SIMPLELIST_ID = "a89a4f2b-76f2-43fa-8abc-ae0e84d2d64e", // ContactMethods.Mobile.SimpleList.xml
                     INTERACTIONCATEGORIES_SIMPLELIST_ID = "CBBA7545-B66F-44AC-AA24-D9C2F8CBC4EC", // InteractionCategory.SimpleList.xml

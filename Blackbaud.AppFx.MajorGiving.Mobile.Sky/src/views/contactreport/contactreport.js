@@ -9,7 +9,7 @@
         .module('frog')
         .controller('ContactReportController', ContactReportController);
 
-    ContactReportController.$inject = ['$scope', 'frogApi', 'frogResources', '$uibModalInstance', 'prospectUtilities', 'bbMoment', 'options'];
+    ContactReportController.$inject = ['$scope', 'api', 'frogResources', '$uibModalInstance', 'prospectUtilities', 'bbMoment', 'options'];
 
     /**
      * The contact report form. This form performs a variety of functions. It enables users to add and edit steps and interactions.
@@ -31,7 +31,7 @@
      * @param {String} options.stepInfo.planName The name of the prospect plan associated with the next step for the prospect.
      * @param {frog.util.prospectUtilities.PlanType} options.stepInfo.planType The prospect/stewardship plan type.
      */
-    function ContactReportController($scope, frogApi, frogResources, $uibModalInstance, prospectUtilities, bbMoment, options) {
+    function ContactReportController($scope, api, frogResources, $uibModalInstance, prospectUtilities, bbMoment, options) {
 
         options = options || {};
         options.stepInfo = options.stepInfo || {};
@@ -143,14 +143,14 @@
 
             if (!locals.allowStatusChange) {
                 // We're completing the step/interaction so we're setting the status to completed
-                locals.selectedStatus = frogApi.getCompletedStatusCode(planType);
+                locals.selectedStatus = api.getCompletedStatusCode(planType);
             }
         }
 
         function preloadContactReport() {
             incrementLoading();
 
-            frogApi.getContactReportPreloadAsync()
+            api.getContactReportPreloadAsync()
                 .then(function (response) {
                     locals.siteRequired = response.siteRequired;
                     locals.selectedSite = response.siteId;
@@ -164,7 +164,7 @@
         function loadParticipants() {
             locals.participantsLoading = true;
 
-            frogApi.getPotentialParticipantsAsync(prospectId)
+            api.getPotentialParticipantsAsync(prospectId)
                 .then(function (response) {
                     var participants = [];
 
@@ -188,7 +188,7 @@
         function loadSolicitors() {
             locals.solicitorsLoading = true;
 
-            frogApi.getPotentialSolicitorsAsync(locals.selectedPlan, SimpleListSecurityContext)
+            api.getPotentialSolicitorsAsync(locals.selectedPlan, SimpleListSecurityContext)
                 .then(function (response) {
                     var solicitors = [];
 
@@ -242,7 +242,7 @@
 
                 startSaving();
 
-                frogApi.addStepAsync(step)
+                api.addStepAsync(step)
                     .then(function () {
                         $uibModalInstance.close();
                     })
@@ -272,7 +272,7 @@
 
                 startSaving();
 
-                frogApi.editStepAsync(step)
+                api.editStepAsync(step)
                     .then(function () {
                         $uibModalInstance.close($scope.data);
                     })
@@ -307,7 +307,7 @@
         function loadContactMethods() {
             incrementLoading();
 
-            frogApi.getContactMethodsAsync(SimpleListSecurityContext)
+            api.getContactMethodsAsync(SimpleListSecurityContext)
                 .then(function (response) {
                     locals.contactMethods = response.contactMethods;
 
@@ -330,7 +330,7 @@
         function loadPlanStages() {
             incrementLoading();
 
-            frogApi.getPlanStagesAsync(SimpleListSecurityContext)
+            api.getPlanStagesAsync(SimpleListSecurityContext)
                 .then(function (response) {
                     locals.planStages = response.planStages;
                 })
@@ -343,7 +343,7 @@
         function loadCategories(planType) {
             incrementLoading();
 
-            frogApi.getCategoriesAsync(planType, SimpleListSecurityContext)
+            api.getCategoriesAsync(planType, SimpleListSecurityContext)
                 .then(function (response) {
                     locals.categories = response.categories;
                 })
@@ -356,7 +356,7 @@
         function loadLocations() {
             incrementLoading();
 
-            frogApi.getLocationsAsync(prospectId, SimpleListSecurityContext)
+            api.getLocationsAsync(prospectId, SimpleListSecurityContext)
                 .then(function (response) {
                     locals.locations = response.locations;
                 })
@@ -370,7 +370,7 @@
             if (locals.choosePlan) {
                 incrementLoading();
 
-                frogApi.getPlansAsync(prospectId)
+                api.getPlansAsync(prospectId)
                     .then(function (response) {
                         locals.plans = response.plans;
                     })
@@ -385,7 +385,7 @@
             if (locals.allowStatusChange) {
                 incrementLoading();
 
-                frogApi.getStatusCodesAsync(planType)
+                api.getStatusCodesAsync(planType)
                     .then(function (reply) {
                         locals.statusCodes = reply.statusCodes;
                         if (!locals.selectedStatus) {
@@ -423,12 +423,12 @@
             if (isInteraction && !options.editInteraction) {
                 incrementLoading();
 
-                frogApi.productIsInstalledAsync(SiteSecurityProductFlagId)
+                api.productIsInstalledAsync(SiteSecurityProductFlagId)
                     .then(function (result) {
                         locals.displaySite = result;
 
                         if (result) {
-                            return frogApi.getSitesAsync();
+                            return api.getSitesAsync();
                         }
                     })
                     .then(function (result) {
@@ -481,7 +481,7 @@
             locals.interactions = [];
 
             locals.interactionsLoading = true;
-            frogApi.getRecentStepsAsync(prospectId, options)
+            api.getRecentStepsAsync(prospectId, options)
                 .then(function (response) {
                     var transformedInteractions = [];
 
@@ -540,7 +540,7 @@
             locals.planNames = [];
 
             locals.stepsLoading = true;
-            frogApi.getRecentStepsAsync(prospectId, options)
+            api.getRecentStepsAsync(prospectId, options)
                 .then(function (response) {
                     var transformedSteps = [];
 
@@ -580,7 +580,7 @@
         function loadStep(id) {
             incrementLoading();
 
-            frogApi.loadStepAsync(id)
+            api.loadStepAsync(id)
                 .then(function (response) {
                     var participants = [],
                         solicitors = [];
@@ -632,7 +632,7 @@
                             // Locations have not been loaded
                             incrementLoading();
 
-                            frogApi.getLocationsAsync(prospectId, SimpleListSecurityContext)
+                            api.getLocationsAsync(prospectId, SimpleListSecurityContext)
                                 .then(function (getLocationResponse) {
                                     locals.locations = getLocationResponse.locations;
                                     matchLocation(response.location);
@@ -806,7 +806,7 @@
                 if (newValue) {
                     incrementLoading();
 
-                    frogApi.getSubcategoriesAsync(newValue, SimpleListSecurityContext)
+                    api.getSubcategoriesAsync(newValue, SimpleListSecurityContext)
                         .then(function (response) {
                             locals.subcategories = response.subcategories;
                         })

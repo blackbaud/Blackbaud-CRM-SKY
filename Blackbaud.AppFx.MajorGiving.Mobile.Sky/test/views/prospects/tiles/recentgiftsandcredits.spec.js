@@ -31,7 +31,8 @@
         }
 
         beforeEach(function () {
-            module('frog.frogApi');
+            module('infinity.util');
+            module('frog.api');
 
             module(function ($provide) {
 
@@ -92,14 +93,27 @@
                     return deferred.promise;
                 }
 
-                $provide.value("frogApi", {
+                function getAuthInterceptors() {
+                    return [
+                        function () {
+                            return {
+                                "responseError": function (response) {
+                                    return $q.reject(response);
+                                }
+                            };
+                        }
+                    ];
+                }
+
+                $provide.value("api", {
                     initialize: angular.noop,
                     getDatabaseName: function () {
                         return "BBInfinityMock";
                     },
                     getRecentGiftsAndCreditsAsync: getRecentGiftsAndCreditsAsyncWait,
                     productIsInstalledAsync: productIsInstalledAsync,
-                    getAdditionalRevenueDetailsAsync: getAdditionalRevenueDetailsAsync
+                    getAdditionalRevenueDetailsAsync: getAdditionalRevenueDetailsAsync,
+                    getAuthInterceptors: getAuthInterceptors
                 });
 
             });

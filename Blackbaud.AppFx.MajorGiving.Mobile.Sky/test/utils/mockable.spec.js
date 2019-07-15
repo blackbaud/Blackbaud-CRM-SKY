@@ -10,6 +10,7 @@
 
         beforeEach(function () {
             module('frog.util');
+            module('infinity.util');
         });
 
         beforeEach(inject(function (_mockableUtilities_) {

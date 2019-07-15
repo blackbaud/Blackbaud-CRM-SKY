@@ -64,8 +64,12 @@
             module("frog.test");
 
             module("ui.router");
+
             module("sky.wait.factory");
+
             module("frog.util");
+
+            module('infinity.util');
 
             module(function ($provide) {
                 $window = {

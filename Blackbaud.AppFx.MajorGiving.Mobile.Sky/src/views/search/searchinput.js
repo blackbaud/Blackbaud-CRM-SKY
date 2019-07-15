@@ -20,12 +20,12 @@
             };
         });
 
-    SearchInputController.$inject = ['$scope', 'frogApi', 'frogResources', 'bbuiShellService', 'slug', '$state', 'searchStorage'];
+    SearchInputController.$inject = ['$scope', 'api', 'frogResources', 'bbuiShellService', 'slug', '$state', 'searchStorage'];
 
     /**
      * The controller for the prospect search screen. This allows search information to be entered and used to find prospects.
      */
-    function SearchInputController($scope, frogApi, frogResources, bbuiShellService, slug, $state, searchStorage) {
+    function SearchInputController($scope, api, frogResources, bbuiShellService, slug, $state, searchStorage) {
 
         var self = this,
             onlyPrimaryAddress = false,
@@ -56,7 +56,7 @@
         // Load search list information to determine if optional fields are enabled
         locals.showCountryField = false;
         locals.showPhoneNumberField = false;
-        frogApi.getConstituentSearchListInformationAsync("23c5c603-d7d8-4106-aecc-65392b563887")
+        api.getConstituentSearchListInformationAsync("23c5c603-d7d8-4106-aecc-65392b563887")
             .then(function (response) {
                 if (response && response.optionalFilterFields) {
                     response.optionalFilterFields.forEach(function (field) {
@@ -132,7 +132,7 @@
                 ]
             };
 
-            frogApi.getConstituentSearchResultsAsync(options)
+            api.getConstituentSearchResultsAsync(options)
                 .then(function (response) {
                     self.prospects = searchStorage.prospects = response.constituentSearchResults;
                 })
@@ -192,7 +192,7 @@
                 locals.states = [];
                 getDefaultCountry();
             } else if (newValue !== null) {
-                frogApi.getStatesListAsync(newValue)
+                api.getStatesListAsync(newValue)
                     .then(function (response) {
                         locals.states = response.states;
                     })
@@ -203,7 +203,7 @@
 
         function loadStates() {
 
-            frogApi.getStatesListAsync($scope.input.countryId)
+            api.getStatesListAsync($scope.input.countryId)
                 .then(function (response) {
                     locals.states = response.states;
 
@@ -213,7 +213,7 @@
 
         function loadCountries() {
 
-            frogApi.getCountriesListAsync()
+            api.getCountriesListAsync()
                 .then(function (response) {
                     locals.countries = response.countries;
                 })
@@ -233,7 +233,7 @@
 
         function loadCountryFormats(countryId) {
 
-            frogApi.getCountryFormatsAsync()
+            api.getCountryFormatsAsync()
 
                 .then(function (response) {
                     var formats = [];
@@ -257,7 +257,7 @@
 
         function getDefaultCountry() {
 
-            frogApi.getDefaultCountryAsync()
+            api.getDefaultCountryAsync()
                 .then(function (response) {
                     locals.defaultCountryId = response.countryId;
                 })

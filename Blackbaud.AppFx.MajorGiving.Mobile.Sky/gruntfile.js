@@ -41,10 +41,6 @@ module.exports = function (grunt) {
         return dest + '/web.config';
     }
 
-    function renameRemoveHandlerWebCustomConfig(dest) {
-        return dest + '/web.custom.config';
-    }
-
     function getDestinationFolder(isCustomApp, rootFolder) {
         var result = '';
 
@@ -110,7 +106,7 @@ module.exports = function (grunt) {
                     src: ['removehandler.web.config'],
                     cwd: 'src',
                     dest: '<%= buildPath %>/js',
-                    rename: renameRemoveHandlerWebCustomConfig
+                    rename: renameRemoveHandlerWebConfig
                 }]
             },
             htmlbuiltin: {
@@ -154,7 +150,7 @@ module.exports = function (grunt) {
                     src: ['removehandler.web.config'],
                     cwd: 'src',
                     dest: '<%= buildPath %>/css',
-                    rename: renameRemoveHandlerWebCustomConfig
+                    rename: renameRemoveHandlerWebConfig
                 }]
             },
             imagesbuiltin: {
@@ -192,7 +188,7 @@ module.exports = function (grunt) {
                     src: ['removehandler.web.config'],
                     cwd: 'src',
                     dest: '<%= buildPath %>/images',
-                    rename: renameRemoveHandlerWebCustomConfig
+                    rename: renameRemoveHandlerWebConfig
                 }]
             },
             crmbuiltin: {

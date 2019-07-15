@@ -380,8 +380,9 @@
     beforeEach(function () {
 
         module("frog.test");
-
+        module("infinity.util");
         module("frog");
+
 
     });
 

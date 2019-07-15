@@ -37,7 +37,9 @@
 
         beforeEach(function () {
 
-            module('frog.frogApi');
+            module('frog.api');
+
+            module('infinity.util');
 
             module(function ($provide) {
 
@@ -82,12 +84,25 @@
                     fail("Unknown feature ID or feature type.");
                 }
 
-                $provide.value("frogApi", {
+                function getAuthInterceptors() {
+                    return [
+                        function () {
+                            return {
+                                "responseError": function (response) {
+                                    return $q.reject(response);
+                                }
+                            };
+                        }
+                    ];
+                }
+
+                $provide.value("api", {
                     initialize: angular.noop,
                     getDatabaseName: function () {
                         return "BBInfinityMock";
                     },
-                    getRecentStepsAsync: getRecentStepsAsync
+                    getRecentStepsAsync: getRecentStepsAsync,
+                    getAuthInterceptors: getAuthInterceptors
                 });
 
                 $provide.value("bbuiShellService", {

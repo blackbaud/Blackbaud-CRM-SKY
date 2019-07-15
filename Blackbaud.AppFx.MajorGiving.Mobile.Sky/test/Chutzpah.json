@@ -9,6 +9,12 @@
     { "Path": "../bower_components/angular-mocks/angular-mocks.js" },
     { "Path": "../bower_components/bbui-angular/dist/js/bbui.js" },
     { "Path": "../tmp/templates.js" },
+    { "Path": "../src/api/crm.module.js" },
+    { "Path": "../src/api/crm.apiPortfolio.js" },
+    { "Path": "../src/api/crm.apiProspectView.js" },
+    { "Path": "../src/api/crm.apiContactReportOptions.js" },
+    { "Path": "../src/api/crm.apiContactReport.js" },
+    { "Path": "../src/api/crm.js" },
     {
       "Path": "../src",
       "Includes": [ "*.js" ],

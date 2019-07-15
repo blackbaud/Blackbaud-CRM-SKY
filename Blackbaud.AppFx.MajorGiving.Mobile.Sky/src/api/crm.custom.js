@@ -1,4 +1,4 @@
-/// <reference path="../../bower_components/angular/angular.js" />
+﻿/// <reference path="../../bower_components/angular/angular.js" />
 
 /*global angular */
 
@@ -9,8 +9,8 @@
 (function () {
     'use strict';
 
-    angular.module("frog.frogApi")
-        .factory('customizable', ['customizableRoot', function () {
+    angular.module("frog.api")
+        .factory('customizable', ['customizableRoot', function (customizableRoot) {
             return {
 
                 /**
@@ -19,7 +19,7 @@
                  * Do not remove this function.
                  */
                 getRootFolder: function () {
-                    return 'frogger';
+                    return customizableRoot.getRootFolder();
                 },
 
                 /**
@@ -28,7 +28,7 @@
                  * Do not remove this function.
                  */
                 isCustomApp: function () {
-                    return true;
+                    return customizableRoot.isCustomApp();
                 }
 
                 // Add other custom components here.

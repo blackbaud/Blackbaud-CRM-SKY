@@ -5,6 +5,6 @@
 (function () {
     'use strict';
 
-    angular.module("frog.frogApi", ["frog.util", 'infinity.util', "bbui", "sky.moment", "frog.resources"]);
+    angular.module("frog.api", ["frog.util", 'infinity.util', "bbui", "sky.moment", "frog.resources"]);
 
 }());

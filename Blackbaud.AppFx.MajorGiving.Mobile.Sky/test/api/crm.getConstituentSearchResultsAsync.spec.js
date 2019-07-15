@@ -1,4 +1,4 @@
-﻿/*jshint jasmine: true */
+/*jshint jasmine: true */
 /*globals module, inject */
 
 (function () {
@@ -25,7 +25,9 @@
 
         beforeEach(function () {
 
-            module('frog.frogApi');
+            module('frog.api');
+
+            module('infinity.util');
 
             module(function ($provide) {
 

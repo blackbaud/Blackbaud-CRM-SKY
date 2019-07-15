@@ -18,11 +18,13 @@
 
         beforeEach(function () {
 
-            module('frog.frogApi');
+            module('frog.api');
 
             module("sky.moment");
 
             module("frog.resources");
+
+            module('infinity.util');
 
             module(function ($provide) {
 

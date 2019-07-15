@@ -7,14 +7,14 @@
 
     var noop = angular.noop;
 
-    angular.module("frog.frogApi")
-        .factory("apiPortfolio", ["bbuiShellService", "frogResources", "prospectUtilities", "infinityCache", "bbui", "$q", "infinityUtilities",
-            function (bbuiShellService, frogResources, prospectUtilities, infinityCache, bbui, $q, infinityUtilities) {
+    angular.module("frog.api")
+        .factory("apiPortfolio", ["bbuiShellService", "frogResources", "infinityUtilities", "prospectUtilities", "infinityCache", "bbui", "$q",
+            function (bbuiShellService, frogResources, infinityUtilities, prospectUtilities, infinityCache, bbui, $q) {
 
                 var svc,
                     FUNDRAISER_IDMAP_ID = 'C606C99A-FE2F-4F3E-AB48-3F4463344E92', // AppUser.Fundraiser.IDMapper.xml
-                    MYPORTFOLIOSETTINGS_VIEW_ID = "cc816f72-b91e-452c-b715-aa15a676e98d", // FundraiserPortfolio.Mobile.DataList.Settings.View.xml
-                    MYPORTFOLIO_DATALIST_ID = "da329c8b-773c-4501-8329-77047018f6a9"; // FundraiserPortfolio.Mobile.DataList.xml;
+                    MYPORTFOLIO_DATALIST_ID = "da329c8b-773c-4501-8329-77047018f6a9", // FundraiserPortfolio.Mobile.DataList.xml
+                    MYPORTFOLIOSETTINGS_VIEW_ID = "cc816f72-b91e-452c-b715-aa15a676e98d"; // FundraiserPortfolio.Mobile.DataList.Settings.View.xml
 
                 /**
                  * Transforms data list load results to an array of prospects.
@@ -206,7 +206,7 @@
 
                         })
                         .catch(function (failureData) {
-                            // The form failed to load for some reason, possibly insufficient rights.
+                            // The form failed to load for some reason. Maybe insufficient rights.
                             failureCallback(failureData);
                         })
                         .finally(function () {
@@ -224,7 +224,7 @@
                  * @returns {String} return.optionalFilterFields[].fieldId The field ID of the optional filter field.
                  */
                 function getConstituentSearchListInformationAsync(constituentSearchListId) {
-                    var SEARCHLISTINFORMATION_VIEW_ID = "48861a67-60fe-4438-b725-0ee3418eebbf", // SearchListInformation.Mobile.View.xml
+                    var SearchListInformationViewId = "48861a67-60fe-4438-b725-0ee3418eebbf", // SearchListInformation.Mobile.View.xml
                         cacheKey,
                         cacheResult;
 
@@ -236,7 +236,7 @@
 
                     constituentSearchListId = constituentSearchListId.toUpperCase();
 
-                    cacheKey = "dataFormLoad-" + SEARCHLISTINFORMATION_VIEW_ID + "-" + constituentSearchListId;
+                    cacheKey = "dataFormLoad-" + SearchListInformationViewId + "-" + constituentSearchListId;
                     cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
@@ -246,7 +246,7 @@
                     svc = bbuiShellService.create();
 
                     return svc.dataFormLoad(
-                        SEARCHLISTINFORMATION_VIEW_ID,
+                        SearchListInformationViewId,
                         {
                             recordId: constituentSearchListId
                         }
@@ -293,14 +293,14 @@
                  * @returns {String} return.searchResults[].postCode The prospect's address' post/ZIP code.
                  */
                 function getConstituentSearchResultsAsync(options) {
-                    var PROSPECTSEARCH_DATALIST_ID = "5c14275b-01f7-44ec-9707-e076cea1d361";  // ProspectSearch.Mobile.DataList.xml
+                    var SEARCH_DATALIST_ID = "5c14275b-01f7-44ec-9707-e076cea1d361";  // ProspectSearch.Mobile.DataList.xml
 
                     options = infinityUtilities.cloneOrNew(bbui, options);
 
                     svc = bbuiShellService.create();
 
                     return svc.dataListLoad(
-                        PROSPECTSEARCH_DATALIST_ID,
+                        SEARCH_DATALIST_ID,
                         undefined,
                         options
                     )
@@ -496,11 +496,11 @@
                  * @returns {String} return.result.countryId The system ID of the default country.
                  */
                 function getDefaultCountryAsync() {
-                    var DEFAULTCOUNTRY_VIEW_ID = "679f844a-8cda-4180-83bc-3353d78a5aaf", // DefaultCountry.Mobile.View.xml
+                    var DefaultCountryViewId = "679f844a-8cda-4180-83bc-3353d78a5aaf", // DefaultCountry.Mobile.View.xml
                         cacheKey,
                         cacheResult;
 
-                    cacheKey = "dataFormLoad-" + DEFAULTCOUNTRY_VIEW_ID;
+                    cacheKey = "dataFormLoad-" + DefaultCountryViewId;
                     cacheResult = infinityCache.cache.get(cacheKey);
 
                     if (cacheResult) {
@@ -509,7 +509,7 @@
 
                     svc = bbuiShellService.create();
 
-                    return svc.dataFormLoad(DEFAULTCOUNTRY_VIEW_ID)
+                    return svc.dataFormLoad(DefaultCountryViewId)
                         .then(function (reply) {
                             var result = {};
 

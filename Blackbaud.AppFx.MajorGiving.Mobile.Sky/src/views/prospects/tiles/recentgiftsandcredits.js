@@ -9,14 +9,14 @@
         .module('frog')
         .controller('RecentGiftsAndCreditsController', RecentGiftsAndCreditsController);
 
-    RecentGiftsAndCreditsController.$inject = ['$scope', 'frogApi', 'frogResources', 'bbMoment', 'prospectId'];
+    RecentGiftsAndCreditsController.$inject = ['$scope', 'api', 'frogResources', 'bbMoment', 'prospectId'];
 
     /**
      * The controller for the Recent Gifts and Credits tile on the prospect page. This tile shows the five most recent gifts given by the prospect.
      * 
      * @param {String} prospectId The system ID for the prospect.
      */
-    function RecentGiftsAndCreditsController($scope, frogApi, frogResources, bbMoment, prospectId) {
+    function RecentGiftsAndCreditsController($scope, api, frogResources, bbMoment, prospectId) {
         var locals,
             ukProductId = "9568a6c2-f7aa-45fd-8f54-21fe9654ee2d";
 
@@ -41,7 +41,7 @@
                 locals.loading = false;
             }
 
-            frogApi.getRecentGiftsAndCreditsAsync(prospectId, loadGiftsAndCreditsSuccess, loadGiftsAndCreditsFailure, loadGiftsAndCreditsFinally);
+            api.getRecentGiftsAndCreditsAsync(prospectId, loadGiftsAndCreditsSuccess, loadGiftsAndCreditsFailure, loadGiftsAndCreditsFinally);
         }
 
         function loadAdditionalDetails(giftId) {
@@ -56,7 +56,7 @@
 
             if (gift) {
                 // Load details
-                frogApi. getAdditionalRevenueDetailsAsync(gift.id)
+                api. getAdditionalRevenueDetailsAsync(gift.id)
                     .then(function (response) {
                         gift.detailsLoaded = true;
                         gift.campaigns = (response.campaigns) ? response.campaigns : frogResources.none;
@@ -87,7 +87,7 @@
 
         loadGiftsAndCredits();
 
-        frogApi.productIsInstalledAsync(ukProductId)
+        api.productIsInstalledAsync(ukProductId)
             .then(function (result) {
                 locals.ukInstalled = result;
             })

@@ -5,9 +5,9 @@
 (function () {
     'use strict';
 
-    angular.module("frog.frogApi")
+    angular.module("frog.api")
 
-        .factory("frogApi", ["infinityUtilities", "infinityAuth", "apiPortfolio", "apiProspectView", "apiContactReportOptions", "apiContactReport", "infinityProduct", 'customizable',
+        .factory("api", ["infinityUtilities", "infinityAuth", "apiPortfolio", "apiProspectView", "apiContactReportOptions", "apiContactReport", "infinityProduct", 'customizable',
             function (infinityUtilities, infinityAuth, apiPortfolio, apiProspectView, apiContactReportOptions, apiContactReport, infinityProduct, customizable) {
 
                 function initialize() {

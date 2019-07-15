@@ -20,11 +20,13 @@
 
         beforeEach(function () {
 
-            module('frog.frogApi');
+            module('frog.api');
 
             module("sky.moment");
 
             module("frog.resources");
+
+            module('infinity.util');
 
             module(function ($provide) {
 
@@ -334,6 +336,7 @@
             }
 
             API.getAddressesListAsync(prospectId, successCallback, failureCallback, finallyCallback);
+
             $timeout.flush();
 
         });

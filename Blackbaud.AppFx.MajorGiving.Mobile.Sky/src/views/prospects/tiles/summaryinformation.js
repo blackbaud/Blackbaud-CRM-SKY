@@ -9,14 +9,14 @@
         .module('frog')
         .controller('SummaryInformationController', SummaryInformationController);
 
-    SummaryInformationController.$inject = ['$scope', 'frogApi', 'frogResources', 'bbMoment', 'prospectId'];
+    SummaryInformationController.$inject = ['$scope', 'api', 'frogResources', 'bbMoment', 'prospectId'];
 
     /**
      * The controller for the Summary Information tile on the prospect page. This tile shows information from up to five revenue Smart Fields associated with the prospect.
      * 
      * @param {String} prospectId The system ID for the prospect.
      */
-    function SummaryInformationController($scope, frogApi, frogResources, bbMoment, prospectId) {
+    function SummaryInformationController($scope, api, frogResources, bbMoment, prospectId) {
         var locals;
 
         $scope.frogResources = frogResources;
@@ -24,7 +24,7 @@
         $scope.locals = locals = {
             loading: true
         };
-        frogApi = frogApi;
+        api = api;
 
         function loadSummaryInformation() {
             function loadSummaryInformationSuccess(reply) {
@@ -39,7 +39,7 @@
                 locals.loading = false;
             }
 
-            frogApi.getProspectSummaryAsync(prospectId, loadSummaryInformationSuccess, loadSummaryInformationFailure, loadSummaryInformationFinally);
+            api.getProspectSummaryAsync(prospectId, loadSummaryInformationSuccess, loadSummaryInformationFailure, loadSummaryInformationFinally);
         }
 
         function getGeneralErrorMessage(error) {

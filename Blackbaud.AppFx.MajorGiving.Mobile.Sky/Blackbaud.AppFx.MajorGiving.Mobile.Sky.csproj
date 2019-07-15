@@ -80,12 +80,12 @@
     <Content Include="package.json" />
     <Content Include="src\api\crm.apiContactReport.js" />
     <Content Include="src\api\crm.apiContactReportOptions.js" />
+    <Content Include="src\api\crm.apiPortfolio.js" />
+    <Content Include="src\api\crm.apiProspectView.js" />
     <Content Include="src\api\crm.custom.js" />
     <Content Include="src\api\crm.customizable.js" />
     <Content Include="src\api\crm.js" />
     <Content Include="src\api\crm.module.js" />
-    <Content Include="src\api\crm.apiPortfolio.js" />
-    <Content Include="src\api\crm.apiProspectView.js" />
     <Content Include="src\components\list.html" />
     <Content Include="src\components\listtoolbar.html" />
     <Content Include="src\components\listtoolbar.js" />
@@ -123,7 +123,7 @@
     <Content Include="test\api\crm.getCountryFormatsAsync.spec.js" />
     <Content Include="test\api\crm.getDefaultCountryAsync.spec.js" />
     <Content Include="test\api\crm.getCountriesListAsync.spec.js" />
-    <Content Include="test\api\crm.getSearchResultsAsync.spec.js" />
+    <Content Include="test\api\crm.getConstituentSearchResultsAsync.spec.js" />
     <Content Include="test\api\crm.getStatesListAsync.spec.js" />
     <Content Include="test\api\crm.getContactMethodsAsync.spec.js" />
     <Content Include="test\api\crm.getContactReportPreloadAsync.spec.js" />
@@ -139,7 +139,7 @@
     <Content Include="test\api\crm.getProspectSummaryAsync.spec.js" />
     <Content Include="test\api\crm.getRecentGiftsAndCreditsAsync.spec.js" />
     <Content Include="test\api\crm.getRecentStepsAsync.spec.js" />
-    <Content Include="test\api\crm.getSearchListInformationAsync.spec.js" />
+    <Content Include="test\api\crm.getConstituentSearchListInformationAsync.spec.js" />
     <Content Include="test\api\crm.getSitesAsync.spec.js" />
     <Content Include="test\api\crm.getStatusCodesAsync.spec.js" />
     <Content Include="test\api\crm.getSubcategoriesAsync.spec.js" />
