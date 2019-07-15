@@ -78,7 +78,14 @@
     <Content Include="config\grunt\_utils.js" />
     <Content Include="grunt.locale.js" />
     <Content Include="package.json" />
+    <Content Include="src\api\crm.apiContactReport.js" />
+    <Content Include="src\api\crm.apiContactReportOptions.js" />
+    <Content Include="src\api\crm.apiPortfolio.js" />
+    <Content Include="src\api\crm.apiProspectView.js" />
+    <Content Include="src\api\crm.custom.js" />
+    <Content Include="src\api\crm.customizable.js" />
     <Content Include="src\api\crm.js" />
+    <Content Include="src\api\crm.module.js" />
     <Content Include="src\components\list.html" />
     <Content Include="src\components\listtoolbar.html" />
     <Content Include="src\components\listtoolbar.js" />

@@ -253,6 +253,14 @@ module.exports = function (grunt) {
                         'src/modules.js',
                         'src/resources.js',
                         '<%= buildPath %>/js/locales/frog-locale-<%= frog.defaultLocale %>.js',
+                        'src/api/crm.module.js',
+                        'src/api/crm.customizable.js',
+                        'src/api/crm.custom.js',
+                        'src/api/crm.apiPortfolio.js',
+                        'src/api/crm.apiProspectView.js',
+                        'src/api/crm.apiContactReportOptions.js',
+                        'src/api/crm.apiContactReport.js',
+                        'src/api/crm.js',
                         'src/**/*.js',
                         'tmp/templates.js'
                     ]
