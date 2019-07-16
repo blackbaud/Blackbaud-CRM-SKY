@@ -56,7 +56,7 @@
 
             if (gift) {
                 // Load details
-                api. getAdditionalRevenueDetailsAsync(gift.id)
+                api.getAdditionalRevenueDetailsAsync(gift.id)
                     .then(function (response) {
                         gift.detailsLoaded = true;
                         gift.campaigns = (response.campaigns) ? response.campaigns : frogResources.none;
