@@ -59,13 +59,28 @@ Follow these instructions to enable your development machine to create and exten
 1. Download Fundraiser on the Go code from the [Blackbaud Community GitHub](https://github.com/blackbaud-community/Blackbaud-CRM-SKY).
 1. Build `Blackbaud.CustomFx.Frog.Catalog` and `Blackbaud.CustomFx.SkyUI` and place the DLLs in the custom folder within your virtual directory.
 1. Open `gruntfile.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky` directory and modify the `vroot` variable to your local installation's virtual directory root.
+1. Open `crm.custom.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky\src\api` directory and modify the methods there to the versions below. This flips a software switch that will enable the code to function as a stand-alone custom installation rather than the out-of-box version that we build.
+
+    ``` javascript
+    getRootFolder: function () {
+        return 'frogger';
+    }
+    ```
+
+    ``` javascript
+    isCustomApp: function () {
+        return true;
+    }
+    ```
 1. Open an administrator command prompt and run the following series of commands:
 
-    `npm install`
-
-    `bower install`
+    ```
+    npm install
+    bower install
+    grunt buildcustom
+    ```
     
-    `grunt buildcustom`
+    **Note**: It is not recommended to run `grunt build`, even though it is a registered task with Grunt. This will irreversibly overwrite your out-of-box Fundraiser on the Go instance.
 
 1. Access installation by navigating to: https://&#60;application root&#62;/browser/htmlforms/custom/frogger/&databaseName=BBInfinity
 
