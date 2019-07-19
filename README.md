@@ -3,7 +3,7 @@
 A repository containing the code needed to extend Blackbaud CRM's Fundraiser on the Go SKY-based mobile app.
 
 ## Table of contents
-- [Deployment instructions](#deployment-instructions)
+- [Development instructions](#development-instructions)
     + [Install prerequisites](#install-prerequisites)
     + [Build Fundraiser on the Go](#build-fundraiser-on-the-go)
 - [Customization instructions](#customization-instructions)
@@ -11,9 +11,12 @@ A repository containing the code needed to extend Blackbaud CRM's Fundraiser on 
     + [API endpoints](#api-endpoints)
     + [Javascript controllers](#javascript-controllers)
     + [HTML elements](#html-elements)
+- [Deployment instructions](#deployment-instructions)
+    + [On-premise clients](#on-premise-clients)
+    + [Hosted clients](#hosted-clients)
 - [Resources](#resources)
 
-## Deployment instructions
+## Development instructions
 
 Follow these instructions to enable your development machine to create and extend Blackbaud SKY-based mobile apps.
 
@@ -83,6 +86,9 @@ Follow these instructions to enable your development machine to create and exten
     **Note**: It is not recommended to run `grunt build`, even though it is a registered task with Grunt. This will irreversibly overwrite your out-of-box Fundraiser on the Go instance.
 
 1. Access installation by navigating to: https://&#60;application root&#62;/browser/htmlforms/custom/frogger/&databaseName=BBInfinity
+1. To rebuild and redeploy the code after making changes, simply re-run `grunt buildcustom` from an administrator command prompt.
+
+    **Note**: Depending on what changes you make in your local development environment, it's possible that code in deleted files could still be deployed in your test builds. This is because the `/build` and `/tmp` folders in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky` directory still contain these files if they were present in a previous build. To ensure you are deploying the most recent version of the code in your local workspace, delete these folders, then run `grunt buildcustom` from an administrator command prompt.
 
 ## Customization instructions
 
@@ -123,6 +129,23 @@ It is possible to override functions within our controllers or to create your ow
 ### HTML elements
 
 Found in the code base alongside their respective controllers, HTML views dictate layout and, to some degree, behavior of the UI. Here, you can use a mix of HTML and Angular to build your UI, using components made available in the controller behind it. In the code, you will find HTML forms of varying complexities, as well as several different types of controls that are made available via the SKY UX framework. For more information on what controls are available, please visit the Blackbaud AngularJS (1.x) documentation page, linked below.
+
+## Deployment instructions
+
+Follow these instructions to deploy your finished product into staging or production environments.
+
+### On-premise clients
+
+Deploying customized Fundraiser on the Go code is very similar to current processes. Just follow these steps below.
+
+1. Deploy Infinity specs using a `PackageSpec`. For more information, consult the [Infinity SDK Guide](https://www.blackbaud.com/files/support/guides/infinitydevguide/infsdk-developer-help.htm).
+1. Deploy the latest versions of the `Blackbaud.CustomFx.Frog.Catalog` and `Blackbaud.CustomFx.SkyUI` DLLs to the custom folder within your virtual directory. Some customizations will require changes to these assemblies.
+1. Deploy the compiled Fundraiser on the Go code, found within the `/build` folder, to the `browser/htmlforms/custom/frogger/` folder within your virtual directory.
+1. Reset your web server.
+
+### Hosted clients
+
+Please contact Blackbaud to get your finished product deployed. We will use the same process that we currently use for standard Infinity customizations.
 
 ## Resources
 
