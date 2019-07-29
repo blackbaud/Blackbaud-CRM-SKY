@@ -14,6 +14,7 @@ A repository containing the code needed to extend Blackbaud CRM's Fundraiser on 
 - [Deployment instructions](#deployment-instructions)
     + [On-premise clients](#on-premise-clients)
     + [Hosted clients](#hosted-clients)
+- [Legal](#legal)
 - [Resources](#resources)
 
 ## Development instructions
@@ -59,7 +60,7 @@ Follow these instructions to enable your development machine to create and exten
 
 1. Install CRM using a Blackbaud-issued installer.
 1. Modify `web.config` to search for custom directories. The default is `bin\custom`.
-1. Download Fundraiser on the Go code from the [Blackbaud Community GitHub](https://github.com/blackbaud-community/Blackbaud-CRM-SKY).
+1. Download Fundraiser on the Go code from the [Blackbaud GitHub](https://github.com/blackbaud/Blackbaud-CRM-SKY).
 1. Build `Blackbaud.CustomFx.Frog.Catalog` and `Blackbaud.CustomFx.SkyUI` and place the DLLs in the custom folder within your virtual directory.
 1. Open `gruntfile.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky` directory and modify the `vroot` variable to your local installation's virtual directory root.
 1. Open `crm.custom.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky\src\api` directory and modify the methods there to the versions below. This flips a software switch that will enable the code to function as a stand-alone custom installation rather than the out-of-box version that we build.
@@ -146,6 +147,14 @@ Deploying customized Fundraiser on the Go code is very similar to current proces
 ### Hosted clients
 
 Please contact Blackbaud to get your finished product deployed. We will use the same process that we currently use for standard Infinity customizations.
+
+## Legal
+
+Please see the accompanying [LICENSE](LICENSE) file to review the MIT OSS License that comes with this code.
+
+Please refer to the [Developer Terms](Developer_Terms.docx) document for a complete description of the terms and conditions.
+
+To contribute to this code base, you need to sign the [Contributor License Agreement](https://developer.blackbaud.com/license/).
 
 ## Resources
 
