@@ -63,7 +63,7 @@ Follow these instructions to enable your development machine to create and exten
 1. Download Fundraiser on the Go code from the [Blackbaud GitHub](https://github.com/blackbaud/Blackbaud-CRM-SKY).
 1. Build `Blackbaud.CustomFx.Frog.Catalog` and `Blackbaud.CustomFx.SkyUI` and place the DLLs in the custom folder within your virtual directory.
 1. Open `gruntfile.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky` directory and modify the `vroot` variable to your local installation's virtual directory root.
-1. Open `crm.custom.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky\src\api` directory and modify the methods there to the versions below. This flips a software switch that will enable the code to function as a stand-alone custom installation rather than the out-of-box version that we build.
+1. Open `crm.customizable.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky\src\api` directory and modify the methods there to the versions below. This flips a software switch that will enable the code to function as a stand-alone custom installation rather than the out-of-box version that we build.
 
     ``` javascript
     getRootFolder: function () {
