@@ -11,6 +11,7 @@ A repository containing the code needed to extend Blackbaud CRM's Fundraiser on 
     + [API endpoints](#api-endpoints)
     + [Javascript controllers](#javascript-controllers)
     + [HTML elements](#html-elements)
+    + [Code sample](#code-sample)
 - [Deployment instructions](#deployment-instructions)
     + [On-premise clients](#on-premise-clients)
     + [Hosted clients](#hosted-clients)
@@ -63,7 +64,7 @@ Follow these instructions to enable your development machine to create and exten
 1. Download Fundraiser on the Go code from the [Blackbaud GitHub](https://github.com/blackbaud/Blackbaud-CRM-SKY).
 1. Build `Blackbaud.CustomFx.Frog.Catalog` and `Blackbaud.CustomFx.SkyUI` and place the DLLs in the custom folder within your virtual directory.
 1. Open `gruntfile.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky` directory and modify the `vroot` variable to your local installation's virtual directory root.
-1. Open `crm.custom.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky\src\api` directory and modify the methods there to the versions below. This flips a software switch that will enable the code to function as a stand-alone custom installation rather than the out-of-box version that we build.
+1. Open `crm.custom.js` in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky\src\api` directory and modify the methods there to the versions below. This flips a software switch that will enable the code to function as a stand-alone custom installation rather than the out-of-box version that we build. You will also have to remove the injection of `customizableRoot`, since it is no longer used after this change.
 
     ``` javascript
     getRootFolder: function () {
@@ -86,7 +87,7 @@ Follow these instructions to enable your development machine to create and exten
     
     **Note**: It is not recommended to run `grunt build`, even though it is a registered task with Grunt. This will irreversibly overwrite your out-of-box Fundraiser on the Go instance.
 
-1. Access installation by navigating to: https://&#60;application root&#62;/browser/htmlforms/custom/frogger/&databaseName=BBInfinity
+1. Access installation by navigating to: https://&#60;application root&#62;/browser/htmlforms/custom/frogger/?databaseName=BBInfinity
 1. To rebuild and redeploy the code after making changes, simply re-run `grunt buildcustom` from an administrator command prompt.
 
     **Note**: Depending on what changes you make in your local development environment, it's possible that code in deleted files could still be deployed in your test builds. This is because the `/build` and `/tmp` folders in the `Blackbaud.AppFx.MajorGiving.Mobile.Sky` directory still contain these files if they were present in a previous build. To ensure you are deploying the most recent version of the code in your local workspace, delete these folders, then run `grunt buildcustom` from an administrator command prompt.
@@ -129,7 +130,11 @@ It is possible to override functions within our controllers or to create your ow
 
 ### HTML elements
 
-Found in the code base alongside their respective controllers, HTML views dictate layout and, to some degree, behavior of the UI. Here, you can use a mix of HTML and Angular to build your UI, using components made available in the controller behind it. In the code, you will find HTML forms of varying complexities, as well as several different types of controls that are made available via the SKY UX framework. For more information on what controls are available, please visit the Blackbaud AngularJS (1.x) documentation page, linked below.
+Found in the code base alongside their respective controllers, HTML views dictate layout and, to some degree, behavior of the UI. Here, you can use a mix of HTML and Angular to build your UI, using components made available in the controller behind it. In the code, you will find HTML forms of varying complexities, as well as several different types of controls that are made available via the SKY UX framework. For more information on what controls are available, please visit the Blackbaud AngularJS (1.x) documentation page, linked in the [Resources](#resources) section.
+
+### Code sample
+
+To see these techniques in action, be sure to view our fork in the [Blackbaud Community](https://github.com/blackbaud-community/Blackbaud-CRM-SKY) containing a comprehensive code sample. The sample demonstrates best practices for customizing Infinity components, API call wrappers, javascript controllers, and the HTML front end.
 
 ## Deployment instructions
 
