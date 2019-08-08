@@ -2,6 +2,7 @@
   "name": "frog-sky",
   "version": "1.0.0",
   "devDependencies": {
+    "blackbaud-skyux": "1.23.1",
     "grunt": "~0.4.5",
     "grunt-bump": "~0.7.3",
     "grunt-concat-sourcemap": "~0.4.3",

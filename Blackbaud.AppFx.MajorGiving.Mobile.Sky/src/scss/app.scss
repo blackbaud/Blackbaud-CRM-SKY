@@ -4,7 +4,7 @@ $sky-icon-font-path: "fonts/";
 $frog-mobile-font-size: 16px;
 $portfoliolist-tabs-height: 51px;
 
-@import "../../bower_components/blackbaud-skyux/scss/mixins";
+@import "../../node_modules/blackbaud-skyux/scss/mixins";
 
 // https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
 @mixin word-wrap() {
