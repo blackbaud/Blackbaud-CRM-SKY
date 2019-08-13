@@ -13,14 +13,14 @@
     filesToLoad = {
         // CSS
         sky_css: [
-            'https://sky.blackbaudcdn.net/skyux/1.23.3/css/sky-bundle.css',
+            'https://sky.blackbaudcdn.net/skyux/1.12.0/css/sky-bundle.css',
             'css/sky/sky-bundle.css'
         ],
         page_css: 'css/app.css',
 
         // JS
         angular: [
-            'https://sky.blackbaudcdn.net/skyux/1.23.3/js/sky-bundle.min.js',
+            'https://sky.blackbaudcdn.net/skyux/1.12.0/js/sky-bundle.min.js',
             'js/sky/sky-bundle.min.js'
         ],
 
@@ -42,7 +42,7 @@
         if (availableSkyLocales.indexOf(locale) >= 0) {
 
             filesToLoad.sky_locale = [
-                "https://sky.blackbaudcdn.net/skyux/1.23.3/js/locales/sky-locale-" + locale + ".js",
+                "https://sky.blackbaudcdn.net/skyux/1.12.0/js/locales/sky-locale-" + locale + ".js",
                 "js/sky/locales/sky-locale-" + locale + ".js"
             ];
 
