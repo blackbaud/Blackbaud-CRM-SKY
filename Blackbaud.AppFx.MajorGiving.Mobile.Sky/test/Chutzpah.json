@@ -1,8 +1,8 @@
 ﻿{
   "Framework": "jasmine",
   "References": [
-    { "Path": "../bower_components/blackbaud-skyux/dist/js/libs.js" },
-    { "Path": "../bower_components/blackbaud-skyux/dist/js/sky.js" },
+    { "Path": "../node_modules/blackbaud-skyux/dist/js/libs.js" },
+    { "Path": "../node_modules/blackbaud-skyux/dist/js/sky.js" },
     { "Path": "../bower_components/jasmine/lib/jasmine-core/jasmine.js" },
     { "Path": "../bower_components/jasmine-jquery/lib/jasmine-jquery.js" },
     { "Path": "../lib/fallback.js" },

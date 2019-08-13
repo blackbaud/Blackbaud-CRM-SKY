@@ -67,7 +67,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     src: ['*.*'],
-                    cwd: 'bower_components/blackbaud-skyux/dist/css/fonts',
+                    cwd: 'node_modules/blackbaud-skyux/dist/css/fonts',
                     dest: '<%= buildPath %>/css/sky/fonts'
                 }]
             },
@@ -75,7 +75,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     src: ['**/*.*'],
-                    cwd: 'bower_components/blackbaud-skyux/dist/js',
+                    cwd: 'node_modules/blackbaud-skyux/dist/js',
                     dest: '<%= buildPath %>/js/sky'
                 }, {
                     expand: true,
@@ -94,7 +94,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     src: ['**/*.*'],
-                    cwd: 'bower_components/blackbaud-skyux/dist/js',
+                    cwd: 'node_modules/blackbaud-skyux/dist/js',
                     dest: '<%= buildPath %>/js/sky'
                 }, {
                     expand: true,
@@ -129,7 +129,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     src: ['*.*'],
-                    cwd: 'bower_components/blackbaud-skyux/dist/css',
+                    cwd: 'node_modules/blackbaud-skyux/dist/css',
                     dest: '<%= buildPath %>/css/sky'
                 }, {
                     expand: true,
@@ -143,7 +143,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     src: ['*.*'],
-                    cwd: 'bower_components/blackbaud-skyux/dist/css',
+                    cwd: 'node_modules/blackbaud-skyux/dist/css',
                     dest: '<%= buildPath %>/css/sky'
                 }, {
                     expand: true,
@@ -162,7 +162,7 @@ module.exports = function (grunt) {
                 }, {
                     expand: true,
                     src: "*.*",
-                    cwd: "bower_components/blackbaud-skyux/dist/css/images",
+                    cwd: "node_modules/blackbaud-skyux/dist/css/images",
                     dest: "<%= buildPath %>/images/sky"
                 }, {
                     expand: true,
@@ -181,7 +181,7 @@ module.exports = function (grunt) {
                 }, {
                     expand: true,
                     src: "*.*",
-                    cwd: "bower_components/blackbaud-skyux/dist/css/images",
+                    cwd: "node_modules/blackbaud-skyux/dist/css/images",
                     dest: "<%= buildPath %>/images/sky"
                 }, {
                     expand: true,
