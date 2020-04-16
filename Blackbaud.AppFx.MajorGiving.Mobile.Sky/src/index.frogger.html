@@ -45,6 +45,10 @@
 
         }
 
+        if (auth.wsFederationEnabled & location.href.indexOf("wsfederationlogin") == -1 & auth.wsFederationLoginRequired) {
+            location.href += (location.href.split('?')[1] ? '&' : '?') + "action=wsfederationlogin";
+        }
+
         var path = "/" + getVirtualDirectory(document.location.href) + "/browser/htmlforms/custom/frogger/";
 
         var head = document.getElementsByTagName("head")[0];

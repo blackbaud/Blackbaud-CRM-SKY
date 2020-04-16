@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Blackbaud.AppFx.Server">
+      <HintPath>..\..\..\Infinity\DEV\MAIN\DLLReferences\Blackbaud.AppFx.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Blackbaud.AppFx.WebShell">
+      <HintPath>..\..\..\Infinity\DEV\MAIN\DLLReferences\Blackbaud.AppFx.WebShell.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />

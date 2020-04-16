@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Blackbaud.AppFx.Server.ClaimsAuthentication;
+using Blackbaud.AppFx.WebShell;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Web;
 
 namespace Blackbaud.CustomFx.SkyUI
@@ -53,6 +57,38 @@ namespace Blackbaud.CustomFx.SkyUI
             {
                 throw new ArgumentNullException("context");
             }
+
+            // Handle federated authentication
+            string databaseName = RequestContextUtility.UrlDecodeDatabaseName(context.Request.QueryString["databasename"]);
+            WSFederationSystemStatus wsFederationStatus = WSFederation.get_WSFederationStatus(context, databaseName);
+
+            List<string> properties = new List<string>();
+
+            if (wsFederationStatus.RequestUsesWSFederation)
+            {
+                // Request is already claims authenticated
+                properties.Add("wsFederationLoginRequired: false");
+            }
+            else
+            {
+                // Request is not claims authenticated
+                properties.Add("wsFederationLoginRequired: true");
+            }
+
+            if (wsFederationStatus.WSFederationEnabled)
+            {
+                properties.Add("wsFederationEnabled: true");
+            }
+            else
+            {
+                properties.Add("wsFederationEnabled: false");
+            }
+
+            StringBuilder authGlobals = new StringBuilder();
+            authGlobals.Append("auth = { ");
+            authGlobals.Append(string.Join(", ", properties));
+            authGlobals.Append(" };");
+            context.Response.Write("<script type='text/javascript'>" + authGlobals.ToString() + "</script>");
 
             // Rewrite the URL for HTML5 mode.
 
