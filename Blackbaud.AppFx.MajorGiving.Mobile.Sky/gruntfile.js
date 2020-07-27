@@ -335,7 +335,8 @@ module.exports = function (grunt) {
             chutzpah: '"packages/Chutzpah.4.2.3/tools/chutzpah.console.exe" test /coverage /coveragehtml "' +
                 testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.coverage.html" /coveragejson "' +
                 testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.coverage.json" /trx "' +
-                testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.trx"'
+                testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.trx" /junit "' +
+                testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.xml"'
         },
         xdt: {
             trx: {

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Crm.Frog.Ui</id>
+        <version>1.0.0</version>
+        <title>Blackbaud CRM Fundraiser on the Go UI</title>
+        <authors>Blackbaud</authors>
+        <owners>Blackbaud</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <licenseUrl>http://developer.blackbaud.com/LICENSE/</licenseUrl>
+        <iconUrl>https://avatars2.githubusercontent.com/u/1738029?v=3&amp;s=200</iconUrl>
+        <summary>Files providing GUI for CRM's Fundraiser on the Go</summary>
+        <description>
+            Blackbaud CRM Fundraiser on the Go UI
+        </description>
+        <tags>Blackbaud CRM FROG UI</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System.Configuration"  />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="build\**" target="" />
+    </files>
+</package>
