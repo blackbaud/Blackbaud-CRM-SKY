@@ -332,11 +332,12 @@ module.exports = function (grunt) {
             all: jsHintFiles
         },
         exec: {
-            chutzpah: '"packages/Chutzpah.4.2.3/tools/chutzpah.console.exe" test /coverage /coveragehtml "' +
+            chutzpah: '"packages/Chutzpah.4.3.0/tools/chutzpah.console.exe" test /coverage /coveragehtml "' +
                 testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.coverage.html" /coveragejson "' +
-                testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.coverage.json" /trx "' +
+                testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.coverage.json" /jacoco "' +
+                testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.coverage.xml" /trx "' +
                 testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.trx" /junit "' +
-                testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.xml"'
+                testResultsFolder + '/Blackbaud.AppFx.MajorGiving.Mobile.Sky.results.xml"'
         },
         xdt: {
             trx: {
