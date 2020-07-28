@@ -12,8 +12,10 @@ module.exports = function (grunt) {
         isDesktopBuild = grunt.option("IsDesktopBuild"),
         initialForceState = grunt.option("force"),
         testResultsFolder,
-        isCrmInstallation = true,
-        vroot = '';
+        vroot = '../../../../Blackbaud.AppFx.Server/Deploy/';
+    /*This is an example vroot for a client installation of frogger, replace VROOTFOLDERNAME with your value
+     * vroot = 'C:/Program Files/Blackbaud/VROOTFOLDERNAME/bbappfx/vroot/';
+     */
 
     console.log("Running Blackbaud.AppFx.MajorGiving.Mobile.Sky/gruntfile.js");
     console.log("IsDesktopBuild: " + isDesktopBuild);
@@ -42,13 +44,7 @@ module.exports = function (grunt) {
     }
 
     function getDestinationFolder(isCustomApp, rootFolder) {
-        var result = '';
-
-        if (isCrmInstallation) {
-            result += 'C:/Program Files/Blackbaud/' + vroot + 'bbappfx/vroot/';
-        } else {
-            result += '../../../../Blackbaud.AppFx.Server/Deploy/';
-        }
+        var result = vroot;
 
         if (isCustomApp) {
             result += 'browser/htmlforms/custom/';
