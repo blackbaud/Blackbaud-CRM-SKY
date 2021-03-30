@@ -38,7 +38,8 @@
                         href: href,
                         replace: function (redirectUrl) {
                             redirectedUrl = redirectUrl;
-                        }
+                        },
+                        search: '?' + href.split('?')[1]
                     };
                 };
                 $provide.value("mockableUtilities", mockUtil);
