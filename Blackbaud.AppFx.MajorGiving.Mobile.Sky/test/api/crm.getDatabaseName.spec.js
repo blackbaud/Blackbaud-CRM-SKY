@@ -21,7 +21,8 @@
                 var mockUtil = mockableUtilitiesProvider.$get();
                 mockUtil.getWindowLocation = function () {
                     return {
-                        href: "http://MockHost/MockPath/sky/frog/?databaseName=BBInfinityMock"
+                        href: "http://MockHost/MockPath/sky/frog/?databaseName=BBInfinityMock",
+                        search: '?databaseName=BBInfinityMock'
                     };
                 };
                 $provide.value("mockableUtilities", mockUtil);

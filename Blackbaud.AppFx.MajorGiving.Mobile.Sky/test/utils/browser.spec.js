@@ -21,7 +21,8 @@
                 replace: function (replacementUrl) {
                     replaceCalled = true;
                     replaceCalledWith = replacementUrl;
-                }
+                },
+                search: "?databaseName=BBInfinityMock"
             };
 
             module('frog.util');
@@ -78,6 +79,7 @@
             it("works with no query string", function () {
                 
                 windowLocation.href = "http://MockHost/MockPath/sky/frog/";
+                windowLocation.search = "";
 
                 var result = browserUtilities.getQueryStringParameters(),
                     expected;
@@ -91,6 +93,7 @@
             it("works with empty query string", function () {
 
                 windowLocation.href = "http://MockHost/MockPath/sky/frog/?";
+                windowLocation.search = "";
 
                 var result = browserUtilities.getQueryStringParameters(),
                     expected;
@@ -101,15 +104,16 @@
 
             });
 
-            xit("works with query parameter with no value", function () {
+            it("works with query parameter with no value", function () {
 
                 windowLocation.href = "http://MockHost/MockPath/sky/frog/?someKey";
+                windowLocation.search = "?someKey";
 
                 var result = browserUtilities.getQueryStringParameters(),
                     expected;
 
                 expected = {
-                    someKey: null
+                    somekey: null
                 };
 
                 expect(result).toEqual(expected);
