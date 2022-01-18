@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
-        <id>Crm.Frog.Ui.DotNetMigration</id>
+        <id>Crm.Frog.Ui</id>
         <version>1.0.0</version>
         <title>Blackbaud CRM Fundraiser on the Go UI</title>
         <authors>Blackbaud</authors>
