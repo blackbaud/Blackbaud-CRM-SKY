@@ -168,7 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gruntfile.js" />
-    <Content Include="README.txt" />
     <Content Include="src\utils\Debugging.js" />
     <Content Include="src\modules.js" />
     <Content Include="src\dependencies.js" />
@@ -232,15 +231,7 @@
     <Content Include="src\scss\app.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Crm.Frog.Ui.nuspec" />
     <None Include="packages.config" />
-    <Content Include="web.config" />
-    <None Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
-    <None Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
