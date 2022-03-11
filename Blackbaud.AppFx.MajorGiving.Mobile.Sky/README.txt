@@ -1,1 +1,0 @@
-﻿http://enterprise.docs.blackbaudhosting.com/knowledge/implementation/sky-ux/frog/

@@ -5,6 +5,7 @@ A repository containing the code needed to extend Blackbaud CRM's Fundraiser on 
 ## Table of contents
 - [Development instructions](#development-instructions)
     + [Install prerequisites](#install-prerequisites)
+    + [.NET Framework](#.net-framework)
     + [Build Fundraiser on the Go](#build-fundraiser-on-the-go)
 - [Customization instructions](#customization-instructions)
     + [Infinity components](#infinity-components)
@@ -57,11 +58,29 @@ Follow these instructions to enable your development machine to create and exten
 
 1. Restart so the environment variables are set for the build. Logging out does not work.
 
+### .NET Framework
+
+Starting with Blackbaud CRM 4.0 SP29, we are shipping with .NET Framework 4.8. This includes Fundraiser on the Go. To ensure maximum compatibility with your installation, follow the best practice recommendations that match your situation.
+
+**I am running Blackbaud CRM 4.0 SP29 or later**
+
+If you have previously forked this repository, merge the changes from this repository in to your fork. Then, rebuild and redeploy the code as you normally would. You are now using .NET Framework 4.8!
+
+If you have not previously forked this repository, do so. Your fork is now using .NET Framework 4.8!
+
+**I am running Blackbaud CRM 4.0 SP28 or earlier**
+
+If you have previously forked this repository, **do not** merge the changes from this repository in to your fork until you upgrade to SP29 or later. Versions prior to SP29 are built against framework version 4.5.2 and are not compatible with version 4.8.
+
+If you have not previously forked this repository, do so. Then, undo the changes we made to revert your fork back to .NET Framework 4.5.2.
+
+In either of the above cases, once you upgrade to SP29 or later, you can then merge all upstream changes to your fork and begin using .NET Framework 4.8.
+
 ### Build Fundraiser on the Go
 
 1. Install CRM using a Blackbaud-issued installer.
 1. Modify `web.config` to search for custom directories. The default is `bin\custom`.
-1. Download Fundraiser on the Go code from the [Blackbaud GitHub](https://github.com/blackbaud/Blackbaud-CRM-SKY).
+1. Fork the Fundraiser on the Go code from the [Blackbaud GitHub](https://github.com/blackbaud/Blackbaud-CRM-SKY), and then clone the repository to your local development machine.
 1. Build `Blackbaud.CustomFx.Frog.Catalog` and `Blackbaud.CustomFx.SkyUI` and place the DLLs in the custom folder within your virtual directory.
 
     **Note**: You may have to resolve some references within Visual Studio for the code to successfully compile. Simply point any broken references to Blackbaud DLLs to the copy you have in your SDK install location.
